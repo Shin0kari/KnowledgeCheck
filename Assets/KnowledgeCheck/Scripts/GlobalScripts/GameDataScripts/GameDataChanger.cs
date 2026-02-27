@@ -26,7 +26,6 @@ public class GameDataChanger
 
     public void CreateSave()
     {
-        Debug.Log("[GAME_DATA_CHANGER]: Try create save.");
         var createdSave = _creator.TryCreateSave();
         _updater.TryChangeCurrentSave(createdSave.Item1);
 
@@ -48,15 +47,18 @@ public class GameDataChanger
     //     CurrentSaveUpdated?.Invoke();
     // }
 
-    // public void UpdateSave(string saveName, SaveData saveData)
-    // {
-    //     _updater.TryUpdateSave(saveName, saveData);
+    public void UpdateSave(string oldSaveName)
+    {
+        _updater.TryUpdateSave(oldSaveName);
 
-    //     ChoicedSaveUpdated?.Invoke();
-    // }
+        ChoicedSaveUpdated?.Invoke();
+    }
 
     public void ChangeSaveName(string saveName, string newSaveName)
     {
+        if (saveName == newSaveName)
+            return;
+
         _updater.TryChangeSaveName(saveName, newSaveName);
 
         ChoicedSaveUpdated?.Invoke();

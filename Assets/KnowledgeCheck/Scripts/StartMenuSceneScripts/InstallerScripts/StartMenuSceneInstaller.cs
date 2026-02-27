@@ -4,15 +4,20 @@ using Zenject;
 
 public class StartMenuSceneInstaller : MonoInstaller
 {
+    [SerializeField] private AudioSource _audioSource;
+
     public override void InstallBindings()
     {
         BindButtons();
-        BindAdditionalScrollPanels();
-        BindScrollUpdater();
+        BindAdditionalScrollPanels(); // NotGlobalOnEverySceneScripts
+        BindScrollUpdater(); // NotGlobalOnEverySceneScripts
         BindButtonAvailabilityChecker();
-        BindButtonRegistry();
-        BindGameCreator();
-        BindLoadingScreenView();
+        BindButtonRegistry(); // NotGlobalOnEverySceneScripts
+        BindGameCreator(); // NotGlobalOnEverySceneScripts
+        BindLoadingScreenView(); // NotGlobalOnEverySceneScripts
+
+        // BindCursorManager();
+        BindSartMenuBoostrap();
 
         BindDebugScripts();
     }
@@ -20,63 +25,75 @@ public class StartMenuSceneInstaller : MonoInstaller
     private void BindButtons()
     {
         BindMainMenuButtons();
-        BindScrollButtons();
+        BindScrollButtons(); // NotGlobalOnEverySceneScripts
     }
 
     private void BindMainMenuButtons()
     {
-        Container.BindInterfacesAndSelfTo<NewGameButton>().FromComponentInHierarchy().AsCached();
-        Container.BindInterfacesAndSelfTo<ContinueGameButton>().FromComponentInHierarchy().AsCached();
+        Container.BindInterfacesAndSelfTo<NewGameButton>().FromComponentInHierarchy().AsSingle();
+        Container.BindInterfacesAndSelfTo<ContinueGameButton>().FromComponentInHierarchy().AsSingle();
 
-        Container.Bind<IButton>().WithId("NewGameButton").To<NewGameButton>().FromResolve().AsCached().NonLazy();
-        Container.Bind<LoadMenuButton>().FromComponentInHierarchy().AsSingle().NonLazy();
-        Container.Bind<IButton>().WithId("ContinueGameButton").To<ContinueGameButton>().FromResolve().AsCached().NonLazy();
+        // Container.Bind<IButton>().WithId("NewGameButton").To<NewGameButton>().FromResolve().AsCached().NonLazy();
+        Container.BindInterfacesAndSelfTo<LoadMenuButton>().FromComponentInHierarchy().AsSingle().NonLazy();
+        // Container.Bind<IButton>().WithId("ContinueGameButton").To<ContinueGameButton>().FromResolve().AsCached().NonLazy();
     }
 
     private void BindScrollButtons()
     {
-        Container.BindInterfacesAndSelfTo<NewSaveButton>().FromComponentInHierarchy().AsCached();
+        Container.BindInterfacesAndSelfTo<ScrollNewGameButton>().FromComponentInHierarchy().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
 
-        Container.Bind<IButton>().WithId("NewSaveButton").To<NewSaveButton>().FromResolve().AsCached().NonLazy();
+        // Container.Bind<IButton>().WithId("ScrollNewGameButton").To<ScrollNewGameButton>().FromResolve().AsCached().NonLazy(); // NotGlobalOnEverySceneScripts
     }
 
     private void BindButtonRegistry()
     {
-        Container.Bind<IButtonRegistry>().To<ButtonRegistry>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<ButtonRegistry>().FromNew().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
     }
 
     private void BindAdditionalScrollPanels()
     {
-        Container.Bind<DeleteSavePanel>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<DeleteSavePanel>().FromComponentInHierarchy().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
     }
 
     private void BindScrollUpdater()
     {
-        Container.Bind<IScrollUtils>().To<ScrollUtils>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<ScrollUtils>().FromComponentInHierarchy().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
+        Container.BindFactory<UnityEngine.Object, SavePanel, SavePanel.Factory>().FromFactory<PrefabFactory<SavePanel>>(); // NotGlobalOnEverySceneScripts
+        Container.BindInterfacesAndSelfTo<SavePanelFactory>().FromNew().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
 
-        Container.Bind<IUpdateScroll>().To<ScrollUpdateMethod>().AsSingle().NonLazy();
-        Container.Bind<IUpdatedObject>().To<UpdatedScrollObject>().AsSingle().NonLazy();
-        Container.BindInterfacesAndSelfTo<SaveChecker>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<ScrollUpdateMethod>().FromNew().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
+        Container.BindInterfacesAndSelfTo<UpdatedScrollObject>().FromNew().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
+        Container.BindInterfacesAndSelfTo<SaveChecker>().FromNew().AsSingle().NonLazy();
     }
 
     private void BindButtonAvailabilityChecker()
     {
-        Container.BindInterfacesAndSelfTo<CheckButtonAvailabilty>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<CheckButtonAvailabilty>().FromNew().AsSingle().NonLazy();
     }
 
     private void BindGameCreator()
     {
-        Container.Bind<NewGame>().AsSingle().NonLazy();
-        Container.Bind<ContinueGame>().AsSingle().NonLazy();
-        Container.Bind<NewSave>().AsSingle().NonLazy();
-        Container.Bind<LoadSave>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<NewGame>().FromNew().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
+        Container.BindInterfacesAndSelfTo<ContinueGame>().FromNew().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
+        Container.BindInterfacesAndSelfTo<NewSave>().FromNew().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
+        Container.BindInterfacesAndSelfTo<LoadGameData>().FromNew().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
 
-        Container.Bind<NewGameCreator>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<NewGameCreator>().FromNew().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
     }
 
-    private void BindLoadingScreenView()
+    private void BindLoadingScreenView() // NotGlobalOnEverySceneScripts
     {
-        Container.BindInterfacesAndSelfTo<LoadingScreenView>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<LoadingScreenView>().FromComponentInHierarchy().AsSingle().NonLazy(); // NotGlobalOnEverySceneScripts
+    }
+
+    // private void BindCursorManager()
+    // {
+    //     Container.BindInterfacesAndSelfTo<CursorManager>().FromNew().AsTransient().NonLazy();
+    // }
+
+    private void BindSartMenuBoostrap()
+    {
+        Container.BindInterfacesAndSelfTo<StartMenuBoostrap>().FromNew().AsSingle().WithArguments(_audioSource).NonLazy();
     }
 
     private void BindDebugScripts()

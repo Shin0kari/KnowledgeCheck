@@ -4,6 +4,12 @@ using Zenject;
 
 public class GlobalInstaller : MonoInstaller
 {
+    [SerializeField] private AudioSource _startMenuSceneAmbient;
+    [SerializeField] private AudioSource _gameSceneAmbient;
+    [SerializeField] private AudioSource _additionalAudioSource;
+    [SerializeField] private AudioClip _clickSound;
+    [SerializeField] private AudioClip _clickPanelSound;
+
     public override void InstallBindings()
     {
         BindGameDataValidator();
@@ -12,6 +18,7 @@ public class GlobalInstaller : MonoInstaller
         BindSaveService();
         BindGameDataChanger();
         BindGameStarterService();
+        BindAudioService();
     }
 
     private void BindGameDataValidator()
@@ -66,6 +73,19 @@ public class GlobalInstaller : MonoInstaller
     {
         Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<LoadingScreenController>().AsSingle().NonLazy();
+        Container.Bind<ChoicedSceneLoader>().AsSingle().NonLazy();
         Container.Bind<GameStarter>().AsSingle().NonLazy();
+    }
+
+    private void BindAudioService()
+    {
+        Container.Bind<IAudioService>().To<AudioService>()
+            .AsSingle()
+            .WithArguments(
+                _startMenuSceneAmbient,
+                _gameSceneAmbient,
+                _clickSound,
+                _clickPanelSound)
+            .NonLazy();
     }
 }

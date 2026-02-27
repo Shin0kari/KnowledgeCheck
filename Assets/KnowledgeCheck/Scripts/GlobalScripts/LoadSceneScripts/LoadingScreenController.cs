@@ -25,13 +25,8 @@ public class LoadingScreenController
 
         OnStartAnimation?.Invoke();
 
-        var loadSceneOperation = await LoadSceneAsync(sceneName);
+        await LoadSceneAsync(sceneName);
 
-        // Ожидаем когда с другой сцены подпишется LoadingScreenView
-        while (!loadSceneOperation.isDone)
-        {
-            await UniTask.Yield();
-        }
         OnEndAnimation?.Invoke();
     }
 
@@ -43,11 +38,15 @@ public class LoadingScreenController
         while (loadSceneOperation.progress < 0.9f || !isStartLoadAnimationOver)
         {
             OnProgressChanged?.Invoke(loadSceneOperation.progress);
-
             await UniTask.Yield();
         }
 
         loadSceneOperation.allowSceneActivation = true;
+
+        while (!loadSceneOperation.isDone)
+        {
+            await UniTask.Yield();
+        }
 
         return loadSceneOperation;
     }

@@ -5,12 +5,11 @@ using Zenject;
 public class ValidatorGameData : IValidatorGameData
 {
     private readonly List<IValidationRule<SaveData>> _saveDataRules;
-    private readonly List<IValidationRule<Character>> _characterRules;
+    private readonly List<IValidationRule<CharacterData>> _characterRules;
 
     [Inject]
     public ValidatorGameData()
     {
-        Debug.Log("[VALIDATOR_GAMEDATA]: init data.");
         _saveDataRules = new List<IValidationRule<SaveData>>
         {
             new SaveNameRule(),
@@ -18,11 +17,11 @@ public class ValidatorGameData : IValidatorGameData
             new ScoreNonNegativeRule()
         };
 
-        _characterRules = new List<IValidationRule<Character>>
+        _characterRules = new List<IValidationRule<CharacterData>>
         {
-            new CharacterPositionRule(),
-            new CharacterDirectionRule(),
-            new CharacterLootRule()
+            // new CharacterPositionRule(),
+            // new CharacterDirectionRule(),
+            // new CharacterLootRule()
         };
     }
 
@@ -38,9 +37,9 @@ public class ValidatorGameData : IValidatorGameData
 
         foreach (var rule in _saveDataRules)
         {
-            if (rule == null) Debug.Log("[VALIDATOR_GAMEDATA]: Rule is null.");
+            if (rule == null) Debug.LogError("[VALIDATOR_GAMEDATA]: Rule is null.");
             if (data == null) Debug.Log("[VALIDATOR_GAMEDATA]: Save is null.");
-            if (data.SaveName == null) Debug.Log("[VALIDATOR_GAMEDATA]: SaveName is null.");
+            if (data.SaveName == null) Debug.LogError("[VALIDATOR_GAMEDATA]: SaveName is null.");
 
 
             if (!rule.Validate(data, out var error))
@@ -55,7 +54,7 @@ public class ValidatorGameData : IValidatorGameData
         return isValid;
     }
 
-    public bool ValidateCharacter(Character character)
+    public bool ValidateCharacter(CharacterData character)
     {
         bool isValid = true;
 

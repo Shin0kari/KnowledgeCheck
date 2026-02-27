@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e674b16c10a5574e846a964968ab7a5, type: 3}
+  m_Name: StrangeFruitSO
+  m_EditorClassIdentifier: 
+  _itemName: strang_fruit
+  _itemType: 0
+  _icon: {fileID: -232460461, guid: 035b66df2e4b10b46b988752771202c6, type: 3}
+  _description: This strange fruit gives extra speed when consumed
+  _maxStackQuantity: 4
+  _itemStats: []
+  _itemAffects:
+  - statType: 0
+    value: 15
+    _description: 
+  _quantity: 3

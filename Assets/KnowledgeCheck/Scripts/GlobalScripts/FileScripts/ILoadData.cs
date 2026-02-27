@@ -3,5 +3,6 @@ using UnityEngine;
 
 public interface ILoadData
 {
-    public Dictionary<string, SaveData> LoadData();
+    public Dictionary<string, SaveData> LoadAllSavesData();
+    public (string, SaveData) LoadSpecificSave(string fileName);
 }

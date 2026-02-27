@@ -8,7 +8,7 @@ using Zenject;
 public class GameData : IGetGameData, IInitializable
 {
     private Dictionary<string, SaveData> _saves;
-    private (string, SaveData) _currentSave;
+    private (string saveName, SaveData saveData) _currentSave;
     private ILoadData _loader;
     private IValidatorGameData _validator;
 
@@ -21,7 +21,7 @@ public class GameData : IGetGameData, IInitializable
 
     public void Initialize()
     {
-        _saves = _loader.LoadData();
+        _saves = _loader.LoadAllSavesData();
 
         DefinitionCurrentSaveData();
     }
@@ -62,7 +62,7 @@ public class GameData : IGetGameData, IInitializable
     public IReadOnlyDictionary<string, SaveData> GetAllGameDatas()
         => new ReadOnlyDictionary<string, SaveData>(_saves);
 
-    public (string, SaveData) GetCurrentGameData()
+    public (string saveName, SaveData saveData) GetCurrentGameData()
     {
         return _currentSave;
     }
@@ -74,6 +74,10 @@ public class GameData : IGetGameData, IInitializable
 
     public void AddSaveToAllSaves((string saveName, SaveData saveData) currentSave)
     {
+        if (_saves.ContainsKey(currentSave.saveName))
+        {
+            _saves.Remove(currentSave.saveName);
+        }
         _saves.Add(currentSave.saveName, currentSave.saveData);
     }
 }

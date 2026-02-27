@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
@@ -19,56 +20,68 @@ public class FileDataLoader : ILoadData
         _validator = validator;
     }
 
-    public Dictionary<string, SaveData> LoadData()
+    public Dictionary<string, SaveData> LoadAllSavesData()
     {
         Dictionary<string, SaveData> saves = new();
         var fileNames = Directory.EnumerateFiles(_savePath.SavesPath, ALL_FILENAMES + FileExtension.JsonExtensions);
 
         foreach (var fileName in fileNames)
         {
-            // Debug.Log("[FILE_DATA_LOADER]: load data from file: " + fileName);
-            // SaveData data = GetDataFromFile(fileName);
-            // Debug.Log("[FILE_DATA_LOADER]: data is received.");
-            // if (_validator.ValidateGameData(data))
-            // {
-            //     saves.Add(data.SaveName, data);
-            //     Debug.Log("[FILE_DATA_LOADER]: data is added.");
-            // }
-            // else
-            // {
-            //     Debug.Log("[FILE_DATA_LOADER]: data is not valid.");
-            // }
-
             try
             {
-                Debug.Log("[FILE_DATA_LOADER]: load data from file: " + fileName);
                 SaveData data = GetDataFromFile(fileName);
-                Debug.Log("[FILE_DATA_LOADER]: data is received");
                 if (_validator.ValidateGameData(data))
                 {
                     saves.Add(data.SaveName, data);
-                    Debug.Log("[FILE_DATA_LOADER]: data is added.");
                 }
                 else
                 {
-                    Debug.Log("[FILE_DATA_LOADER]: data is not valid.");
+                    Debug.Log($"[FILE_DATA_LOADER]: data from file `{fileName}` is not valid.");
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Ошибка загрузки: {ex.Message}");
+                Debug.LogError($"[FILE_DATA_LOADER]: error - {ex.Message}");
             }
         }
 
         return saves;
     }
 
+    public (string, SaveData) LoadSpecificSave(string saveName)
+    {
+        (string saveName, SaveData saveData) save = new();
+        var fileName = Directory.EnumerateFiles(_savePath.SavesPath, saveName + FileExtension.JsonExtensions);
+        try
+        {
+            SaveData data = GetDataFromFile(fileName.First());
+            if (_validator.ValidateGameData(data))
+            {
+                save = (data.SaveName, data);
+            }
+            else
+            {
+                Debug.Log($"[FILE_DATA_LOADER]: data from file `{fileName}` is not valid.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[FILE_DATA_LOADER]: error - {ex.Message}");
+        }
+        return save;
+    }
+
     private SaveData GetDataFromFile(string fileName)
     {
         string json = File.ReadAllText(fileName);
 
-        SaveData data = JsonConvert.DeserializeObject<SaveData>(json);
-        // SaveData data = JsonUtility.FromJson<SaveData>(json);
+        JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            Binder = new ItemSerializationBinder()
+        };
+
+        SaveData data = JsonConvert.DeserializeObject<SaveData>(json, settings);
 
         return data;
     }

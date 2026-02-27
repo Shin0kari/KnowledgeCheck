@@ -9,6 +9,6 @@ public class ChangeSceneToMain : MonoBehaviour
     public void ChangeScene()
     {
         SceneNames sceneName = SceneNames.MainMenuScene;
-        SceneManager.LoadSceneAsync(sceneName.ToString());
+        SceneManager.LoadScene(sceneName.ToString());
     }
 }

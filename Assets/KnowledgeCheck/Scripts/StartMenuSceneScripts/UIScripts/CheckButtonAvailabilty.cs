@@ -8,7 +8,7 @@ public class CheckButtonAvailabilty
 
     private NewGameButton _newGameButton;
     private ContinueGameButton _continueButton;
-    private NewSaveButton _newSaveButton;
+    private ScrollNewGameButton _scrollNewGameButton;
     private LoadMenuButton _loadGameButton;
 
     private SaveChecker _saveChecker;
@@ -16,16 +16,16 @@ public class CheckButtonAvailabilty
     [Inject]
     private void Construct(
         IGetGameData gameData,
-        [Inject(Id = "NewGameButton")] IButton newGameButton,
-        [Inject(Id = "ContinueGameButton")] IButton continueButton,
-        [Inject(Id = "NewSaveButton")] IButton newSaveButton,
+        NewGameButton newGameButton,
+        ContinueGameButton continueButton,
+        ScrollNewGameButton scrollNewGameButton,
         LoadMenuButton loadGameButton,
         SaveChecker saveChecker)
     {
         _gameData = gameData;
-        _newGameButton = newGameButton as NewGameButton;
-        _continueButton = continueButton as ContinueGameButton;
-        _newSaveButton = newSaveButton as NewSaveButton;
+        _newGameButton = newGameButton;
+        _continueButton = continueButton;
+        _scrollNewGameButton = scrollNewGameButton;
         _loadGameButton = loadGameButton;
         _saveChecker = saveChecker;
 
@@ -37,26 +37,26 @@ public class CheckButtonAvailabilty
 
     private void CheckNewGameButton()
     {
-        if (_gameData.GetAllGameDatas().Count > 0)
-            _newGameButton.DisableButton();
-        else
-            _newGameButton.EnableButton();
+        // if (_gameData.GetAllGameDatas().Count > 0)
+        //     _newGameButton.DisableButton();
+        // else
+        //     _newGameButton.EnableButton();
     }
 
     private void CheckContinueGameButton()
     {
         if (_gameData.GetCurrentGameData().saveData == null)
             _continueButton.HideButton();
-        else
-            _continueButton.RevealButton();
+        // else
+        //     _continueButton.RevealButton();
     }
 
     private void CheckNewSaveButton()
     {
         if (_gameData.GetAllGameDatas().Count > 3)
-            _newSaveButton.HideButton();
+            _scrollNewGameButton.HideButton();
         else
-            _newSaveButton.RevealButton();
+            _scrollNewGameButton.RevealButton();
     }
 
     private void CheckLoadGameButton()

@@ -5,17 +5,17 @@ using static SceneUtils;
 
 public class GameStarter
 {
-    private LoadingScreenController _loadingScreenController;
+    private ChoicedSceneLoader _choicedSceneLoader;
 
     [Inject]
-    private void Construct(LoadingScreenController loadingScreenController)
+    private void Construct(ChoicedSceneLoader choicedSceneLoader)
     {
-        _loadingScreenController = loadingScreenController;
+        _choicedSceneLoader = choicedSceneLoader;
     }
 
-    public async UniTask StartGame((string, SaveData) currentSave, SceneNames sceneName)
+    public void StartGame((string, SaveData) currentSave, SceneNames sceneName)
     {
-        // Возможно удалить currentSave из получаемых данных, тк игровые данные получаются из глобального zenject installer`а
-        await _loadingScreenController.AsyncChangeScene(sceneName.ToString());
+        UniTask asyncSceneChangeOperation = _choicedSceneLoader.ChangeScene(sceneName);
+        asyncSceneChangeOperation.Forget();
     }
 }

@@ -1,24 +1,24 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-public class ContinueGameButton : MonoBehaviour, IButton, IChangeButtonVisible
+public class ContinueGameButton : UIButton, IChangeButtonVisible
 {
-    [SerializeField] private Button _button;
+    // [SerializeField] private Button _button;
 
-    public event Action IsUsed;
+    // public event Action IsUsed;
 
-    private void Start()
-    {
-        _button.onClick.AddListener(() =>
-        {
-            ContinueGame();
-        });
-    }
+    // private void Start()
+    // {
+    //     _button.onClick.AddListener(() =>
+    //     {
+    //         ContinueGame();
+    //     });
+    // }
 
-    public void ContinueGame()
-    {
-        IsUsed?.Invoke();
-    }
+    // public void ContinueGame()
+    // {
+    //     IsUsed?.Invoke();
+    // }
 
     public void HideButton()
     {

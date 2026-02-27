@@ -74,3 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dadfecf23d04a9a41b9b5591690b001a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startMenuSceneAmbient: {fileID: 0}
+  _gameSceneAmbient: {fileID: 0}
+  _additionalAudioSource: {fileID: 0}
+  _clickSound: {fileID: 8300000, guid: 14e47a2cdd4744947b7aa88cebf32e47, type: 3}
+  _clickPanelSound: {fileID: 8300000, guid: f4e6bbe7eac023740a1264c50252f946, type: 3}

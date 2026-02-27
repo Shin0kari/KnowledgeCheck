@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b4fa4f7f02b7f40bac8f622bacc8c0, type: 3}
+  m_Name: Shield
+  m_EditorClassIdentifier: 
+  _itemName: shield
+  _itemType: 2
+  _icon: {fileID: -1332136533, guid: 7968b3f39742bc94f9b5a832cb4bcc86, type: 3}
+  _description: Just a shield
+  _maxStackQuantity: 0
+  _itemStats:
+  - statType: 2
+    value: 5
+    _description: 
+  _itemAffects: []
+  _equipSlot: 2
+  _maxDurability: 100

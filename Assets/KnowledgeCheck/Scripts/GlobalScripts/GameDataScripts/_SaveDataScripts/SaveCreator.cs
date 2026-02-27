@@ -23,7 +23,6 @@ public class SaveCreator : ISaveCreator
     /// </summary>
     public (string, SaveData) TryCreateSave()
     {
-        Debug.Log("[SAVE_CREATOR]: Try create save.");
         SaveData saveData = _startDataFiller.SetStartData();
 
         CreateSave(saveData.SaveName, saveData);

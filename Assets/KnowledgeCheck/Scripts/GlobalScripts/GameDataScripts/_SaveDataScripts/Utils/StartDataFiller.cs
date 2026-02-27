@@ -16,13 +16,46 @@ public class StartDataFiller : IStartDataFiller
     {
         string saveText = "";
         _saveNameGenerator.GenerateSaveName(ref saveText);
-        Debug.Log("[STARTDATA_FILLER]: savename: " + saveText);
 
-        Character player = new()
+        MainItems equippableMainItems = new()
         {
-            Pos = new Vector3(),
+            HeadItem = null,
+            ChestItem = null,
+            LeftHandItem = null,
+            RightHandItem = null
+        };
+
+        AdditionalItems equippableAdditionalItems = new()
+        {
+            Container = null
+        };
+
+        Inventory inventory = new()
+        {
+            EquippableMainItems = equippableMainItems,
+            EquippableAdditionalItems = equippableAdditionalItems
+        };
+
+        CharacterStats characterStats = new()
+        {
+            Health = 100f,
+            Damage = 10f,
+            Defense = 0f,
+        };
+
+        CharacterAffects characterAffects = new()
+        {
+            Speed = 1f,
+            Regeneration = 0f
+        };
+
+        CharacterData player = new()
+        {
+            Pos = null,
             Direction = Quaternion.identity,
-            Loot = new Loot()
+            Inventory = inventory,
+            Stats = characterStats,
+            Affects = characterAffects
         };
 
         Enemies enemies = new();

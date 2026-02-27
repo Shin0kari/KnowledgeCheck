@@ -30,16 +30,19 @@ public class FileDataSaver : ISaveData
         {
             string fileName = save.saveName + FileExtension.JsonExtensions;
             string fullPath = Path.Combine(_savePath.SavesPath, fileName);
-
             if (_fileChecker.CheckPresenceSaveFile(fileName, _savePath.SavesPath))
             {
-                Debug.Log("Сохранение с таким именем уже существует.");
+                Debug.Log("Сохранение с таким именем существует.");
             }
 
-            var jsonSave = JsonConvert.SerializeObject(save.saveData);
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                Binder = new ItemSerializationBinder()
+            };
 
+            var jsonSave = JsonConvert.SerializeObject(save.saveData, settings);
             File.WriteAllText(fullPath, jsonSave);
-
             return true;
         }
         catch (Exception ex)
