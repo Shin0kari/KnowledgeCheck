@@ -4,7 +4,7 @@ using Zenject;
 
 [RequireComponent(typeof(PlayerEventObserver))]
 [RequireComponent(typeof(ButtonArenaStateToggle))]
-public class Player : MonoBehaviour, IDamagable
+public class Player : MonoBehaviour, IDamagable, IDisposable
 {
     private const float LOWER_HEALTH_VALUE_RANGE = 0f;
     [SerializeField] private float _maxHealthValue = 100f;
@@ -12,7 +12,7 @@ public class Player : MonoBehaviour, IDamagable
     [SerializeField] private CharacterData _character = new();
     [SerializeField] private bool _isImmortal;
 
-    private GameData _gameData;
+    private IGetGameData _gameData;
     private SceneCharacterDataFiller _characterDataFiller;
     private InventoryFiller _inventoryFiller;
 
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour, IDamagable
 
     [Inject]
     private void Construct(
-        GameData gameData,
+        IGetGameData gameData,
         SceneCharacterDataFiller characterDataFiller,
         InventoryFiller inventoryFiller)
     {
@@ -33,25 +33,46 @@ public class Player : MonoBehaviour, IDamagable
         _inventoryFiller = inventoryFiller;
 
         _characterEventObserver = GetComponent<PlayerEventObserver>();
+
+        _gameData.CurrentSaveUpdated += SetCharacterDataFromCurrentSave;
+    }
+
+    public void Dispose()
+    {
+        if (_gameData != null)
+        {
+            _gameData.CurrentSaveUpdated -= SetCharacterDataFromCurrentSave;
+        }
     }
 
     private void Start()
     {
-        var (saveName, saveData) = _gameData.GetCurrentGameData();
-        if (saveName == null)
-            return;
-
-        _character = _gameData.GetCurrentGameData().saveData.Player;
+        SetCharacterDataFromCurrentSave();
+        UpdatePlayerData();
 
         SetPlayerData();
 
         _characterEventObserver.SetSpawnState();
     }
 
+    private void SetCharacterDataFromCurrentSave()
+    {
+        var (uuid, saveData) = _gameData.GetCurrentGameData();
+        if (uuid == null)
+            return;
+
+        _character = _gameData.GetCurrentGameData().saveData.Player;
+    }
+
     private void SetPlayerData()
     {
         var (newPos, newRotation) = _characterDataFiller.FillPlayerPositionAndRotation(_character.Pos, _character.Direction);
         gameObject.transform.SetPositionAndRotation(newPos, newRotation);
+        // UpdatePlayerData();
+    }
+
+    private void UpdatePlayerData()
+    {
         FillInventoryUI();
         SetPlayerHealth();
     }

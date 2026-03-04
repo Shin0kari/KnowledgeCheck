@@ -51,6 +51,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     private void InitSlotData()
     {
         EquipmentSlotType = _equipmentSlotTypeValue;
+        ClearAllData();
 
         _itemPanelRegistry.Register(this);
     }
@@ -64,11 +65,6 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     private void ClearAllData()
     {
         SetCurrentItemData(null);
-    }
-
-    private void Start()
-    {
-        ClearAllData();
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)

@@ -14,7 +14,7 @@ public class SaveChecker : IInitializable, IDisposable
     public event Action<IReadOnlyDictionary<string, SaveData>> DeleteAllObjectsSignal;
     public event Action<IReadOnlyDictionary<string, SaveData>> UpdatedAllObjectSignal;
     public event Action<SaveData> CreateObjectSignal;
-    public event Action<(string saveName, SaveData saveData)> UpdateObjectSignal;
+    public event Action<(string uuid, SaveData saveData)> UpdateObjectSignal;
     public event Action IsCountDataChanged;
 
     [Inject]

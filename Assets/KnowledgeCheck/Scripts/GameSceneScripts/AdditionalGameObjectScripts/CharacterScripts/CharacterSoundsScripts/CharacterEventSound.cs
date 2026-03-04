@@ -3,6 +3,7 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(IDamagable))]
 public class CharacterEventSound : MonoBehaviour
 {
     private AudioSource _source;
@@ -23,7 +24,7 @@ public class CharacterEventSound : MonoBehaviour
         _sounds = sounds;
 
         _source = GetComponent<AudioSource>();
-        _damagableObject = GetComponentInParent<IDamagable>();
+        _damagableObject = GetComponent<IDamagable>();
 
         FillCurrentSoundsFromDefault();
     }

@@ -5,16 +5,26 @@ using static SceneUtils;
 
 public class NewSave
 {
+    private IGetGameData _gameData;
     private GameDataChanger _gameDataChanger;
+    private NewGame _newGameStarter;
 
     [Inject]
-    private void Construct(GameDataChanger gameDataChanger)
+    private void Construct(
+        IGetGameData gameData,
+        GameDataChanger gameDataChanger,
+        NewGame newGameStarter)
     {
+        _gameData = gameData;
         _gameDataChanger = gameDataChanger;
+        _newGameStarter = newGameStarter;
     }
 
     public void StartProcess()
     {
-        _gameDataChanger.CreateSave();
+        if (_gameData.GetCurrentGameData().uuid == null)
+            _newGameStarter.StartProcess();
+        else
+            _gameDataChanger.CreateSaveWithCurrentData();
     }
 }

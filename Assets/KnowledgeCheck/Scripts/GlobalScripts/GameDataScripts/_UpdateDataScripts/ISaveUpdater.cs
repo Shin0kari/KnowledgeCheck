@@ -2,8 +2,7 @@ using System;
 
 public interface ISaveUpdater
 {
-    // public void TryUpdateCurrentSave();
-    public void TryUpdateSave(string oldSaveName);
-    public void TryChangeSaveName(string saveName, string newSaveName);
-    public void TryChangeCurrentSave(string saveName);
+    public void TryUpdateSave(string oldSaveUuid);
+    public void TryChangeSaveName(string uuid, string newSaveName);
+    public void TryChangeCurrentSave(string uuid);
 }

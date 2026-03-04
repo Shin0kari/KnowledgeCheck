@@ -21,21 +21,21 @@ public class FileDataSaver : ISaveData
     /// </summary>
     /// <param name="save"></param>
     /// <returns></returns>
-    public bool SaveData((string saveName, SaveData saveData) save)
+    public bool SaveData((string uuid, SaveData saveData) save)
     {
         // Используется в SaveCreator, но если вызвать не там, то возможно
         // будут отсутствовать данные, необходимо сделать проверку 
         // или сделать зависимост от ISaveCreator чтобы поменять public на private
         try
         {
-            string fileName = save.saveName + FileExtension.JsonExtensions;
+            string fileName = save.saveData.SaveName + FileExtension.SeparationMark + save.saveData.Uuid + FileExtension.JsonExtensions;
             string fullPath = Path.Combine(_savePath.SavesPath, fileName);
             if (_fileChecker.CheckPresenceSaveFile(fileName, _savePath.SavesPath))
             {
                 Debug.Log("Сохранение с таким именем существует.");
             }
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            JsonSerializerSettings settings = new()
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 Binder = new ItemSerializationBinder()

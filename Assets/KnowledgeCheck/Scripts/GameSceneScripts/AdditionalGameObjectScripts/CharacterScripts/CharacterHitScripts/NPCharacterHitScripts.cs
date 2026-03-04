@@ -52,7 +52,7 @@ public class NPCharacterHitScripts : HitScipts, IAttackSignalSender
         if (_isAttackEnded)
         {
             OnStartAttack?.Invoke();
-            _agentActivityStateSwitch.SwitchAgentActivityState(true);
+            _agentActivityStateSwitch.SetAgentStopState(true);
 
             _characterAnimation.SetCharacterHitNoMoveAnim();
             _isAttackEnded = false;
@@ -66,7 +66,7 @@ public class NPCharacterHitScripts : HitScipts, IAttackSignalSender
     public override void EndAttack()
     {
         OnEndAttack?.Invoke();
-        _agentActivityStateSwitch.SwitchAgentActivityState(false);
+        _agentActivityStateSwitch.SetAgentStopState(false);
         _isAttackEnded = true;
     }
 }

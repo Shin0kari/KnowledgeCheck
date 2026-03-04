@@ -20,6 +20,7 @@ public class ContainerSlotFactory : AbstractFactoryStarter
     {
         var itemPanel = _itemPanelFactory.Create(_itemPanelPrefab);
         itemPanel.transform.SetParent(inventoryPanel.transform);
+        itemPanel.transform.localScale = new(1f, 1f, 1f);
         return itemPanel;
     }
 

@@ -44,9 +44,9 @@ public class ButtonRechargeAnimation : MonoBehaviour
             ChangeDisplayedRechargeFeatures();
             SendFullChargeSignal();
         }
-        catch (System.OperationCanceledException)
+        catch (Exception ex)
         {
-
+            Debug.LogError($"Ошибка при перезарядке кнопки: {ex.Message}");
         }
     }
 

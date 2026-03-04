@@ -5,6 +5,13 @@ using Zenject;
 [RequireComponent(typeof(IGetMovementSpeed)), RequireComponent(typeof(IGetRotationSpeed))]
 public class MovementAndRotationObserver : MonoBehaviour
 {
+
+    private const float MAX_MOVEMENT_VALUE = 1f;
+    private const float ZERO_MOVEMENT_VALUE = 0f;
+
+    [SerializeField] private float _accelerationRotateSpeed = 0.6f;
+    [SerializeField] private float _rotationCoeffMultiplier = 0.5f;
+
     private Vector3 _characterPosition;
     private Vector3 _characterRotation;
     private Vector3 _oldCharacterPosition;
@@ -16,6 +23,7 @@ public class MovementAndRotationObserver : MonoBehaviour
     private float _rotationSpeedMultiplier;
     private float _maxAbsMovementSpeed;
     private float _absMaxYRotation;
+    private float _rotationVelocity = 0.0f;
 
     [Inject]
     private void Construct()
@@ -27,7 +35,11 @@ public class MovementAndRotationObserver : MonoBehaviour
         _oldCharacterPosition = transform.position;
         _oldCharacterRotation = transform.rotation.eulerAngles;
 
-        _absMaxYRotation = CharacterTurnUtils.BASE_DEG_PER_SEC * CharacterTurnUtils.MAX_ROTATION_VALUE * Time.fixedDeltaTime;
+        _absMaxYRotation =
+            _rotationCoeffMultiplier *
+            CharacterTurnUtils.BASE_DEG_PER_SEC *
+            CharacterTurnUtils.MAX_ROTATION_VALUE *
+            Time.fixedDeltaTime;
     }
 
     private void Start()
@@ -52,6 +64,7 @@ public class MovementAndRotationObserver : MonoBehaviour
     private float _yRotationOffset;
 
     private float _rotationValue = 0f;
+    private float _targetRotationSpeed;
     private Vector2 _targetMovementValues = Vector2.zero;
     private Vector2 _currentMovementValues = Vector2.zero;
 
@@ -136,9 +149,6 @@ public class MovementAndRotationObserver : MonoBehaviour
         return new(_localMovementOffset.x, _localMovementOffset.z);
     }
 
-    private const float MAX_MOVEMENT_VALUE = 1f;
-    private const float ZERO_MOVEMENT_VALUE = 0f;
-
     private static void UpdateCurrentMovementValues(
         ref Vector2 _currentMovementValues,
         in Vector2 _targetMovementValues,
@@ -201,6 +211,7 @@ public class MovementAndRotationObserver : MonoBehaviour
                     _currentMovementValues.x = ZERO_MOVEMENT_VALUE;
                 break;
         }
+
         _currentMovementValues.x = Mathf.Clamp(_currentMovementValues.x, -MAX_MOVEMENT_VALUE, MAX_MOVEMENT_VALUE);
         _currentMovementValues.y = Mathf.Clamp(_currentMovementValues.y, -MAX_MOVEMENT_VALUE, MAX_MOVEMENT_VALUE);
     }
@@ -231,6 +242,7 @@ public class MovementAndRotationObserver : MonoBehaviour
 
         CalculateAndUpdateCurrentRotationValue(
             ref _rotationValue,
+            ref _rotationVelocity,
             _yRotationOffset,
             _rotationSpeedMultiplier
         );
@@ -245,6 +257,7 @@ public class MovementAndRotationObserver : MonoBehaviour
 
     private void CalculateAndUpdateCurrentRotationValue(
         ref float _rotationValue,
+        ref float _rotationVelocity,
         in float _yRotationOffset,
         in float _rotationSpeedMultiplier
     )
@@ -255,8 +268,14 @@ public class MovementAndRotationObserver : MonoBehaviour
                 _rotationSpeedMultiplier
             );
 
-        _rotationValue = _calculatedNewRotationOffset / _absMaxYRotation;
-        _rotationValue = Mathf.Clamp(_rotationValue, -CharacterTurnUtils.MAX_ROTATION_VALUE, CharacterTurnUtils.MAX_ROTATION_VALUE);
+        _targetRotationSpeed = Mathf.Clamp(_calculatedNewRotationOffset, -CharacterTurnUtils.MAX_ROTATION_VALUE, CharacterTurnUtils.MAX_ROTATION_VALUE) / _absMaxYRotation;
+
+        _rotationValue = Mathf.SmoothDamp(
+            current: _rotationValue,
+            target: _targetRotationSpeed,
+            currentVelocity: ref _rotationVelocity,
+            smoothTime: _accelerationRotateSpeed
+        );
 
         if (Mathf.Abs(_rotationValue) < GeneralCharacterUtils.MEASUREMENT_ERROR)
         {

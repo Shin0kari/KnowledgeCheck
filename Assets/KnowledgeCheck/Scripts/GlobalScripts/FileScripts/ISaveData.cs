@@ -1,5 +1,5 @@
 using UnityEngine;
 public interface ISaveData
 {
-    public bool SaveData((string saveName, SaveData saveData) save);
+    public bool SaveData((string uuid, SaveData saveData) save);
 }

@@ -14,24 +14,27 @@ public class SaveDeleter : ISaveDeleter
         _dataDeleter = dataDeleter;
     }
 
-    public void TryDeleteSave(string saveName)
+    public void TryDeleteSave(string uuid)
     {
-        if (!_gameData.GetAllGameDatas().ContainsKey(saveName))
+        if (!_gameData.GetAllGameDatas().ContainsKey(uuid))
         {
             return;
         }
 
-        DeleteSave(saveName);
+        DeleteSave(uuid);
     }
 
-    public void DeleteSave(string saveName)
+    public void DeleteSave(string uuid)
     {
-        _gameData.DeleteChoicedSave(saveName);
+        if (!_gameData.GetAllGameDatas().TryGetValue(uuid, out SaveData saveData))
+            return;
+        _gameData.DeleteChoicedSave(uuid);
+        _dataDeleter.DeleteSave(saveData.SaveName, saveData.Uuid);
+    }
 
-        if (_gameData.GetCurrentGameData().saveName == saveName)
-        {
-            _gameData.SetNullCurrentSave();
-        }
-        _dataDeleter.DeleteSave(saveName);
+    public void DeleteNotCurrentSave(string uuid)
+    {
+        if (_gameData.GetCurrentGameData().uuid != uuid)
+            TryDeleteSave(uuid);
     }
 }

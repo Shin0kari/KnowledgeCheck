@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
 
     [SerializeField] private float _enemySpawnMaxDistance = 10f;
     [SerializeField] private float _enemySpawnMinDistance = 8f;
-    [SerializeField] private float _spawnHeight = 3f;
+    [SerializeField] private float _spawnHeight = 4f;
     [SerializeField] private float _maxHealthValue = 100f;
 
     private CharacterData _character = new();

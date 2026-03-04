@@ -1,0 +1,98 @@
+{
+    "ef158718-b91e-42f0-bacb-da22d77218a2": {
+        "SaveName": "123",
+        "Uuid": "ef158718-b91e-42f0-bacb-da22d77218a2",
+        "CountScore": 0,
+        "GameTime": 0,
+        "IsCurrentSave": false,
+        "Player": {
+            "Pos": null,
+            "Direction": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "Inventory": {
+                "EquippableMainItems": {
+                    "HeadItem": null,
+                    "ChestItem": null,
+                    "LeftHandItem": null,
+                    "RightHandItem": null
+                },
+                "EquippableAdditionalItems": {
+                    "Container": null
+                }
+            },
+            "Stats": {
+                "Health": 100.0,
+                "Defense": 0.0,
+                "Damage": 10.0
+            },
+            "Affects": {
+                "Speed": 1.0,
+                "Regeneration": 0.0
+            }
+        },
+        "Enemies": {
+            "EnemyList": null
+        }
+    },
+    "9bb00598-cefb-4303-b200-ddc13eefa5a5": {
+        "SaveName": "456",
+        "Uuid": "9bb00598-cefb-4303-b200-ddc13eefa5a5",
+        "CountScore": 0,
+        "GameTime": 0,
+        "IsCurrentSave": true,
+        "Player": {
+            "Pos": null,
+            "Direction": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "Inventory": {
+                "EquippableMainItems": {
+                    "HeadItem": null,
+                    "ChestItem": null,
+                    "LeftHandItem": null,
+                    "RightHandItem": null
+                },
+                "EquippableAdditionalItems": {
+                    "Container": {
+                        "ContainerItems": [
+                            {
+                                "Key": 3,
+                                "Value": {
+                                    "Quantity": 3,
+                                    "ItemName": "strang_fruit",
+                                    "ItemStats": [],
+                                    "ItemAffects": [
+                                        {}
+                                    ]
+                                }
+                            }
+                        ],
+                        "Durability": 0,
+                        "ItemName": "backpack",
+                        "ItemStats": [],
+                        "ItemAffects": []
+                    }
+                }
+            },
+            "Stats": {
+                "Health": 100.0,
+                "Defense": 0.0,
+                "Damage": 10.0
+            },
+            "Affects": {
+                "Speed": 1.0,
+                "Regeneration": 0.0
+            }
+        },
+        "Enemies": {
+            "EnemyList": null
+        }
+    }
+}

@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using Zenject;
 
-public class PlayableCharacterDataUpdater : IInitializable
+public class PlayableCharacterDataUpdater : IInitializable, IDisposable
 {
-    private GameData _gameData;
+    private IGetGameData _gameData;
     private InventoryManager _inventoryManager;
 
     private Inventory _inventory = new();
@@ -14,19 +14,32 @@ public class PlayableCharacterDataUpdater : IInitializable
 
     [Inject]
     private void Construct(
-        GameData gameData,
-        InventoryManager inventoryManager,
-        InventoryFiller inventoryFiller
+        IGetGameData gameData,
+        InventoryManager inventoryManager
     )
     {
         _gameData = gameData;
         _inventoryManager = inventoryManager;
+
+        _gameData.CurrentSaveUpdated += SetInventoryFromCurrentSave;
+    }
+
+    public void Dispose()
+    {
+        if (_gameData != null)
+            _gameData.CurrentSaveUpdated -= SetInventoryFromCurrentSave;
     }
 
     public void Initialize()
     {
-        var (saveName, saveData) = _gameData.GetCurrentGameData();
-        if (saveName == null)
+        // SetInventoryFromCurrentSave();
+        // UpdateCharacterData();
+    }
+
+    private void SetInventoryFromCurrentSave()
+    {
+        var (uuid, saveData) = _gameData.GetCurrentGameData();
+        if (uuid == null)
             return;
         _inventory = _gameData.GetCurrentGameData().saveData.Player.Inventory;
     }

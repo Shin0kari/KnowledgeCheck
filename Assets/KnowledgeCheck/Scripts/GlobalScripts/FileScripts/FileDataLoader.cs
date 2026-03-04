@@ -22,21 +22,21 @@ public class FileDataLoader : ILoadData
 
     public Dictionary<string, SaveData> LoadAllSavesData()
     {
-        Dictionary<string, SaveData> saves = new();
-        var fileNames = Directory.EnumerateFiles(_savePath.SavesPath, ALL_FILENAMES + FileExtension.JsonExtensions);
+        Dictionary<string, SaveData> saves = new(); // <uuid, saveData>
+        var filePaths = Directory.EnumerateFiles(_savePath.SavesPath, ALL_FILENAMES + FileExtension.JsonExtensions);
 
-        foreach (var fileName in fileNames)
+        foreach (var filePath in filePaths)
         {
             try
             {
-                SaveData data = GetDataFromFile(fileName);
+                SaveData data = GetDataFromFile(filePath);
                 if (_validator.ValidateGameData(data))
                 {
-                    saves.Add(data.SaveName, data);
+                    saves.Add(data.Uuid, data);
                 }
                 else
                 {
-                    Debug.Log($"[FILE_DATA_LOADER]: data from file `{fileName}` is not valid.");
+                    Debug.Log($"[FILE_DATA_LOADER]: data from file `{filePath}` is not valid.");
                 }
             }
             catch (Exception ex)
@@ -48,20 +48,20 @@ public class FileDataLoader : ILoadData
         return saves;
     }
 
-    public (string, SaveData) LoadSpecificSave(string saveName)
+    public (string uuid, SaveData saveData) LoadSpecificSave(string saveName, string uuid)
     {
-        (string saveName, SaveData saveData) save = new();
-        var fileName = Directory.EnumerateFiles(_savePath.SavesPath, saveName + FileExtension.JsonExtensions);
+        (string uuid, SaveData saveData) save = new();
+        var filePaths = Directory.EnumerateFiles(_savePath.SavesPath, saveName + FileExtension.SeparationMark + uuid + FileExtension.JsonExtensions);
         try
         {
-            SaveData data = GetDataFromFile(fileName.First());
+            SaveData data = GetDataFromFile(filePaths.First());
             if (_validator.ValidateGameData(data))
             {
-                save = (data.SaveName, data);
+                save = (data.Uuid, data);
             }
             else
             {
-                Debug.Log($"[FILE_DATA_LOADER]: data from file `{fileName}` is not valid.");
+                Debug.Log($"[FILE_DATA_LOADER]: data from file `{filePaths}` is not valid.");
             }
         }
         catch (Exception ex)
@@ -71,11 +71,11 @@ public class FileDataLoader : ILoadData
         return save;
     }
 
-    private SaveData GetDataFromFile(string fileName)
+    private SaveData GetDataFromFile(string filePath)
     {
-        string json = File.ReadAllText(fileName);
+        string json = File.ReadAllText(filePath);
 
-        JsonSerializerSettings settings = new JsonSerializerSettings
+        JsonSerializerSettings settings = new()
         {
             TypeNameHandling = TypeNameHandling.Auto,
             Binder = new ItemSerializationBinder()

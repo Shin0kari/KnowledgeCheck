@@ -4,8 +4,13 @@ using Zenject;
 public class StartMenuBoostrap
 {
     [Inject]
-    private void Construct(IAudioService audioService, AudioSource audioSource)
+    private void Construct(
+        IGetGameData gameData,
+        IAudioService audioService,
+        AudioSource audioSource)
     {
+        gameData.UpdateGameData();
+
         audioService.ChangeSceneAudioSource(audioSource);
     }
 }

@@ -1,11 +1,28 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
+
+public static class SaveDataRecordCloner
+{
+    public static SaveData CloneSaveDataRecord(SaveData saveData)
+    {
+        JsonSerializerSettings settings = new()
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            Binder = new ItemSerializationBinder()
+        };
+        var jsonSave = JsonConvert.SerializeObject(saveData, settings);
+        SaveData newSaveData = JsonConvert.DeserializeObject<SaveData>(jsonSave, settings);
+        return newSaveData;
+    }
+}
 
 [Serializable]
 public record SaveData
 {
     public string SaveName { get; set; }
+    public string Uuid { get; set; }
     public int CountScore { get; set; }
     public int GameTime { get; set; }
     public bool IsCurrentSave { get; set; } = false;
@@ -20,7 +37,7 @@ public record Enemies
 }
 
 [Serializable]
-public class CharacterData
+public record CharacterData
 {
     [field: SerializeField] public Vector3? Pos { get; set; }
     [field: SerializeField] public Quaternion Direction { get; set; }
@@ -47,7 +64,7 @@ public class CharacterData
 // }
 
 [Serializable]
-public class CharacterAffects
+public record CharacterAffects
 {
     [field: SerializeField]
     public float Speed
@@ -64,7 +81,7 @@ public class CharacterAffects
 }
 
 [Serializable]
-public class CharacterStats
+public record CharacterStats
 {
     [field: SerializeField]
     public float Health

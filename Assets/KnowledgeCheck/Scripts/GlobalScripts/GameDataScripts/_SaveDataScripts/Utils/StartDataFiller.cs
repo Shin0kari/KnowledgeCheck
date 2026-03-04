@@ -1,21 +1,23 @@
+using System;
 using TMPro;
 using UnityEngine;
 using Zenject;
 
 public class StartDataFiller : IStartDataFiller
 {
-    private ISaveNameGenerator _saveNameGenerator;
 
-    [Inject]
-    private void Construct(ISaveNameGenerator saveNameGenerator)
+    public string GenerateSaveName()
     {
-        _saveNameGenerator = saveNameGenerator;
+        string saveText = "";
+        SaveNameGenerator.GenerateSaveName(ref saveText);
+        return saveText;
     }
 
     public SaveData SetStartData()
     {
-        string saveText = "";
-        _saveNameGenerator.GenerateSaveName(ref saveText);
+        string saveText = GenerateSaveName();
+
+        string uuid = Guid.NewGuid().ToString();
 
         MainItems equippableMainItems = new()
         {
@@ -63,6 +65,7 @@ public class StartDataFiller : IStartDataFiller
         return new SaveData
         {
             SaveName = saveText,
+            Uuid = uuid,
             CountScore = 0,
             GameTime = 0,
             IsCurrentSave = true,

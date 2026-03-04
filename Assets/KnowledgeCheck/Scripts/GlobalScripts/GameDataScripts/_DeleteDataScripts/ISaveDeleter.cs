@@ -2,6 +2,7 @@ using System;
 
 public interface ISaveDeleter
 {
-    public void TryDeleteSave(string saveName);
-    public void DeleteSave(string saveName);
+    public void TryDeleteSave(string uuid);
+    public void DeleteSave(string uuid);
+    public void DeleteNotCurrentSave(string uuid);
 }

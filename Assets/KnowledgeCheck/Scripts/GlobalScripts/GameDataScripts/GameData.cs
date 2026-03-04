@@ -5,12 +5,14 @@ using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
 
-public class GameData : IGetGameData, IInitializable
+public class GameData : IGetGameData
 {
     private Dictionary<string, SaveData> _saves;
-    private (string saveName, SaveData saveData) _currentSave;
+    private (string uuid, SaveData saveData) _currentSave;
     private ILoadData _loader;
     private IValidatorGameData _validator;
+
+    public event Action CurrentSaveUpdated;
 
     [Inject]
     private void Construct(ILoadData loader, IValidatorGameData validator)
@@ -19,11 +21,12 @@ public class GameData : IGetGameData, IInitializable
         _validator = validator;
     }
 
-    public void Initialize()
+    public void UpdateGameData()
     {
         _saves = _loader.LoadAllSavesData();
 
         DefinitionCurrentSaveData();
+        CurrentSaveUpdated?.Invoke();
     }
 
     private void DefinitionCurrentSaveData()
@@ -39,13 +42,14 @@ public class GameData : IGetGameData, IInitializable
         }
     }
 
-    public void SetCurrentSave((string saveName, SaveData saveData) currentSave)
+    public void SetCurrentSave((string uuid, SaveData saveData) currentSave)
     {
         try
         {
             _validator.ValidateGameData(currentSave.saveData);
             currentSave.saveData.IsCurrentSave = true;
             _currentSave = currentSave;
+            CurrentSaveUpdated?.Invoke();
         }
         catch (Exception ex)
         {
@@ -57,27 +61,30 @@ public class GameData : IGetGameData, IInitializable
     public void SetNullCurrentSave()
     {
         _currentSave = (null, null);
+        CurrentSaveUpdated?.Invoke();
     }
 
     public IReadOnlyDictionary<string, SaveData> GetAllGameDatas()
         => new ReadOnlyDictionary<string, SaveData>(_saves);
 
-    public (string saveName, SaveData saveData) GetCurrentGameData()
+    public (string uuid, SaveData saveData) GetCurrentGameData()
     {
         return _currentSave;
     }
 
-    public void DeleteChoicedSave(string saveName)
+    public void DeleteChoicedSave(string uuid)
     {
-        _saves.Remove(saveName);
+        if (_currentSave.uuid == uuid)
+            SetNullCurrentSave();
+        _saves.Remove(uuid);
     }
 
-    public void AddSaveToAllSaves((string saveName, SaveData saveData) currentSave)
+    public void AddSaveToAllSaves((string uuid, SaveData saveData) currentSave)
     {
-        if (_saves.ContainsKey(currentSave.saveName))
+        if (_saves.ContainsKey(currentSave.uuid))
         {
-            _saves.Remove(currentSave.saveName);
+            _saves.Remove(currentSave.uuid);
         }
-        _saves.Add(currentSave.saveName, currentSave.saveData);
+        _saves.Add(currentSave.uuid, currentSave.saveData);
     }
 }

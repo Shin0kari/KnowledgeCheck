@@ -19,7 +19,6 @@ public static class AnimationUtils
                 animator.SetFloat(parameter.ToString(), value, _animationDampTime, Time.fixedDeltaTime);
                 break;
             case AnimParameter.Rotation:
-                // Debug.Log($"Set parameter {parameter}: {value}");
                 animator.SetFloat(parameter.ToString(), value, _animationDampTime, Time.fixedDeltaTime);
                 break;
             default:

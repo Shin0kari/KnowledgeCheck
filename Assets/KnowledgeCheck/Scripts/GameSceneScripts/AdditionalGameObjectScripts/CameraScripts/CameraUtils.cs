@@ -22,7 +22,7 @@ public class CameraUtils : MonoBehaviour, IDisposable
 
     public void Dispose()
     {
-        _signalBus.Unsubscribe<PlayerSpawnedSignal>(SetPlayer);
+        _signalBus?.Unsubscribe<PlayerSpawnedSignal>(SetPlayer);
 
         ClearPlayerSubscribes();
     }

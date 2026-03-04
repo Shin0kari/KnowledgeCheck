@@ -49,7 +49,6 @@ public class GlobalInstaller : MonoInstaller
 
     private void BindSaveCreatorService()
     {
-        Container.Bind<ISaveNameGenerator>().To<SaveNameGenerator>().AsSingle().NonLazy();
         Container.Bind<IStartDataFiller>().To<StartDataFiller>().AsSingle().NonLazy();
         Container.Bind<ISaveCreator>().To<SaveCreator>().AsSingle().NonLazy();
     }

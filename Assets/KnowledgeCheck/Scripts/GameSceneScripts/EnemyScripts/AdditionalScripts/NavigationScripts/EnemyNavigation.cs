@@ -35,6 +35,8 @@ public class EnemyNavigation : MonoBehaviour, IGetMovementSpeed, IGetRotationSpe
         _characterEventObserver.OnLandState += StartAgent;
         _characterEventObserver.OnFallState += StopAgent;
         _characterEventObserver.OnDeath += StopAgent;
+
+        StartAgent();
     }
 
     public void Dispose()
@@ -64,7 +66,6 @@ public class EnemyNavigation : MonoBehaviour, IGetMovementSpeed, IGetRotationSpe
 
     private void StartAgent()
     {
-        Debug.Log("StartAgent");
         _agent.enabled = true;
     }
 
@@ -110,7 +111,9 @@ public class EnemyNavigation : MonoBehaviour, IGetMovementSpeed, IGetRotationSpe
     private void Update()
     {
         if (_enemyTarget == null || !_agent.enabled)
+        {
             return;
+        }
 
         _agent.destination = _enemyTarget.gameObject.transform.position;
     }
@@ -131,10 +134,12 @@ public class EnemyNavigation : MonoBehaviour, IGetMovementSpeed, IGetRotationSpe
     {
         return (transform.position - _agent.destination).sqrMagnitude;
     }
-    public void SwitchAgentActivityState(bool isStopped)
+    public void SetAgentStopState(bool isStopped)
     {
         if (gameObject.activeSelf && _agent.enabled)
+        {
             _agent.isStopped = isStopped;
+        }
     }
 }
 
@@ -160,5 +165,5 @@ public interface IGetSqrDestinationDistance
 
 public interface ISwitchAgentActivityState
 {
-    public void SwitchAgentActivityState(bool isStopped);
+    public void SetAgentStopState(bool isStopped);
 }

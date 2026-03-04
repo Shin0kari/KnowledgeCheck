@@ -13,11 +13,11 @@ public class FileDataDeleter : IDeleteData
         _savePath = savePath;
     }
 
-    public bool DeleteSave(string saveName)
+    public bool DeleteSave(string saveName, string uuid)
     {
         try
         {
-            string fileName = saveName + FileExtension.JsonExtensions;
+            string fileName = saveName + FileExtension.SeparationMark + uuid + FileExtension.JsonExtensions;
             string fullPath = Path.Combine(_savePath.SavesPath, fileName);
 
             File.Delete(fullPath);
@@ -26,7 +26,7 @@ public class FileDataDeleter : IDeleteData
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Ошибка при сохранении: {ex.Message}");
+            Debug.LogError($"Ошибка при удалении: {ex.Message}");
             return false;
         }
     }

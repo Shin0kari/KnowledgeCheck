@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Zenject;
 
-public class SaveDataSaverButton : ChoicedSaveButton
+public class SaveDataLoaderButton : ChoicedSaveButton
 {
     private GameDataChanger _gameDataChanger;
 
@@ -14,6 +14,6 @@ public class SaveDataSaverButton : ChoicedSaveButton
 
     protected override void ActionOnClick()
     {
-        _gameDataChanger.UpdateSave(GetComponentInParent<SavePanel>().GetSaveName());
+        _gameDataChanger.ChangeCurrentSave(GetComponentInParent<SavePanel>().GetSaveUuid());
     }
 }

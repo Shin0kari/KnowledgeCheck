@@ -5,6 +5,7 @@ public class GameBoostrap
 {
     [Inject]
     private void Construct(
+        IGetGameData gameData,
         PlayerFactory playerFactory,
         HealthBarFactory healthBarFactory,
         CarFactory carFactory,
@@ -13,6 +14,7 @@ public class GameBoostrap
         AudioSource sceneAudioSource
     )
     {
+        gameData.UpdateGameData();
         playerFactory.Enable();
         // healthBarFactory.Enable();
         // carFactory.Enable();

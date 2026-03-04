@@ -1,12 +1,26 @@
+using System.Linq;
 using UnityEngine;
 
-public class SaveNameRule : IValidationRule<SaveData>
+public class SaveNameRule : IValidationRule<SaveData>, IValidationRule<string>
 {
-    public bool Validate(SaveData data, out string errorMessage)
+    private const int MAX_SAVENAME_LENGHT = 100;
+    public bool Validate(SaveData data, out string errorMessage) => Validate(data.SaveName, out errorMessage);
+
+    public bool Validate(string saveName, out string errorMessage)
     {
-        if (string.IsNullOrEmpty(data.SaveName))
+        if (string.IsNullOrEmpty(saveName))
         {
             errorMessage = "Save name is empty.";
+            return false;
+        }
+        if (saveName.Length >= MAX_SAVENAME_LENGHT)
+        {
+            errorMessage = "Save name is too long (max 100).";
+            return false;
+        }
+        if (saveName.Any(c => char.IsControl(c) || c == '\\' || c == '/' || c == '|'))
+        {
+            errorMessage = "Save name contains invalid characters.";
             return false;
         }
         errorMessage = null;

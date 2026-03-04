@@ -29,79 +29,81 @@ public class SaveUpdater : ISaveUpdater
     // Обновление текущего сохранения без сохранения несохранённый данных
     // Пояснение: Если мы текущее_сохр_1 не сохранили, то при загрузке сохр_2
     // в файл с текущим_сохр_1 не будут сохранены новые изменённые данные из текущее_сохр_1
-    public void TryChangeCurrentSave(string saveName)
+    public void TryChangeCurrentSave(string uuid)
     {
         var saves = _gameData.GetAllGameDatas();
-        if (!saves.ContainsKey(saveName))
+        if (!saves.ContainsKey(uuid))
         {
             return;
         }
 
-        var oldCurrentSaveName = _gameData.GetCurrentGameData().saveName;
-
         // Обновление прошлого currentSave
-        if (oldCurrentSaveName != null)
+        if (_gameData.GetCurrentGameData().uuid != null)
         {
-            if (oldCurrentSaveName == saveName)
+            var oldCurrentSaveUuid = _gameData.GetCurrentGameData().saveData.Uuid;
+            var oldCurrentSaveData = _gameData.GetCurrentGameData().saveData;
+
+            if (oldCurrentSaveUuid == uuid)
             {
-                (string saveName, SaveData saveData) loadedSave = _loader.LoadSpecificSave(oldCurrentSaveName);
-                UpdateCurrentSaveGameData(loadedSave.saveName, loadedSave.saveData);
+                (string uuid, SaveData saveData) loadedSave = _loader.LoadSpecificSave(oldCurrentSaveData.SaveName, oldCurrentSaveUuid);
+                UpdateCurrentSaveGameData(loadedSave.uuid, loadedSave.saveData);
                 return;
             }
 
-            _gameData.GetAllGameDatas().TryGetValue(oldCurrentSaveName, out SaveData oldCurrentSaveData);
-            (string saveName, SaveData saveData) oldCurrentSave = (oldCurrentSaveName, oldCurrentSaveData);
+            (string uuid, SaveData saveData) oldCurrentSave = (oldCurrentSaveUuid, oldCurrentSaveData);
 
-            _saveDeleter.DeleteSave(oldCurrentSave.saveName);
+            // если файл с таким именем существует, он его перезапишет и удаление не нужно
+            // _saveDeleter.DeleteSave(oldCurrentSave.uuid);
             oldCurrentSave.saveData.IsCurrentSave = false;
-            _saveCreator.CreateSave(oldCurrentSave.saveName, oldCurrentSave.saveData);
+            _saveCreator.CreateSave(oldCurrentSave.uuid, oldCurrentSave.saveData);
         }
 
         // Обновление currentSave
-        UpdateCurrentSaveGameDataAndFileData(saveName, saves[saveName]);
+        UpdateCurrentSaveGameDataAndFileData(uuid, saves[uuid]);
     }
 
-    public void TryChangeSaveName(string saveName, string newSaveName)
+    public void TryChangeSaveName(string uuid, string newSaveName)
     {
         var saves = _gameData.GetAllGameDatas();
-        if (!saves.ContainsKey(saveName))
+        if (!saves.TryGetValue(uuid, out SaveData saveData))
         {
             return;
         }
 
-        SaveData saveData = saves[saveName];
+        _saveDeleter.DeleteSave(uuid);
         UpdateSaveName(newSaveName, ref saveData);
-        _saveDeleter.DeleteSave(saveName);
-        _saveCreator.CreateSave(newSaveName, saveData);
+        _saveCreator.CreateSave(saveData.Uuid, saveData);
 
         if (saveData.IsCurrentSave)
-            UpdateCurrentSaveGameData(newSaveName, saveData);
+            UpdateCurrentSaveGameData(saveData.Uuid, saveData);
     }
 
-    private void UpdateCurrentSaveGameDataAndFileData(string saveName, SaveData saveData)
+    private void UpdateCurrentSaveGameDataAndFileData(string uuid, SaveData saveData)
     {
-        _gameData.SetCurrentSave((saveName, saveData));
-        _dataSaver.SaveData((saveName, saveData));
+        _gameData.SetCurrentSave((uuid, saveData));
+        _dataSaver.SaveData((uuid, saveData));
     }
 
-    private void UpdateCurrentSaveGameData(string saveName, SaveData saveData)
+    private void UpdateCurrentSaveGameData(string uuid, SaveData saveData)
     {
-        _gameData.SetCurrentSave((saveName, saveData));
+        _gameData.SetCurrentSave((uuid, saveData));
     }
 
-    public void TryUpdateSave(string oldSaveName)
+    public void TryUpdateSave(string oldSaveUuid)
     {
         var saves = _gameData.GetAllGameDatas();
-        if (!saves.TryGetValue(oldSaveName, out SaveData saveData))
+        if (!saves.TryGetValue(oldSaveUuid, out SaveData _))
         {
             return;
         }
 
-        _saveDeleter.DeleteSave(oldSaveName);
-        _saveCreator.CreateSave(oldSaveName, saveData);
+        SaveData saveData = _gameData.GetCurrentGameData().saveData;
+        if (saveData == null)
+            return;
 
-        if (saveData.IsCurrentSave)
-            UpdateCurrentSaveGameData(oldSaveName, saveData);
+        _saveCreator.CreateSave(oldSaveUuid, saveData);
+
+        UpdateCurrentSaveGameData(oldSaveUuid, saveData);
     }
 
     private void UpdateSaveName(string newSaveName, ref SaveData saveData)

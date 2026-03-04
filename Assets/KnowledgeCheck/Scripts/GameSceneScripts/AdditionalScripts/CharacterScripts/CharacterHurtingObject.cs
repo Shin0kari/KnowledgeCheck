@@ -22,8 +22,8 @@ public class CharacterHurtingObject : HurtingObject, IDisposable
         if (_characterEventObserver != null)
         {
             _characterEventObserver.OnDeath += DisableCollider;
-            _characterEventObserver.OnSpawn += EnableCollider;
         }
+        DisableCollider();
     }
 
     public void Dispose()
@@ -36,7 +36,6 @@ public class CharacterHurtingObject : HurtingObject, IDisposable
         if (_characterEventObserver != null)
         {
             _characterEventObserver.OnDeath += DisableCollider;
-            _characterEventObserver.OnSpawn += EnableCollider;
         }
     }
 

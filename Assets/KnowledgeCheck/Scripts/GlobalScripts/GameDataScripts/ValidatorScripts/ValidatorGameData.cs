@@ -38,7 +38,7 @@ public class ValidatorGameData : IValidatorGameData
         foreach (var rule in _saveDataRules)
         {
             if (rule == null) Debug.LogError("[VALIDATOR_GAMEDATA]: Rule is null.");
-            if (data == null) Debug.Log("[VALIDATOR_GAMEDATA]: Save is null.");
+            if (data == null) Debug.LogError("[VALIDATOR_GAMEDATA]: Save is null.");
             if (data.SaveName == null) Debug.LogError("[VALIDATOR_GAMEDATA]: SaveName is null.");
 
 
@@ -62,7 +62,7 @@ public class ValidatorGameData : IValidatorGameData
         {
             if (!rule.Validate(character, out var error))
             {
-                Debug.LogWarning($"CHARACTER_RULE_ERROR: {error}");
+                Debug.LogError($"CHARACTER_RULE_ERROR: {error}");
                 isValid = false;
             }
         }

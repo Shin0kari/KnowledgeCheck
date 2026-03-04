@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
+using Zenject;
 
-public class SaveNameGenerator : ISaveNameGenerator
+public static class SaveNameGenerator
 {
-    public void GenerateSaveName(ref string saveName)
+    public static void GenerateSaveName(ref string saveName)
     {
         DateTime now = DateTime.Now;
 

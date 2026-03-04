@@ -32,8 +32,24 @@ public class SavePanel : AbstractSavePanel, ISaveDataEditor, ISaveDataDeleter, I
 
     public void OnTextEndEdit()
     {
-        _saveName.text = _inputField.text;
-        EndEditSaveText?.Invoke();
+        if (CheckValidInputText(_inputField.text))
+        {
+            _saveName.text = _inputField.text;
+            EndEditSaveText?.Invoke();
+        }
+    }
+
+    private bool CheckValidInputText(string saveName)
+    {
+        bool isValid = true;
+        IValidationRule<string> validationSaveNameRule = new SaveNameRule();
+
+        if (!validationSaveNameRule.Validate(saveName, out var error))
+        {
+            Debug.LogWarning($"SAVENAME_RULE_ERROR: {error}");
+            isValid = false;
+        }
+        return isValid;
     }
 
     public class Factory : PlaceholderFactory<UnityEngine.Object, SavePanel> { }

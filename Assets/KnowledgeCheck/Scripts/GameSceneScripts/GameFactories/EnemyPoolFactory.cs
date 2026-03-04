@@ -44,7 +44,7 @@ public class EnemyPoolFactory : AbstractFactoryStarter, IInitializable, IDisposa
         _enemies = null;
         OnSpawnCharacter = null;
 
-        _signalBus.Unsubscribe<PlayerSpawnedSignal>(SetPlayer);
+        _signalBus?.Unsubscribe<PlayerSpawnedSignal>(SetPlayer);
 
         if (_arenaController != null)
         {

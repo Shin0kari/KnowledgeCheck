@@ -51,17 +51,13 @@ public class NewGameCreator : IDisposable
                 ToggleSubscription(button, subscribe, OnNewSave);
                 break;
 
-            case ContinueGameButton:
-                ToggleSubscription(button, subscribe, OnContinueGame);
+            case ContinueGameButton or LoadLastSaveButton:
+                ToggleSubscription(button, subscribe, OnLoadLastGame);
                 break;
 
-            case SaveDataLoaderButton or LoadLastSaveButton:
+            case SaveDataLoaderButton:
                 ToggleSubscription(button, subscribe, OnLoadGameData);
                 break;
-
-                // case SaveDataSaverButton:
-                //     ToggleSubscription(button, subscribe, OnSaveGameData);
-                //     break;
         }
     }
 
@@ -82,7 +78,7 @@ public class NewGameCreator : IDisposable
         _newGame.StartProcess();
     }
 
-    private void OnContinueGame()
+    private void OnLoadLastGame()
     {
         _continueGame.StartProcess();
     }

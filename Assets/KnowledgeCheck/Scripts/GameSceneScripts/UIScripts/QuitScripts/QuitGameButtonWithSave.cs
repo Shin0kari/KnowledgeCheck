@@ -14,7 +14,7 @@ public class QuitGameButtonWithSave : QuitGameButton
 
     protected override void QuitGame()
     {
-        _gameDataChanger.UpdateSave(_gameData.GetCurrentGameData().saveName);
+        _gameDataChanger.UpdateSave(_gameData.GetCurrentGameData().uuid);
         base.QuitGame();
     }
 }

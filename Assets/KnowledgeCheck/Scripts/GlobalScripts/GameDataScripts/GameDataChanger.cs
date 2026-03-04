@@ -27,60 +27,60 @@ public class GameDataChanger
     public void CreateSave()
     {
         var createdSave = _creator.TryCreateSave();
-        _updater.TryChangeCurrentSave(createdSave.Item1);
+        _updater.TryChangeCurrentSave(createdSave.saveData.Uuid);
 
         SaveCreated?.Invoke();
     }
 
-    public void CreateSave(string saveName, SaveData saveData)
+    public void CreateSave(string uuid, SaveData saveData)
     {
-        _creator.CreateSave(saveName, saveData);
+        _creator.CreateSave(uuid, saveData);
 
         SaveCreated?.Invoke();
     }
 
-
-    // public void UpdateCurrentSave()
-    // {
-    //     _updater.TryUpdateCurrentSave();
-
-    //     CurrentSaveUpdated?.Invoke();
-    // }
-
-    public void UpdateSave(string oldSaveName)
+    public void CreateSaveWithCurrentData()
     {
-        _updater.TryUpdateSave(oldSaveName);
+        var createdSave = _creator.TryCreateSaveWithCurrentData();
+        _updater.TryChangeCurrentSave(createdSave.saveData.Uuid);
+
+        SaveCreated?.Invoke();
+    }
+
+    public void UpdateSave(string oldSaveUuid)
+    {
+        _updater.TryUpdateSave(oldSaveUuid);
 
         ChoicedSaveUpdated?.Invoke();
     }
 
-    public void ChangeSaveName(string saveName, string newSaveName)
+    public void ChangeSaveName(string uuid, string saveName, string newSaveName)
     {
         if (saveName == newSaveName)
             return;
 
-        _updater.TryChangeSaveName(saveName, newSaveName);
+        _updater.TryChangeSaveName(uuid, newSaveName);
 
         ChoicedSaveUpdated?.Invoke();
     }
 
-    public void ChangeCurrentSave(string saveName)
+    public void ChangeCurrentSave(string uuid)
     {
-        _updater.TryChangeCurrentSave(saveName);
+        _updater.TryChangeCurrentSave(uuid);
 
         CurrentSaveUpdated?.Invoke();
     }
 
 
-    public void DeleteSave(string saveName)
+    public void DeleteSave(string uuid)
     {
-        _deleter.TryDeleteSave(saveName);
+        _deleter.TryDeleteSave(uuid);
 
         SaveDeleted?.Invoke();
     }
 
-    // public void DeleteSave(string saveName, SaveData saveData)
-    // {
-    //     _deleter.TryDeleteSave(saveName, saveData);
-    // }
+    public void DeleteNotCurrentSave(string uuid)
+    {
+        _deleter.DeleteNotCurrentSave(uuid);
+    }
 }

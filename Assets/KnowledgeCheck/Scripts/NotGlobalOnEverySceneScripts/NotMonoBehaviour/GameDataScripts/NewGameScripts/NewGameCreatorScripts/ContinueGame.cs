@@ -20,7 +20,7 @@ public class ContinueGame
     public void StartProcess()
     {
         var currentSave = _gameData.GetCurrentGameData();
-        if (!_validator.ValidateGameData(currentSave.Item2))
+        if (!_validator.ValidateGameData(currentSave.saveData))
         {
             return;
         }

@@ -57,7 +57,7 @@ public class EnemyAgentRotationHelper : MonoBehaviour, IDisposable
         _isAttack = state;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!_agent.enabled || _isAttack)
             return;
@@ -76,7 +76,7 @@ public class EnemyAgentRotationHelper : MonoBehaviour, IDisposable
         transform.rotation = Quaternion.RotateTowards(
             transform.rotation,
             targetRotation,
-            _rotationSpeed * Time.deltaTime
+            _rotationSpeed * Time.fixedDeltaTime
         );
     }
 }

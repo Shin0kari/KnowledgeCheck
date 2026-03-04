@@ -34,8 +34,7 @@ public class ChangeSavePanel : MonoBehaviour
 
     private void SaveGameData()
     {
-        Debug.Log("ChangeSaveName");
-        _gameDataChanger.ChangeSaveName(_savePanel.GetOldSaveName(), _savePanel.GetNewSaveName());
+        _gameDataChanger.ChangeSaveName(_savePanel.GetSaveUuid(), _savePanel.GetOldSaveName(), _savePanel.GetNewSaveName());
     }
 
     private void OnDestroy()

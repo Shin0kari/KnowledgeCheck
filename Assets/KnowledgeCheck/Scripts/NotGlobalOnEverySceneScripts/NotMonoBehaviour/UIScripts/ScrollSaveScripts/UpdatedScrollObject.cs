@@ -45,7 +45,7 @@ public class UpdatedScrollObject : IUpdatedObject, IDisposable
         _updateMethod.DeleteMissingSaves(saves);
     }
 
-    public void UpdateCurrentObject((string newSaveName, SaveData saveData) currentSave)
+    public void UpdateCurrentObject((string uuid, SaveData saveData) currentSave)
     {
         _updateMethod.UpdateCurrentSave(currentSave);
     }

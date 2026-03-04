@@ -27,7 +27,7 @@ public class CharactersObserver : IDisposable
 
     public void Dispose()
     {
-        _signalBus.Unsubscribe<PlayerSpawnedSignal>(SetActionOnPlayerSpawn);
+        _signalBus?.Unsubscribe<PlayerSpawnedSignal>(SetActionOnPlayerSpawn);
         if (_enemyPoolFactory != null)
             _enemyPoolFactory.OnSpawnCharacter -= SetActionsOnEnemySpawn;
     }

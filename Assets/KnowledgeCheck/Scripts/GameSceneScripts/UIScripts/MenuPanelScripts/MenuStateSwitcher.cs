@@ -38,7 +38,7 @@ public class MenuStateSwitcher : IDisposable
 
     public void Dispose()
     {
-        _signalBus.Unsubscribe<PlayerSpawnedSignal>(SetPlayerEventObserver);
+        _signalBus?.Unsubscribe<PlayerSpawnedSignal>(SetPlayerEventObserver);
         if (_arenaController != null)
         {
             _arenaController.StopArenaBattle -= OffMenuAvailable;

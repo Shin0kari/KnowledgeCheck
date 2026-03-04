@@ -36,7 +36,7 @@ public class DeleteSavePanel : MonoBehaviour
 
     private void DeleteGameData()
     {
-        _gameDataChanger.DeleteSave(_savePanel.GetSaveName());
+        _gameDataChanger.DeleteSave(_savePanel.GetSaveUuid());
     }
 
     private void ClosePanel()

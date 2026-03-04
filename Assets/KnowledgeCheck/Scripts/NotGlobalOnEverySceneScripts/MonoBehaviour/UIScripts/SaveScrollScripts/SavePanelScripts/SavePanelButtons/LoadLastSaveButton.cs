@@ -15,6 +15,6 @@ public class LoadLastSaveButton : ChoicedSaveButton
 
     protected override void ActionOnClick()
     {
-        _gameDataChanger.ChangeCurrentSave(_gameData.GetCurrentGameData().saveName);
+        _gameDataChanger.ChangeCurrentSave(_gameData.GetCurrentGameData().uuid);
     }
 }

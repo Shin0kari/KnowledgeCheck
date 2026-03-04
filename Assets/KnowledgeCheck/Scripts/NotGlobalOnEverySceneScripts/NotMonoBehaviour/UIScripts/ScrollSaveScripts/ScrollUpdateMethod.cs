@@ -31,9 +31,9 @@ public class ScrollUpdateMethod : IUpdateScroll
                 AddSave(save.Value);
             }
         }
-        catch (System.Exception)
+        catch (Exception ex)
         {
-            throw;
+            Debug.LogError($"Ошибка при создании всех панелей с сохранениями: {ex.Message}");
         }
     }
 
@@ -45,12 +45,13 @@ public class ScrollUpdateMethod : IUpdateScroll
             foreach (var newSave in InstantiateSaveToScroll())
             {
                 var savePanelData = newSave.GetComponent<SavePanel>();
-                savePanelData.SetSaveName(saveData.SaveName);
+                savePanelData.SetSaveData(saveData.SaveName, saveData.Uuid);
                 newSaves.Add(newSave);
             }
         }
-        catch (System.Exception)
+        catch (Exception ex)
         {
+            Debug.LogError($"Ошибка при создании панели с сохранением: {ex.Message}");
             foreach (var newSave in newSaves)
             {
                 _savePanelFactory.DestroyInstanceOnScroll(newSave);
@@ -76,13 +77,13 @@ public class ScrollUpdateMethod : IUpdateScroll
         {
             foreach (var content in scrollUtils.GetAllContent())
             {
-                if (!saves.ContainsKey(content.GetComponent<SavePanel>().GetSaveName()))
+                if (!saves.ContainsKey(content.GetComponent<SavePanel>().GetSaveUuid()))
                     _savePanelFactory.DestroyInstanceOnScroll(content);
             }
         }
     }
 
-    public void UpdateCurrentSave((string newSaveName, SaveData saveData) currentSave)
+    public void UpdateCurrentSave((string uuid, SaveData saveData) currentSave)
     {
         try
         {
@@ -94,15 +95,15 @@ public class ScrollUpdateMethod : IUpdateScroll
 
                     if (currentSave.saveData.SaveName == savePanel.GetSaveName())
                     {
-                        savePanel.SetSaveName(currentSave.newSaveName);
+                        savePanel.SetSaveData(currentSave.saveData.SaveName, currentSave.saveData.Uuid);
                         break;
                     }
                 }
             }
         }
-        catch (System.Exception)
+        catch (Exception ex)
         {
-            throw;
+            Debug.LogError($"Ошибка при обновлении всех скроллов: {ex.Message}");
         }
     }
 
