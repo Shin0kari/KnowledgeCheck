@@ -43,6 +43,8 @@
  - DOTween
  - NavMesh
  - Cinemachine
+ - R3
+ - Addressables
 
 ---
 
