@@ -8,16 +8,26 @@ public class StartDataFiller : IStartDataFiller
 
     public string GenerateSaveName()
     {
-        string saveText = "";
-        SaveNameGenerator.GenerateSaveName(ref saveText);
+        string saveText = SaveNameGenerator.GenerateSaveName();
         return saveText;
+    }
+
+    public string GenerateSaveName(string saveName)
+    {
+        string saveText = SaveNameGenerator.GenerateSaveName(saveName);
+        return saveText;
+    }
+
+    public string GenerateUuid()
+    {
+        return Guid.NewGuid().ToString();
     }
 
     public SaveData SetStartData()
     {
         string saveText = GenerateSaveName();
 
-        string uuid = Guid.NewGuid().ToString();
+        string uuid = GenerateUuid();
 
         MainItems equippableMainItems = new()
         {
@@ -60,17 +70,15 @@ public class StartDataFiller : IStartDataFiller
             Affects = characterAffects
         };
 
-        Enemies enemies = new();
-
         return new SaveData
         {
             SaveName = saveText,
             Uuid = uuid,
             CountScore = 0,
             GameTime = 0,
+            IsNewGame = true,
             IsCurrentSave = true,
-            Player = player,
-            Enemies = enemies
+            Player = player
         };
     }
 }

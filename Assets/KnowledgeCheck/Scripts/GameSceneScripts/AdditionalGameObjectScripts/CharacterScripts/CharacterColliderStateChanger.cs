@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterEventObserver))]
-public class CharacterColliderStateChanger : MonoBehaviour, IDisposable
+public class CharacterColliderStateChanger : MonoBehaviour
 {
     [SerializeField] private Collider _characterCollider;
     private CharacterEventObserver _characterEventObserver;
@@ -18,7 +18,7 @@ public class CharacterColliderStateChanger : MonoBehaviour, IDisposable
         _characterEventObserver.OnSpawn += OnCollider;
     }
 
-    public void Dispose()
+    private void OnDestroy()
     {
         if (_characterEventObserver != null)
         {

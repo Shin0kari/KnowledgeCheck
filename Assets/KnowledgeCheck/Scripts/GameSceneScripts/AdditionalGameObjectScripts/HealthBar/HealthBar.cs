@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using Zenject;
 
 [RequireComponent(typeof(HealthBarLifeTimeController))]
-public class HealthBar : MonoBehaviour, IDisposable
+public class HealthBar : MonoBehaviour
 {
     private const float LOWER_HEALTH_VALUE_RANGE = 0f;
     private const float UPPER_HEALTH_VALUE_RANGE = 1f;
@@ -26,12 +26,13 @@ public class HealthBar : MonoBehaviour, IDisposable
     {
         _lifeTimeController = GetComponent<HealthBarLifeTimeController>();
         _cameraUtils = cameraUtils;
-        _healthBarImage = gameObject.GetComponentInChildren<HealthBarUtility>().GetHealthFilled();
+        _healthBarImage = GetComponentInChildren<HealthBarUtility>().GetHealthFilled();
     }
 
-    public void Dispose()
+    private void OnDestroy()
     {
-        _damagableObject.HealthChanged -= UpdateHealthBar;
+        if (_damagableObject != null)
+            _damagableObject.HealthChanged -= UpdateHealthBar;
     }
 
     public void SetDamagableObject(IDamagable damagableObject)
@@ -70,10 +71,20 @@ public class HealthBar : MonoBehaviour, IDisposable
         UpdateHealthBarValue(currentHealt);
     }
 
-    private void UpdateHealthBarValue(float currentHealt)
+    private void UpdateHealthBarValue(in float currentHealt)
     {
         _healthBarImage.fillAmount = currentHealt / _maxHealthValue * UPPER_HEALTH_VALUE_RANGE;
     }
 
     public class Factory : PlaceholderFactory<UnityEngine.Object, HealthBar> { }
+}
+
+public enum CharacterCanvasTypes
+{
+    // CommonFriendHealt,
+    // EliteFriendHealt,
+    CommonEnemyCanvas,
+    // EliteEnemyHealt,
+    // BossHealt,
+    PlayerCanvas
 }

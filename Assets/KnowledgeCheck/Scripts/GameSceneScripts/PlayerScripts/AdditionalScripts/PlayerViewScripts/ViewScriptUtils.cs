@@ -25,7 +25,7 @@ public class ViewScriptUtils
     {
         return _rotationOffset;
     }
-    public void SetRotationValues(Vector3 newRotationOffset)
+    public void SetRotationValues(in Vector3 newRotationOffset)
     {
         _rotationOffset = newRotationOffset;
     }

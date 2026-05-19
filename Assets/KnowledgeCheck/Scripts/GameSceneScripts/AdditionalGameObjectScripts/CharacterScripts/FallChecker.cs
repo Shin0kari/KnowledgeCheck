@@ -21,6 +21,12 @@ public class FallChecker : MonoBehaviour
         AsyncCheckGrounded(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
+    private void OnDestroy()
+    {
+        FallStarted = null;
+        LandStarted = null;
+    }
+
     private async UniTaskVoid AsyncCheckGrounded(CancellationToken cancellationToken)
     {
         while (true)

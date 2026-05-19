@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-public class CharacterTimer : MonoBehaviour, IDisposable
+public class CharacterTimer : MonoBehaviour
 {
     private const float MIN_TIME = 0f;
     private float _underWaterTimer = MIN_TIME;
@@ -23,9 +23,13 @@ public class CharacterTimer : MonoBehaviour, IDisposable
         _characterPhysics.OnUnderWaterStateChange += ChangeUnderWaterState;
     }
 
-    public void Dispose()
+    private void OnDestroy()
     {
-        _characterPhysics.OnUnderWaterStateChange -= ChangeUnderWaterState;
+        if (_characterPhysics != null)
+            _characterPhysics.OnUnderWaterStateChange -= ChangeUnderWaterState;
+
+        CharacterDrowning = null;
+        CharacterDrowned = null;
     }
 
     private void Update()

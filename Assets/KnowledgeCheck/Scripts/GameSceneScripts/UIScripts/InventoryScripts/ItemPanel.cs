@@ -5,5 +5,10 @@ public class ItemPanel : MonoBehaviour
 {
     [SerializeField] protected InventoryItem _item;
 
-    public class Factory : PlaceholderFactory<UnityEngine.Object, ItemPanel> { }
+    public InventoryItem GetInventoryItem()
+    {
+        return _item;
+    }
+
+    public class Factory : PlaceholderFactory<Object, ItemPanel> { }
 }

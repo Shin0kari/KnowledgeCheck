@@ -6,7 +6,11 @@ using Zenject;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(CharacterEventObserver))]
 [RequireComponent(typeof(Enemy))]
-public class EnemyNavigation : MonoBehaviour, IGetMovementSpeed, IGetRotationSpeed, IGetStopDistance, IGetSqrDestinationDistance, ISwitchAgentActivityState, IDisposable
+public class EnemyNavigation : MonoBehaviour,
+    IGetMovementSpeed,
+    IGetRotationSpeed, IGetStopDistance,
+    IGetSqrDestinationDistance,
+    ISwitchAgentActivityState
 {
     private NavMeshAgent _agent;
 
@@ -36,10 +40,10 @@ public class EnemyNavigation : MonoBehaviour, IGetMovementSpeed, IGetRotationSpe
         _characterEventObserver.OnFallState += StopAgent;
         _characterEventObserver.OnDeath += StopAgent;
 
-        StartAgent();
+        // StartAgent();
     }
 
-    public void Dispose()
+    private void OnDestroy()
     {
 
         if (_characterEventObserver != null)
@@ -71,6 +75,9 @@ public class EnemyNavigation : MonoBehaviour, IGetMovementSpeed, IGetRotationSpe
 
     private void StopAgent()
     {
+        if (_agent == null)
+            return;
+
         _agent.enabled = false;
     }
 
@@ -110,7 +117,7 @@ public class EnemyNavigation : MonoBehaviour, IGetMovementSpeed, IGetRotationSpe
 
     private void Update()
     {
-        if (_enemyTarget == null || !_agent.enabled)
+        if (_enemyTarget == null || !_agent.enabled || !_agent.isOnNavMesh)
         {
             return;
         }

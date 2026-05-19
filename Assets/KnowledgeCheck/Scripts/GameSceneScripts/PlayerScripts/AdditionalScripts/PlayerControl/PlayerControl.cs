@@ -1,9 +1,13 @@
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using R3;
 using UnityEngine;
 using Zenject;
 
 public class PlayerControl : IInitializable, IDisposable
 {
+    private IAssetProviderGetter _assetProvider;
     private SignalBus _signalBus;
 
     // Необходим, чтобы при выключении ThirdPersonView 
@@ -26,23 +30,26 @@ public class PlayerControl : IInitializable, IDisposable
     private bool _isControlOn;
     private bool _isActionsSet = false;
 
+    private DisposableBag _dB;
+
     [Inject]
     private void Construct(
+        IAssetProviderGetter assetProvider,
         SignalBus signalBus,
         FreeLookCameraPosController freeLookCameraPosController,
-        ArenaController arenaController,
-        IChangeStateMenuSender menuStateSender
+        ArenaController arenaController
         )
     {
         _isControlOn = true;
 
+        _assetProvider = assetProvider;
         _signalBus = signalBus;
         _arenaController = arenaController;
-        _menuStateSender = menuStateSender;
+
+        SubscribeOnUpdateObjects();
 
         _freeLookCameraPosController = freeLookCameraPosController;
         _arenaController.StopArenaBattle += OffAllControl;
-        _menuStateSender.ChangeState += ChangeControlState;
     }
 
     public void Dispose()
@@ -74,6 +81,30 @@ public class PlayerControl : IInitializable, IDisposable
                 _characterEventObserver.OnDeath -= OffAllControl;
             }
         }
+
+        _dB.Dispose();
+    }
+
+    private void SubscribeOnUpdateObjects()
+    {
+        if (_assetProvider == null)
+            ErrorMessageGenerator.GenerateSimpleError(this, "Asset provider not set");
+
+        _assetProvider
+            .GetIBindingSingletonComponent<IChangeStateMenuSender>()
+            .OfType<IBindingSingletonComponent, IChangeStateMenuSender>()
+            .Subscribe(menuStateSender =>
+            {
+                if (menuStateSender == null)
+                    return;
+
+                if (_menuStateSender != null)
+                    _menuStateSender.ChangeState -= ChangeControlState;
+
+                _menuStateSender = menuStateSender;
+                _menuStateSender.ChangeState += ChangeControlState;
+            })
+            .AddTo(ref _dB);
     }
 
     private void SetPlayer(PlayerSpawnedSignal args)

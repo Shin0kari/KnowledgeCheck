@@ -28,6 +28,17 @@ public class NPCharacterHitScripts : HitScipts, IAttackSignalSender
         _attackDistance = _stopDistanceSender.GetStopDistance();
     }
 
+    private void OnDestroy()
+    {
+        ClearActions();
+    }
+
+    public void ClearActions()
+    {
+        OnStartAttack = null;
+        OnEndAttack = null;
+    }
+
     private void Start()
     {
         AsyncTryAttack(this.GetCancellationTokenOnDestroy()).Forget();

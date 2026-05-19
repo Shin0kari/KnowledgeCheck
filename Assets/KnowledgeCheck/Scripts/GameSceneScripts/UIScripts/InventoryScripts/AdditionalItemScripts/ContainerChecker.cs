@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Zenject;
 
 public class ContainerChecker : IDisposable
@@ -20,11 +21,12 @@ public class ContainerChecker : IDisposable
 
     public void Dispose()
     {
-        _characterDataUpdater.OnDataUpdate -= UpdateContainerInventoryUI;
+        if (_characterDataUpdater != null)
+            _characterDataUpdater.OnDataUpdate -= UpdateContainerInventoryUI;
     }
 
     public void UpdateContainerInventoryUI()
     {
-        _inventoryFiller.FillContainerInventoryFromContainerSO();
+        _inventoryFiller.FillContainerInventoryFromContainerSO().Forget();
     }
 }

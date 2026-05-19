@@ -1,10 +1,14 @@
 using System;
+using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.ResourceManagement.ResourceLocations;
 using Zenject;
 
-public class LoadingScreenController
+public class LoadingScreenController : IDisposable
 {
+    private const float TIME_DELAY = 0.1f;
     private ISceneLoader _sceneLoader;
 
     private bool isStartLoadAnimationOver = false;
@@ -13,42 +17,67 @@ public class LoadingScreenController
     public event Action OnStartAnimation;
     public event Action OnEndAnimation;
 
+    private readonly CancellationTokenSource _ct = new();
+
     [Inject]
     private void Construct(ISceneLoader sceneLoader)
     {
         _sceneLoader = sceneLoader;
     }
 
-    public async UniTask AsyncChangeScene(string sceneName)
+    public void Dispose()
     {
-        isStartLoadAnimationOver = false;
+        _ct?.Cancel();
+        _ct?.Dispose();
 
-        OnStartAnimation?.Invoke();
-
-        await LoadSceneAsync(sceneName);
-
-        OnEndAnimation?.Invoke();
+        OnProgressChanged = null;
+        OnStartAnimation = null;
+        OnEndAnimation = null;
     }
 
-    private async UniTask<AsyncOperation> LoadSceneAsync(string sceneName)
+    public async UniTask AsyncChangeScene(IResourceLocation sceneResourceLocation, CancellationToken ct)
     {
-        var loadSceneOperation = _sceneLoader.LoadSceneAsync(sceneName);
-        loadSceneOperation.allowSceneActivation = false;
+        var linkedCTS = CancellationTokenSource.CreateLinkedTokenSource(
+            _ct.Token,
+            ct
+        );
 
-        while (loadSceneOperation.progress < 0.9f || !isStartLoadAnimationOver)
+        try
         {
-            OnProgressChanged?.Invoke(loadSceneOperation.progress);
-            await UniTask.Yield();
+            isStartLoadAnimationOver = false;
+
+            OnStartAnimation?.Invoke();
+
+            await LoadSceneAsync(sceneResourceLocation, linkedCTS.Token);
+
+            while (OnEndAnimation == null) await UniTask.WaitForSeconds(TIME_DELAY, cancellationToken: linkedCTS.Token);
+            OnEndAnimation?.Invoke();
         }
-
-        loadSceneOperation.allowSceneActivation = true;
-
-        while (!loadSceneOperation.isDone)
+        catch (System.OperationCanceledException)
         {
-            await UniTask.Yield();
+            return;
         }
+    }
 
-        return loadSceneOperation;
+    private async UniTask LoadSceneAsync(IResourceLocation sceneResourceLocation, CancellationToken ct)
+    {
+        try
+        {
+            var loadSceneOperation = _sceneLoader.LoadSceneAsync(sceneResourceLocation, ct);
+
+            while (!loadSceneOperation.IsDone || !isStartLoadAnimationOver)
+            {
+                OnProgressChanged?.Invoke(loadSceneOperation.PercentComplete);
+                await UniTask.WaitForSeconds(TIME_DELAY, cancellationToken: ct);
+            }
+
+            await loadSceneOperation.Result.ActivateAsync().ToUniTask(cancellationToken: ct);
+            await _sceneLoader.AsyncUnloadOldScene();
+        }
+        catch (System.OperationCanceledException)
+        {
+            return;
+        }
     }
 
     public void OnStartLoadAnimationOver()

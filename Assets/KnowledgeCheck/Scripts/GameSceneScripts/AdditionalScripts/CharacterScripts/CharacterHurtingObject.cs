@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class CharacterHurtingObject : HurtingObject, IDisposable
+public class CharacterHurtingObject : HurtingObject
 {
     [SerializeField] private CharacterEventObserver _characterEventObserver;
     private IAttackSignalSender _attackSignalSender;
@@ -26,7 +26,7 @@ public class CharacterHurtingObject : HurtingObject, IDisposable
         DisableCollider();
     }
 
-    public void Dispose()
+    private void OnDestroy()
     {
         if (_attackSignalSender != null)
         {
@@ -35,7 +35,7 @@ public class CharacterHurtingObject : HurtingObject, IDisposable
         }
         if (_characterEventObserver != null)
         {
-            _characterEventObserver.OnDeath += DisableCollider;
+            _characterEventObserver.OnDeath -= DisableCollider;
         }
     }
 

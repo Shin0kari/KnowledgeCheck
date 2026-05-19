@@ -91,12 +91,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4117477557979888055}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.125, y: 0.117, z: -1.871}
+  m_LocalRotation: {x: -0.71075356, y: 0.036758214, z: -0.025874496, w: -0.7020034}
+  m_LocalPosition: {x: 0.0079049505, y: -0.030018054, z: 0.016533103}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6858095603789546897}
+  m_Father: {fileID: 5435564996190406266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6756245872109801181
 MonoBehaviour:
@@ -205,12 +205,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8846684371296235940}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.122, y: 0.117, z: -1.871}
+  m_LocalRotation: {x: -0.7107546, y: -0.03673571, z: 0.025851948, w: -0.7020043}
+  m_LocalPosition: {x: -0.004918072, y: -0.029970244, z: 0.016268583}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6858095603789546897}
+  m_Father: {fileID: 9164112399974230260}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5260691491142677836
 MonoBehaviour:
@@ -330,10 +330,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 26884749826e6774aa58a039de667f50, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2380583594747795145}
-    - targetCorrespondingSourceObject: {fileID: 3416741814908137832, guid: 26884749826e6774aa58a039de667f50, type: 3}
+    - targetCorrespondingSourceObject: {fileID: -8112361017344877555, guid: 26884749826e6774aa58a039de667f50, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2672695913490222170}
-    - targetCorrespondingSourceObject: {fileID: 3416741814908137832, guid: 26884749826e6774aa58a039de667f50, type: 3}
+    - targetCorrespondingSourceObject: {fileID: -4960314084648815997, guid: 26884749826e6774aa58a039de667f50, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6306254661028410730}
     m_AddedComponents:
@@ -490,9 +490,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterHurtingObject
   <Damage>k__BackingField: 45
   _characterEventObserver: {fileID: 6827686581852746639}
---- !u!4 &6858095603789546897 stripped
+--- !u!4 &5435564996190406266 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3416741814908137832, guid: 26884749826e6774aa58a039de667f50, type: 3}
+  m_CorrespondingSourceObject: {fileID: -4960314084648815997, guid: 26884749826e6774aa58a039de667f50, type: 3}
   m_PrefabInstance: {fileID: 8090273689080820985}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8632508176750908178 stripped
@@ -518,43 +518,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealthValue: 10000
-  _character:
-    <Direction>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
-    <Inventory>k__BackingField:
-      <EquippableMainItems>k__BackingField:
-        <HeadItem>k__BackingField:
-          <ItemName>k__BackingField: 
-          <ItemStats>k__BackingField: []
-          <ItemAffects>k__BackingField: []
-          <Durability>k__BackingField: 0
-        <ChestItem>k__BackingField:
-          <ItemName>k__BackingField: 
-          <ItemStats>k__BackingField: []
-          <ItemAffects>k__BackingField: []
-          <Durability>k__BackingField: 0
-        <LeftHandItem>k__BackingField:
-          <ItemName>k__BackingField: 
-          <ItemStats>k__BackingField: []
-          <ItemAffects>k__BackingField: []
-          <Durability>k__BackingField: 0
-        <RightHandItem>k__BackingField:
-          <ItemName>k__BackingField: 
-          <ItemStats>k__BackingField: []
-          <ItemAffects>k__BackingField: []
-          <Durability>k__BackingField: 0
-      <EquippableAdditionalItems>k__BackingField:
-        <Container>k__BackingField:
-          <ItemName>k__BackingField: 
-          <ItemStats>k__BackingField: []
-          <ItemAffects>k__BackingField: []
-          <Durability>k__BackingField: 0
-    <Stats>k__BackingField:
-      <Health>k__BackingField: 0
-      <Defense>k__BackingField: 0
-      <Damage>k__BackingField: 0
-    <Affects>k__BackingField:
-      <Speed>k__BackingField: 0
-      <Regeneration>k__BackingField: 0
   _isImmortal: 0
 --- !u!114 &-7913719989914799159
 MonoBehaviour:
@@ -665,7 +628,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -889,3 +852,8 @@ MonoBehaviour:
   _charactersLayerMask:
     serializedVersion: 2
     m_Bits: 192
+--- !u!4 &9164112399974230260 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8112361017344877555, guid: 26884749826e6774aa58a039de667f50, type: 3}
+  m_PrefabInstance: {fileID: 8090273689080820985}
+  m_PrefabAsset: {fileID: 0}

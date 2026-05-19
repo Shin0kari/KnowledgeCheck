@@ -1,11 +1,12 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using R3;
 using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(CharacterEventObserver))]
-public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposable
+public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable
 {
     private const float LOWER_HEALTH_VALUE_RANGE = 0f;
 
@@ -14,7 +15,10 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
     [SerializeField] private float _spawnHeight = 4f;
     [SerializeField] private float _maxHealthValue = 100f;
 
+    private IAssetProviderGetter _assetProvider;
     private CharacterData _character = new();
+    private CharacterType _characterType;
+    private string _characterName;
 
     private SignalBus _signalBus;
     private Player _player;
@@ -22,7 +26,13 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
     private ArenaUtils _arenaUtils;
     private CharacterEventObserver _characterEventObserver;
 
-    private CancellationTokenSource _cts;
+    private float _randomDirFromPlayer;
+    private float _randomEnemySpawnDistance;
+    private Vector3 _randomEnemyPos;
+    private bool _isPosAvailable;
+
+    private Vector3 _targetPosition;
+    private Vector3 _enemyPosition;
 
     public CharacterEventObserver CharacterEventObserver { get { return _characterEventObserver; } }
 
@@ -30,29 +40,65 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
     public event Action<Enemy> Killed;
     public event Action<float> HealthChanged;
 
+    private DisposableBag _dB;
+    private UniTaskCompletionSource _arenaUtilsLoadedSource = new();
+    private CancellationTokenSource _cts;
+
     [Inject]
-    private void Construct(ArenaUtils arenaUtils)
+    private void Construct(IAssetProviderGetter assetProvider)
     {
-        _arenaUtils = arenaUtils;
+        _assetProvider = assetProvider;
+
+        SubscribeOnUpdateObjects();
 
         _characterEventObserver = GetComponent<CharacterEventObserver>();
         _characterEventObserver.OnDeath += SendDeathSignal;
     }
 
-    public void Dispose()
+    private void OnDestroy()
     {
         if (_characterEventObserver != null)
             _characterEventObserver.OnDeath -= SendDeathSignal;
 
-        _signalBus.TryUnsubscribe<PlayerSpawnedSignal>(SetSignalPlayer);
+        _signalBus?.TryUnsubscribe<PlayerSpawnedSignal>(SetSignalPlayer);
+
+        _arenaUtilsLoadedSource.TrySetCanceled();
+        _arenaUtilsLoadedSource = null;
 
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;
 
+        _dB.Dispose();
+
+
+        ClearActions();
+    }
+
+    public void ClearActions()
+    {
         Spawned = null;
         Killed = null;
         HealthChanged = null;
+    }
+
+    private void SubscribeOnUpdateObjects()
+    {
+        if (_assetProvider == null)
+            ErrorMessageGenerator.GenerateSimpleError(this, "Asset provider not set");
+
+        _assetProvider
+            .GetIBindingSingletonComponent<ArenaUtils>()
+            .OfType<IBindingSingletonComponent, ArenaUtils>()
+            .Subscribe(arenaUtils =>
+            {
+                if (arenaUtils == null)
+                    return;
+
+                _arenaUtils = arenaUtils;
+                _arenaUtilsLoadedSource.TrySetResult();
+            })
+            .AddTo(ref _dB);
     }
 
     private void SendDeathSignal()
@@ -67,6 +113,7 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
             return;
         }
 
+        await _arenaUtilsLoadedSource.Task.AttachExternalCancellation(cts);
         await ResetEnemyDataAsync(cts);
         gameObject.SetActive(true);
         _characterEventObserver.SetSpawnState();
@@ -76,7 +123,7 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
     {
         await ResetEnemyPos(cts);
         ResetEnemyDir();
-        SetDefaultEnemyData();
+        // SetDefaultEnemyData();
         ResetEnemyHealth();
 
         Spawned?.Invoke(this);
@@ -89,26 +136,26 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
 
     private async UniTask<Vector3> GenerateRandomEnemyPos(CancellationToken cts)
     {
-        Vector3 randomEnemyPos = new();
-        bool isPosAvailable = false;
-        while (!isPosAvailable)
+        _isPosAvailable = false;
+        _randomEnemyPos = new();
+        while (!_isPosAvailable)
         {
             if (_player == null)
             {
-                isPosAvailable = true;
+                _isPosAvailable = true;
+                await UniTask.Yield(cancellationToken: cts);
                 continue;
             }
 
+            _randomDirFromPlayer = GenerateRandomDirection();
+            _randomEnemySpawnDistance = GenerateRandomDistance();
 
-            var randomDirFromPlayer = GenerateRandomDirection();
-            var randomEnemySpawnDistance = GenerateRandomDistance();
+            GeneratePosition(_randomDirFromPlayer, _randomEnemySpawnDistance, ref _randomEnemyPos);
 
-            randomEnemyPos = GeneratePosition(randomDirFromPlayer, randomEnemySpawnDistance);
-
-            isPosAvailable = CheckEnemySpawnPosAvailability(randomEnemyPos);
+            _isPosAvailable = CheckEnemySpawnPosAvailability(_randomEnemyPos);
             await UniTask.Yield(cancellationToken: cts);
         }
-        return randomEnemyPos;
+        return _randomEnemyPos;
     }
 
     private float GenerateRandomDirection()
@@ -121,7 +168,7 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
         return UnityEngine.Random.Range(_enemySpawnMinDistance, _enemySpawnMaxDistance);
     }
 
-    private Vector3 GeneratePosition(float randomDirFromPlayer, float randomEnemySpawnDistance)
+    private void GeneratePosition(in float randomDirFromPlayer, in float randomEnemySpawnDistance, ref Vector3 _newEnemyPos)
     {
         var targetPos = _player.transform.position;
         // var targetPos = _playerProvider.Player.transform.position;
@@ -129,10 +176,12 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
         var enemyPosX = targetPos.x + Mathf.Sin(randomDirFromPlayer) * randomEnemySpawnDistance;
         var enemyPosZ = targetPos.z + Mathf.Cos(randomDirFromPlayer) * randomEnemySpawnDistance;
 
-        return new(enemyPosX, _arenaUtils.PosY + _spawnHeight, enemyPosZ);
+        _newEnemyPos.x = enemyPosX;
+        _newEnemyPos.y = _arenaUtils.PosY + _spawnHeight;
+        _newEnemyPos.z = enemyPosZ;
     }
 
-    private bool CheckEnemySpawnPosAvailability(Vector3 randomEnemyPos)
+    private bool CheckEnemySpawnPosAvailability(in Vector3 randomEnemyPos)
     {
         if (_arenaUtils.MaxPosX < randomEnemyPos.x || _arenaUtils.MinPosX > randomEnemyPos.x)
             return false;
@@ -143,10 +192,10 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
 
     private void ResetEnemyDir()
     {
-        Vector3 targetPosition = _player.transform.position;
-        Vector3 enemyPosition = gameObject.transform.position;
+        _targetPosition = _player.transform.position;
+        _enemyPosition = gameObject.transform.position;
 
-        Vector3 direction = (targetPosition - enemyPosition).normalized;
+        Vector3 direction = (_targetPosition - _enemyPosition).normalized;
         direction.y = 0;
 
         if (direction != Vector3.zero)
@@ -166,7 +215,7 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
         return _character.Stats.Health;
     }
 
-    public void ChangeHealth(float value)
+    public void ChangeHealth(in float value)
     {
         _character.Stats.Health -= value;
 
@@ -187,30 +236,59 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
         return _player;
     }
 
-    private void SetDefaultEnemyData()
+    public CharacterType GetCharacterType()
     {
-        CharacterStats characterStats = new()
-        {
-            Health = 100f,
-            Damage = 10f,
-            Defense = 0f,
-        };
+        return _characterType;
+    }
 
-        CharacterAffects characterAffects = new()
-        {
-            Speed = 1f,
-            Regeneration = 0f
-        };
+    public string GetCharacterName()
+    {
+        return _characterName;
+    }
 
+    public void SetCharacterData(
+        CharacterStats characterStats,
+        CharacterAffects characterAffects,
+        Inventory characterInventory,
+        CharacterType characterType,
+        string characterName)
+    {
         _character = new()
         {
             Pos = transform.position,
             Direction = transform.rotation,
-            Inventory = null,
+            Inventory = characterInventory,
             Stats = characterStats,
             Affects = characterAffects
         };
+        _characterType = characterType;
+        _characterName = characterName;
     }
+
+    // private void SetDefaultEnemyData()
+    // {
+    //     CharacterStats characterStats = new()
+    //     {
+    //         Health = 100f,
+    //         Damage = 10f,
+    //         Defense = 0f,
+    //     };
+
+    //     CharacterAffects characterAffects = new()
+    //     {
+    //         Speed = 1f,
+    //         Regeneration = 0f
+    //     };
+
+    //     _character = new()
+    //     {
+    //         Pos = transform.position,
+    //         Direction = transform.rotation,
+    //         Inventory = null,
+    //         Stats = characterStats,
+    //         Affects = characterAffects
+    //     };
+    // }
 
     private void SetPlayer(Player player)
     {
@@ -236,7 +314,7 @@ public class Enemy : MonoBehaviour, INotPlayableCharacter, IDamagable, IDisposab
 
     public void OnDespawned()
     {
-        _signalBus.TryUnsubscribe<PlayerSpawnedSignal>(SetSignalPlayer);
+        _signalBus?.TryUnsubscribe<PlayerSpawnedSignal>(SetSignalPlayer);
 
         _cts?.Cancel();
         _cts?.Dispose();

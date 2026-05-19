@@ -28,7 +28,7 @@ public class FileDataSaver : ISaveData
         // или сделать зависимост от ISaveCreator чтобы поменять public на private
         try
         {
-            string fileName = save.saveData.SaveName + FileExtension.SeparationMark + save.saveData.Uuid + FileExtension.JsonExtensions;
+            string fileName = save.saveData.SaveName + FileExtension.SeparationMark + save.uuid + FileExtension.JsonExtensions;
             string fullPath = Path.Combine(_savePath.SavesPath, fileName);
             if (_fileChecker.CheckPresenceSaveFile(fileName, _savePath.SavesPath))
             {

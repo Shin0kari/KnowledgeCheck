@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,16 +7,18 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
+[RequireComponent(typeof(Image))]
 public class InventoryItem : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Sprite _emptyItemSprite;
-    [SerializeField] private ItemSO _currentItemData = null;
+    [SerializeField] private ItemSO _currentItemData = null; // при пустом слоте и должен быть null
     [SerializeField] private ItemType _slotType;
     [SerializeField] private TextMeshProUGUI _quantityItemText;
     [SerializeField] private EquipmentSlot _equipmentSlotTypeValue;
 
     private EquipmentSlot _equipmentSlotType;
     private InventoryItem _cursor;
+    private GameCursorItemManager _cursorManager;
     private ItemPanelRegistry _itemPanelRegistry;
     private InventoryFiller _inventoryFiller;
 
@@ -41,11 +44,45 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         ItemPanelRegistry itemPanelRegistry,
         InventoryFiller inventoryFiller)
     {
-        _cursor = cursorManager.GetCursorItem();
+
+        _cursorManager = cursorManager;
         _itemPanelRegistry = itemPanelRegistry;
         _inventoryFiller = inventoryFiller;
 
+        TryGetCursorItem();
+
         InitSlotData();
+    }
+
+    private void OnDestroy()
+    {
+        if (_cursorManager != null)
+            _cursorManager.OnCursorLoaded -= SetCursor;
+
+        if (_itemPanelRegistry != null)
+            _itemPanelRegistry.Unregister(this);
+
+        ClearAllData();
+        OnUpdate = null;
+    }
+
+    private void ClearAllData()
+    {
+        SetCurrentItemData(null);
+    }
+
+    private void TryGetCursorItem()
+    {
+        _cursor = _cursorManager.GetCursorItem();
+        if (_cursor == null)
+        {
+            _cursorManager.OnCursorLoaded += SetCursor;
+        }
+    }
+
+    private void SetCursor(InventoryItem cursorItem)
+    {
+        _cursor = cursorItem;
     }
 
     private void InitSlotData()
@@ -56,26 +93,16 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         _itemPanelRegistry.Register(this);
     }
 
-    private void OnDestroy()
-    {
-        _itemPanelRegistry.Unregister(this);
-        ClearAllData();
-    }
-
-    private void ClearAllData()
-    {
-        SetCurrentItemData(null);
-    }
-
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        var cursorItemSO = _cursor.GetCurrentItemData();
+        if (_cursor == null)
+            return;
 
+        var cursorItemSO = _cursor.GetCurrentItemData();
         if (_currentItemData == null && cursorItemSO == null)
             return;
 
-        bool isOperationComplete;
-
+        bool isOperationComplete = false;
         switch (_slotType)
         {
             case ItemType.Equipment:
@@ -86,7 +113,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
                 break;
             default:    // default - ItemType.Any
                 isOperationComplete = StepsForAnySlot(cursorItemSO);
-                _inventoryFiller.FillContainerSOFromContainerInventory();
+                _inventoryFiller.FillContainerSOFromContainerInventory().Forget();
                 break;
         }
 
@@ -216,7 +243,14 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
 
     public static T TryReturnCloneItemData<T>(T itemData) where T : ItemSO
     {
-        return (itemData == null) ? itemData : Instantiate(itemData);
+        T newItemData = null;
+        if (itemData != null)
+        {
+            newItemData = Instantiate(itemData);
+            newItemData.name = itemData.name;
+        }
+
+        return newItemData;
     }
 
     public void UpdateItem()

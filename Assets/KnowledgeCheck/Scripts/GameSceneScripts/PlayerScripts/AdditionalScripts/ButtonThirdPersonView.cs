@@ -22,7 +22,10 @@ public class ButtonThirdPersonView : MonoBehaviour
 
     void OnDestroy()
     {
-        _playerInput.Disable();
+        _playerInput?.Disable();
+
+        OnThirdPersonView = null;
+        OffThirdPersonView = null;
     }
 
     private void Update()

@@ -4,10 +4,10 @@ using Zenject;
 
 public class PrintDataButton : MonoBehaviour
 {
-    private GameData _gameData;
+    private IGetGameData _gameData;
 
     [Inject]
-    private void Construct(GameData gameData)
+    private void Construct(IGetGameData gameData)
     {
         _gameData = gameData;
     }

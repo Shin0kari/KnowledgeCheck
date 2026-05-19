@@ -1,11 +1,15 @@
+using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 using static SceneUtils;
 
-public class GameStarter
+public class GameStarter : IDisposable
 {
     private ChoicedSceneLoader _choicedSceneLoader;
+
+    private CancellationTokenSource _ct = new();
 
     [Inject]
     private void Construct(ChoicedSceneLoader choicedSceneLoader)
@@ -13,9 +17,14 @@ public class GameStarter
         _choicedSceneLoader = choicedSceneLoader;
     }
 
+    public void Dispose()
+    {
+        _ct?.Cancel();
+        _ct?.Dispose();
+    }
+
     public void StartGame((string, SaveData) currentSave, SceneNames sceneName)
     {
-        UniTask asyncSceneChangeOperation = _choicedSceneLoader.ChangeScene(sceneName);
-        asyncSceneChangeOperation.Forget();
+        _choicedSceneLoader.ChangeScene(sceneName).Forget();
     }
 }

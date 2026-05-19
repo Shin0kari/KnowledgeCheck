@@ -7,6 +7,7 @@ public static class SaveDataRecordCloner
 {
     public static SaveData CloneSaveDataRecord(SaveData saveData)
     {
+        if (saveData == null) return null;
         JsonSerializerSettings settings = new()
         {
             TypeNameHandling = TypeNameHandling.Auto,
@@ -25,9 +26,9 @@ public record SaveData
     public string Uuid { get; set; }
     public int CountScore { get; set; }
     public int GameTime { get; set; }
+    public bool IsNewGame { get; set; }
     public bool IsCurrentSave { get; set; } = false;
     public CharacterData Player { get; set; }
-    public Enemies Enemies { get; set; }
 }
 
 [Serializable]

@@ -1,34 +1,59 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
-public static class AnimationUtils
+public class AnimationUtils : IDisposable
 {
-    private static float _animationDampTime = 0f;
-    public static void SetAnimFloatValue(Animator animator, AnimParameter parameter, float value)
+    private float _animationDampTime = 0f;
+
+    private Dictionary<int, int> _animationParameters = new();
+
+    [Inject]
+    private void Construct()
     {
+        foreach (AnimParameter parameter in Enum.GetValues(typeof(AnimParameter)))
+        {
+            _animationParameters.Add((int)parameter, Animator.StringToHash(parameter.ToString()));
+        }
+    }
+
+    public void Dispose()
+    {
+        _animationParameters.Clear();
+    }
+
+    public void SetAnimFloatValue(Animator animator, in AnimParameter parameter, in float value)
+    {
+        if (!_animationParameters.TryGetValue((int)parameter, out int hashParameter))
+            return;
+
         switch (parameter)
         {
             case AnimParameter.MoveType:
-                animator.SetFloat(parameter.ToString(), value, _animationDampTime, Time.fixedDeltaTime);
+                animator.SetFloat(hashParameter, value, _animationDampTime, Time.fixedDeltaTime);
                 break;
             case AnimParameter.StraightMove:
-                animator.SetFloat(parameter.ToString(), value, _animationDampTime, Time.fixedDeltaTime);
+                animator.SetFloat(hashParameter, value, _animationDampTime, Time.fixedDeltaTime);
                 break;
             case AnimParameter.Strafe:
-                animator.SetFloat(parameter.ToString(), value, _animationDampTime, Time.fixedDeltaTime);
+                animator.SetFloat(hashParameter, value, _animationDampTime, Time.fixedDeltaTime);
                 break;
             case AnimParameter.Rotation:
-                animator.SetFloat(parameter.ToString(), value, _animationDampTime, Time.fixedDeltaTime);
+                animator.SetFloat(hashParameter, value, _animationDampTime, Time.fixedDeltaTime);
                 break;
             default:
                 return;
         }
     }
 
-    public static void SetAnimTrigger(Animator animator, AnimParameter parameters)
+    public void SetAnimTrigger(Animator animator, in AnimParameter parameter)
     {
-        animator.SetTrigger(parameters.ToString());
+        if (!_animationParameters.TryGetValue((int)parameter, out int hashParameter))
+            return;
+
+        animator.SetTrigger(hashParameter);
     }
 }
 

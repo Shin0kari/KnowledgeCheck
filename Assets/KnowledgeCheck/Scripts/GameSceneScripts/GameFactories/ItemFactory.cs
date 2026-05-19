@@ -13,7 +13,8 @@ public class ItemFactory
 
     public void SpawnItemOnPanel(InventoryItem inventoryItem)
     {
-        int randomItemIndex = Random.Range(0, _inventoryFiller.AllItemsSO.Count);
+        if (_inventoryFiller.AllItemsSO.Count < 1) return;
+        int randomItemIndex = Random.Range(0, _inventoryFiller.AllItemsSO.Count - 1);
 
         ItemSO rndItem = null;
         TryReturnRndItemSOFromAllItemSO(ref randomItemIndex, ref rndItem);

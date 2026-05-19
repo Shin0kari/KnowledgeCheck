@@ -5,5 +5,7 @@ public interface IDamagable
     public event Action<float> HealthChanged;
 
     public float GetHealth();
-    public void ChangeHealth(float value);
+    public void ChangeHealth(in float value);
+
+    public void ClearActions();
 }

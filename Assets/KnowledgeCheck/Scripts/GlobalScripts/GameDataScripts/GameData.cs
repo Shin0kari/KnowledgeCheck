@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
 
-public class GameData : IGetGameData
+public class GameData : IGetGameData, IDisposable
 {
     private Dictionary<string, SaveData> _saves;
     private (string uuid, SaveData saveData) _currentSave;
@@ -21,9 +21,16 @@ public class GameData : IGetGameData
         _validator = validator;
     }
 
+    public void Dispose()
+    {
+        _saves?.Clear();
+        _currentSave = (null, null);
+        CurrentSaveUpdated = null;
+    }
+
     public void UpdateGameData()
     {
-        _saves = _loader.LoadAllSavesData();
+        _saves ??= _loader.LoadAllSavesData();
 
         DefinitionCurrentSaveData();
         CurrentSaveUpdated?.Invoke();
@@ -47,6 +54,8 @@ public class GameData : IGetGameData
         try
         {
             _validator.ValidateGameData(currentSave.saveData);
+            // к данному моменту _currentSave уже должен иметь "IsCurrentSave = false"
+            // чтобы мы могли его безопасно заменить
             currentSave.saveData.IsCurrentSave = true;
             _currentSave = currentSave;
             CurrentSaveUpdated?.Invoke();

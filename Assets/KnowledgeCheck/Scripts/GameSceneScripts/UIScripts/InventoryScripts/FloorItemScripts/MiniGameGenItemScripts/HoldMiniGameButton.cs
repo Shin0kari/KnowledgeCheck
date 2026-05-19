@@ -16,8 +16,26 @@ public class HoldMiniGameButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     private float _lastAngle;
     private float _limitAngleValue = -(RotationUtils.MAX_ROTATION - RotationUtils.START_ROTATION_VALUE);
 
+    private float _currentAngle;
+    private float _delta;
+    private float _rotationStep;
+    private float _finalAdjustment;
+
+    private Vector2 _direction;
+
+    private Mouse _currentMouse;
+
     public event Action OnCompleteMiniGame;
 
+    private void Awake()
+    {
+        _currentMouse = Mouse.current;
+    }
+
+    private void OnDestroy()
+    {
+        OnCompleteMiniGame = null;
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -62,25 +80,25 @@ public class HoldMiniGameButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     private void TryRotateToCursor()
     {
-        float currentAngle = GetAngleToCursor();
+        _currentAngle = GetAngleToCursor();
 
-        float delta = Mathf.DeltaAngle(currentAngle, _lastAngle);
+        _delta = Mathf.DeltaAngle(_currentAngle, _lastAngle);
 
-        float rotationStep = delta * _rotationSpeedMultiplier * Time.deltaTime;
+        _rotationStep = _delta * _rotationSpeedMultiplier * Time.deltaTime;
 
-        if (delta > 0)
+        if (_delta > 0)
         {
-            if (_currentRotation - rotationStep >= _limitAngleValue)
+            if (_currentRotation - _rotationStep >= _limitAngleValue)
             {
-                _rotatedObject.transform.Rotate(0f, 0f, -rotationStep);
+                _rotatedObject.transform.Rotate(0f, 0f, -_rotationStep);
 
-                _currentRotation -= rotationStep;
-                _lastAngle = Mathf.MoveTowardsAngle(_lastAngle, currentAngle, Mathf.Abs(rotationStep));
+                _currentRotation -= _rotationStep;
+                _lastAngle = Mathf.MoveTowardsAngle(_lastAngle, _currentAngle, Mathf.Abs(_rotationStep));
             }
             else
             {
-                float finalAdjustment = _currentRotation - _limitAngleValue;
-                _rotatedObject.transform.Rotate(0f, 0f, -finalAdjustment);
+                _finalAdjustment = _currentRotation - _limitAngleValue;
+                _rotatedObject.transform.Rotate(0f, 0f, -_finalAdjustment);
 
                 _currentRotation = _limitAngleValue;
 
@@ -89,35 +107,12 @@ public class HoldMiniGameButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
     }
 
-    // private void OldTryRotateToCursor()
-    // {
-    //     float currentAngle = GetAngleToCursor();
-
-    //     float delta = Mathf.DeltaAngle(currentAngle, _lastAngle);
-
-    //     if (delta > 0)
-    //     {
-    //         if (_currentRotation - delta >= _limitAngleValue)
-    //         {
-    //             _rotatedObject.transform.Rotate(0f, 0f, -delta);
-
-    //             _currentRotation -= delta;
-    //             _lastAngle = currentAngle;
-    //         }
-    //         else
-    //         {
-    //             _rotatedObject.transform.rotation.eulerAngles.Set(0f, 0f, _limitAngleValue);
-
-    //             OnCompleteMiniGame?.Invoke();
-    //         }
-    //     }
-    // }
-
     private float GetAngleToCursor()
     {
-        Vector2 mousePos = Mouse.current.position.ReadValue();
-        Vector2 direction = mousePos - new Vector2(_rotatedObject.transform.position.x, _rotatedObject.transform.position.y);
+        _direction = _currentMouse.position.ReadValue();
+        _direction.x -= _rotatedObject.transform.position.x;
+        _direction.y -= _rotatedObject.transform.position.y;
 
-        return Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        return Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
     }
 }

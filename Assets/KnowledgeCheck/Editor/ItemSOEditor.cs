@@ -53,8 +53,8 @@ public class ItemSOEditor : Editor
             EditorGUILayout.PropertyField(serializedObject.FindProperty("_quantity"));
         }
 
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("_itemStats"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("_itemAffects"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("ItemStats"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("ItemAffects"));
 
         serializedObject.ApplyModifiedProperties();
     }

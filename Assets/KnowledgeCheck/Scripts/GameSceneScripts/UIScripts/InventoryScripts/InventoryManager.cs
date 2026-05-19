@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using R3;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : MonoBehaviour, IBindingSingletonComponent
 {
     [SerializeField] private InventoryItem _headItem;
     [SerializeField] private InventoryItem _chestItem;
@@ -13,17 +14,28 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private GameObject _parentContainerInventoryObject;
 
-    public event Action OnEnableInventory;
-    public event Action OnDisableInventory;
+    public readonly ReactiveProperty<bool> InventoryState = new();
+
+    private void OnDestroy()
+    {
+        InventoryState.Dispose();
+    }
+
+    private void Awake()
+    {
+        BindAllTypes();
+    }
 
     private void OnEnable()
     {
-        OnEnableInventory?.Invoke();
+        InventoryState.Value = true;
+        // OnEnableInventory?.Invoke();
     }
 
     private void OnDisable()
     {
-        OnDisableInventory?.Invoke();
+        InventoryState.Value = false;
+        // OnDisableInventory?.Invoke();
     }
 
     public MainInventoryItems GetMainItems()
@@ -56,6 +68,11 @@ public class InventoryManager : MonoBehaviour
             inventoryItems.Add(item);
         }
         return inventoryItems;
+    }
+
+    public void BindAllTypes()
+    {
+        TypeCache.GetRelatedTypes(GetType());
     }
 }
 

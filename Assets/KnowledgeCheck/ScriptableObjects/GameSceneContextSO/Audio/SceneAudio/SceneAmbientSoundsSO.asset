@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56254f183b5378e44bf2ed548910173f, type: 3}
+  m_Name: SceneAmbientSoundsSO
+  m_EditorClassIdentifier: Assembly-CSharp::SceneAmbientSoundsSO
+  _fireSounds:
+    _bigFireSounds:
+      _clips:
+      - m_AssetGUID: 447e97f44e7d0fd4eb6ddec82c319992
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0
+    _smallFireSounds:
+      _clips:
+      - m_AssetGUID: 94bc8546fe222904c9fd6e0438c1b6fc
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0
+  _waterSounds:
+    _waterFallSounds:
+      _clips:
+      - m_AssetGUID: 8d188028c5c90cb4c96256582c0af566
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 0

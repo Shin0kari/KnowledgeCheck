@@ -1,17 +1,20 @@
 using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Zenject;
 
 public class GlobalInstaller : MonoInstaller
 {
-    [SerializeField] private AudioSource _startMenuSceneAmbient;
-    [SerializeField] private AudioSource _gameSceneAmbient;
-    [SerializeField] private AudioSource _additionalAudioSource;
-    [SerializeField] private AudioClip _clickSound;
-    [SerializeField] private AudioClip _clickPanelSound;
+    [SerializeField] private AssetReferenceT<CoreContextSO> _coreContext;
 
     public override void InstallBindings()
     {
+        Debug.Log("Global: Start Install");
+
+        BindProviders(); // GlobalOnEveryScene
+        BindCoreContext(); // GlobalOnEveryScene
+        BindAdditionalProviders();
+
         BindGameDataValidator();
         BindFileService();
         BindGameData();
@@ -19,20 +22,51 @@ public class GlobalInstaller : MonoInstaller
         BindGameDataChanger();
         BindGameStarterService();
         BindAudioService();
+
+        // BindBoostrap();
+    }
+
+    private void BindProviders()
+    {
+        Container.BindInterfacesAndSelfTo<StaticResourceProvider>().FromNew().AsSingle().NonLazy();
+        BindAddressablesProviders();
+        Container.BindInterfacesAndSelfTo<AssetProvider>().FromNew().AsSingle().WithConcreteId("Global").NonLazy();
+    }
+
+    private void BindAddressablesProviders()
+    {
+        Container.BindInterfacesAndSelfTo<AddressablesDataProvider>().FromNew().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<ResourceLocationProvider>().FromNew().AsSingle().NonLazy();
+    }
+
+    private void BindCoreContext()
+    {
+        Container
+            .BindInterfacesAndSelfTo<CoreContextProvider>()
+            .FromNew()
+            .AsCached()
+            .WithConcreteId("Global")
+            .WithArguments(_coreContext)
+            .NonLazy();
+    }
+
+    private void BindAdditionalProviders()
+    {
+        Container.BindInterfacesAndSelfTo<CoreGlobalAudioProvider>().AsSingle().NonLazy();
     }
 
     private void BindGameDataValidator()
     {
-        Container.Bind<IValidatorGameData>().To<ValidatorGameData>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<ValidatorGameData>().AsSingle().NonLazy();
     }
 
     private void BindFileService()
     {
-        Container.Bind<IFileChecker>().To<FileChecker>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<FileChecker>().AsSingle().NonLazy();
         Container.Bind<SaveFolderPath>().AsSingle().NonLazy();
-        Container.Bind<ILoadData>().To<FileDataLoader>().AsSingle().NonLazy();
-        Container.Bind<ISaveData>().To<FileDataSaver>().AsSingle().NonLazy();
-        Container.Bind<IDeleteData>().To<FileDataDeleter>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<FileDataLoader>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<FileDataSaver>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<FileDataDeleter>().AsSingle().NonLazy();
     }
 
     private void BindGameData()
@@ -49,18 +83,18 @@ public class GlobalInstaller : MonoInstaller
 
     private void BindSaveCreatorService()
     {
-        Container.Bind<IStartDataFiller>().To<StartDataFiller>().AsSingle().NonLazy();
-        Container.Bind<ISaveCreator>().To<SaveCreator>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<StartDataFiller>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<SaveCreator>().AsSingle().NonLazy();
     }
 
     private void BindSaveDeleterService()
     {
-        Container.Bind<ISaveDeleter>().To<SaveDeleter>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<SaveDeleter>().AsSingle().NonLazy();
     }
 
     private void BindSaveUpdaterService()
     {
-        Container.Bind<ISaveUpdater>().To<SaveUpdater>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<SaveUpdater>().AsSingle().NonLazy();
     }
 
     private void BindGameDataChanger()
@@ -70,7 +104,7 @@ public class GlobalInstaller : MonoInstaller
 
     private void BindGameStarterService()
     {
-        Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<LoadingScreenController>().AsSingle().NonLazy();
         Container.Bind<ChoicedSceneLoader>().AsSingle().NonLazy();
         Container.Bind<GameStarter>().AsSingle().NonLazy();
@@ -78,13 +112,14 @@ public class GlobalInstaller : MonoInstaller
 
     private void BindAudioService()
     {
-        Container.Bind<IAudioService>().To<AudioService>()
-            .AsSingle()
-            .WithArguments(
-                _startMenuSceneAmbient,
-                _gameSceneAmbient,
-                _clickSound,
-                _clickPanelSound)
-            .NonLazy();
+        Container.BindInterfacesAndSelfTo<AudioService>().AsSingle().NonLazy();
     }
+
+    // private void BindBoostrap()
+    // {
+    //     Container.BindInterfacesAndSelfTo<GlobalBoostrap>()
+    //     .FromNew()
+    //     .AsTransient()
+    //     .NonLazy();
+    // }
 }

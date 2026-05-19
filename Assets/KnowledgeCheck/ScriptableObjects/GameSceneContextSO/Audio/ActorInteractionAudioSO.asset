@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ffebc9fbb981bb40af717d7299a77cd, type: 3}
+  m_Name: ActorInteractionAudioSO
+  m_EditorClassIdentifier: Assembly-CSharp::ActorInteractionAudioSO
+  _materialSoundsList:
+  - _soundAction: 0
+    _soundActors:
+    - _soundActor: 4
+      _sounds:
+        _clips:
+        - m_AssetGUID: af2677b32d29fbc4a8e82d65762fae6f
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+    - _soundActor: 5
+      _sounds:
+        _clips:
+        - m_AssetGUID: 0deb35c5b85ddd94aa84e9753cd20dc5
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+  - _soundAction: 1
+    _soundActors:
+    - _soundActor: 2
+      _sounds:
+        _clips:
+        - m_AssetGUID: a3b2374c1cbfafd45bec44c8ecf77e47
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+    - _soundActor: 3
+      _sounds:
+        _clips:
+        - m_AssetGUID: a77cc0da686d4a044925bb90ae0cf41f
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+  - _soundAction: 2
+    _soundActors:
+    - _soundActor: 1
+      _sounds:
+        _clips:
+        - m_AssetGUID: 20ccb05d1f419634db76ae8f7c2f1627
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0

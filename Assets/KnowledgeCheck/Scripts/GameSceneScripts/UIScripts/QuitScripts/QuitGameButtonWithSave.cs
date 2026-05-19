@@ -3,10 +3,10 @@ using Zenject;
 public class QuitGameButtonWithSave : QuitGameButton
 {
     private GameDataChanger _gameDataChanger;
-    private GameData _gameData;
+    private IGetGameData _gameData;
 
     [Inject]
-    private void Construct(GameDataChanger gameDataChanger, GameData gameData)
+    private void Construct(GameDataChanger gameDataChanger, IGetGameData gameData)
     {
         _gameDataChanger = gameDataChanger;
         _gameData = gameData;

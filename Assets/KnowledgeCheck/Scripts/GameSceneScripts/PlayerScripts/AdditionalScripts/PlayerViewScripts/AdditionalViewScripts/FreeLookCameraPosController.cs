@@ -10,6 +10,8 @@ public class FreeLookCameraPosController : IInitializable, IFixedTickable
     private CinemachineCamera _freeLookCamera;
     private CinemachineCamera _thirdPersonCamera;
 
+    private CinemachineOrbitalFollow _cinemachineOrbitalFollower;
+
     [Inject]
     private void Construct(CameraUtils cameraUtils)
     {
@@ -20,22 +22,24 @@ public class FreeLookCameraPosController : IInitializable, IFixedTickable
     {
         _freeLookCamera = _cameraUtils.GetCinemachineCamera(CameraTypes.FreeLookView);
         _thirdPersonCamera = _cameraUtils.GetCinemachineCamera(CameraTypes.ThirdPersonView);
+
+        if (_freeLookCamera != null)
+            _cinemachineOrbitalFollower = _freeLookCamera.GetComponent<CinemachineOrbitalFollow>();
     }
 
     public void FixedTick()
     {
         if (Enabled)
         {
-            _freeLookCamera
-                .GetComponent<CinemachineOrbitalFollow>()
+            _cinemachineOrbitalFollower
                 .HorizontalAxis
                 .Value
-                = _thirdPersonCamera
-                    .gameObject
-                    .transform
-                    .rotation
-                    .eulerAngles
-                    .y;
+            = _thirdPersonCamera
+                .gameObject
+                .transform
+                .rotation
+                .eulerAngles
+                .y;
         }
     }
 }

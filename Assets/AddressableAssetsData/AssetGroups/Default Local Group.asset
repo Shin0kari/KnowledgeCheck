@@ -1,0 +1,1139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Default Local Group
+  m_GUID: 6903d32e7a49c0b4390c055c24c44723
+  m_SerializeEntries:
+  - m_GUID: 035b66df2e4b10b46b988752771202c6
+    m_Address: strangeFruitPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0539453028cfdbd4cadaa2187f3b2d1e
+    m_Address: ExitButton
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainMenuButton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 073411fcc02bb55498cfee7302d6e3be
+    m_Address: EmptyTrashCan81792Png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ButtonUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 077202ef926fa8645af72bfaa619cd23
+    m_Address: LoadMenuSavePanelsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SceneSavePanelsSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0773cb51823a4674a838d189e106ae8d
+    m_Address: LoadGameWarningPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VariationAdditionalPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0876654dce7ae6e41856d68013634d12
+    m_Address: NorthGate
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RoomGate
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b967181dce3a824589203ba35c3b7c7
+    m_Address: InventoryPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VariationSecondPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0dbedec4d66ee0441b5f196a86c18234
+    m_Address: HubPartC
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HubPart
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0deb35c5b85ddd94aa84e9753cd20dc5
+    m_Address: MetalStep2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0def2c943e92d4344824e28a1c11a401
+    m_Address: Pipe_Corner
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f6dbbacfdd641b43ac1e4ef6fa19ead
+    m_Address: SM_Rocks_10
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f9a68ad8aae92246843f01d9ec4d2d3
+    m_Address: Valve_Mat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LiftMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0fc96e3fc2b2f894da589f40c61270ff
+    m_Address: LeftArrow318391Png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ButtonUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1183179ed642a8944926c73f20e6b1a3
+    m_Address: SaveWarningPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VariationAdditionalPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 126f2a6d37b336744b7ed3fe4e35d573
+    m_Address: Altar (EventStarter)
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 127014f325b42744186305e9aab42a6d
+    m_Address: ArenaProps
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ArenaProps
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 12d814993ed941b4b8b60b9c508e69dc
+    m_Address: WhitePanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WinLoseUIPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14e47a2cdd4744947b7aa88cebf32e47
+    m_Address: OilCanClick
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalAudio
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 16ca5feb16ef2d744852096378401523
+    m_Address: example-water-01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WaterMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1865b2d2610ce6643b36c5807051672c
+    m_Address: FullPipe
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1bf2cf317a2805145b46c96a37ef54f4
+    m_Address: EndAmbient
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1fb217251204ed848a000bd55bf9df15
+    m_Address: PlayerHealt
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HealthBar
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1fcbda7490b01a84f969ea85f36cefb1
+    m_Address: StartAmbient
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 20ccb05d1f419634db76ae8f7c2f1627
+    m_Address: Swing
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 21acbc60d8b9dc34fa9ecbe62915e77a
+    m_Address: ironHelmetSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22c9b6e074b8b1d49a6a1420d05fccd5
+    m_Address: ScrollMenuButtons
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MenuButtons
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22cac4f1e65707d4b98c6bce9177dcfe
+    m_Address: AdditionalPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FullAdditionalPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 238210e97088e6c48b58d642bbdc9841
+    m_Address: HubPartD
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HubPart
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2393c537bb8be5242ad55d1a8c90a18d
+    m_Address: EmpyItemPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2469b1f15bb70cd419ca5a2f53c403ba
+    m_Address: MenuUtils
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MenuUtils
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2677d9e54387c1b4d800836555a6c300
+    m_Address: SM_Rocks_07
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27feda307c54f494aa73ecf2d2a114af
+    m_Address: MenuButtons
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AllMainMenuButtons
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28f8c33f32235a941a4caa29e4957c5d
+    m_Address: DeleteSaveWarningPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VariationAdditionalPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cad5462460032b479608430fe55819d
+    m_Address: OptionMenu
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainMenuOptionPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d896dc070a1f484ba26f4e9857ebef3
+    m_Address: fight3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - StartMenuMusic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e498d1c8094910479dc3e1b768306a4
+    m_Address: Fonts & Materials/LiberationSans SDF - Fallback
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalFonts
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e943d45b101c0f4ea58284f3da639aa
+    m_Address: Pipe_Mat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LiftMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2fc379ed6a263cc4c9bcb63a18585326
+    m_Address: SceneMusicsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 304f5c94ecb1e79498e165186ee18062
+    m_Address: M_Wall_LitShader2 1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WaterMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 34c56eb17fc79024b8a3d34ed3c316ac
+    m_Address: DummyWestGate
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RoomGate
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36ecff6e6494892469bbd01bf72546ce
+    m_Address: BaseUIItemInfoSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GameSceneContextSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 372b41274506dfd4aaee35d67d9e19eb
+    m_Address: OptionButton
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainMenuButton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 37ad877fb494e774a84da3655e08462c
+    m_Address: PlayerCanvas
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PlayerCanvas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a293fcaef79255489f2b6d926068bc1
+    m_Address: MainPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a36df0c3c359b44598ca9d9cfe55bd4
+    m_Address: SM_Rocks_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 412fa017e43d4464abdbd7aac9ab5858
+    m_Address: RoomGates
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AllGates
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 420953f7c6642db4aaaea37174420d04
+    m_Address: Ancient_Script_Myster_0806120520_texture
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BookMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42b817f957e27484d91aab155d810169
+    m_Address: AdditionalObjects
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ArenaAdditionalObjects
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 430ccd16c0d188b48a634dde9c09d244
+    m_Address: M_DEMOAtlas_MiningPack
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CoalMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 447e97f44e7d0fd4eb6ddec82c319992
+    m_Address: SFX_FireBig_L
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44bd9f09cbdfb4f438c71e575be4b95c
+    m_Address: ironChestSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45f7b4b83bf015f43ab86cdb967fefe4
+    m_Address: HubRoof
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HubRoof
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 485aa99d50a686f4997d8357c0ad25df
+    m_Address: UIUtilsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GameSceneContextSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a3d9880a21ecb347a3ba5e4bab98af4
+    m_Address: M_Torch
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TorchMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e7c5eac66f5b4143be8c97fb0c859fa
+    m_Address: BluePanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WinLoseUIPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51da81dc4873a34439264ff7019ff259
+    m_Address: HosePulley
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 526271c349c00364bb33486a3c94c49c
+    m_Address: Chain
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5786180828f9c0142aeb956134984dda
+    m_Address: LiftPlane
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LiftFloor
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 586cffef446f8bd4a9ac8e879a4f0d2d
+    m_Address: CursorInventory
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CursorInventory
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58bd306fa72ac8b43b0dcef6c68d03cd
+    m_Address: ItemPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58e8bbf2b24158a46a457727a59d82e7
+    m_Address: SceneAudioSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a91d74be6d4eee4eb0dd509b43a2b2e
+    m_Address: AdditionalUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AdditionalUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b99f15641815b349aa78beb893c6865
+    m_Address: LoadGamePanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VariationSecondPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ed0d2292d0e45b4cb8d383137de813c
+    m_Address: M_Wall
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WallMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6084b3a0986adc147b4c9f1f4455ca99
+    m_Address: NewSave
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ScrollMenuButtons
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6438bf733a8f2e248a833696f1d9753b
+    m_Address: GlobalContextSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - _CoreContextSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66bb025986bd66c479f0fe7e007798b0
+    m_Address: M_YFMeM_25
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LiftMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 682b755fc61508e4499287ca6d4135d7
+    m_Address: arena
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - StartMenuMusic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 697ec765b4ae610458ab1ab8511fa8c7
+    m_Address: GenItemMiniGame
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GenItemMiniGame
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6bc8d26423666a7458f9f801924dc22b
+    m_Address: CommonEnemyCanvas
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - EnemyCanvas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c117e4df1429be429bb8077f511a156
+    m_Address: AppIcon11335378Png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ButtonUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6fea00e2bb949774490a2196bed36fe5
+    m_Address: M_Tile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WallMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 72265316621dece4681e00919261da6e
+    m_Address: SM_Rocks_08
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 72d51d1c6b09473468a682138f3bae97
+    m_Address: SceneContextSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - _CoreContextSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73fe47c33b2cb4e4baa2570eb8bf0b99
+    m_Address: M_Wall_LitShader3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WallMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 756bcf55e817a514e8fa918095d56e59
+    m_Address: LoadMenuSavePanelsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SceneSavePanelsSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 766f00f95c7b48f47b0b19cb6e0baed9
+    m_Address: HealPotionSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 777dd4ababf8ce54aa46f370e57c0256
+    m_Address: HintPanelPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniGameImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7833f7b7cad8ed44a8eb0be14a581fdf
+    m_Address: DummySouthGate
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RoomGate
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7899ea2df0a01bb4fa94809e4ed952fb
+    m_Address: ValveSystem
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ValveSystem
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79459efec17a4d00a321bdcc27bbc385
+    m_Address: Fonts & Materials/LiberationSans SDF - Outline
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalFonts
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7968b3f39742bc94f9b5a832cb4bcc86
+    m_Address: shieldPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79f6fa4e7402ab3409139a02eaf6ff7e
+    m_Address: SM_Rocks_11
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a49ea8d84694f547959d1b602069158
+    m_Address: CharacterBackPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InventoryImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7bec73ace3b8efa47be13e02e66ca018
+    m_Address: BackpackPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InventoryImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d61822f053b6dc4ba8e1255cb278135
+    m_Address: MiniGameCircle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniGameImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7da8e6db19144214a94a4dae8957c117
+    m_Address: 1backpackPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7de1f3450f1006f46b98cc36bd1b0bf5
+    m_Address: Chain_Mat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ChainMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e08bdf6fe4ea4e499511ee91057c56f
+    m_Address: helmetPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8206b722d11501a449d6a278cca2adfa
+    m_Address: VFX_Fire_01_Big_Smoke
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GameVFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 821b45e57a61dcb4889e8ca65c15b342
+    m_Address: CommonEnemyHealt
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HealthBar
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8230623a9d32a4c4e884838502a09451
+    m_Address: CloseStoneDoor
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82b72b25884893845b066f61cd3a34de
+    m_Address: ChestplatePng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 83b50e6d629fc37488d60f4b0bbf6bb9
+    m_Address: LosePanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WinLoseUIPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85563c7fd22e08043961a692e38d476e
+    m_Address: LoadScreen
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 861fe36e663443a41b8a1c274b4cd59e
+    m_Address: FloorItemPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InventoryImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 86cfcb98278003740b5406054cb98c89
+    m_Address: QuitWarningPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VariationAdditionalPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89594386e329b154b948c69d814ce561
+    m_Address: GameSceneContextSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - _CoreContextSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c14de25f68dc364bb970def7af62d2e
+    m_Address: LoadGameButton
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainMenuButton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d188028c5c90cb4c96256582c0af566
+    m_Address: WaterFall
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8ef7fef7adbc47a4ca6d5b4b145738ee
+    m_Address: HubPartB
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HubPart
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f586378b4e144a9851e7b34d9b748ee
+    m_Address: Fonts & Materials/LiberationSans SDF
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalFonts
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f8f98d5ac2129944baf409ec4915862
+    m_Address: SavesMenu
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainMenuSavesPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 900d7b5cb4f2dde46a60c936f7eb8fd7
+    m_Address: LoaderSavePanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SavePanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9122cafed12fb7c4c92eb4dc2a65b34c
+    m_Address: M_Step_A
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WallPropsMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9130d615c93b0634f9f7b2a783f14be6
+    m_Address: ContinueButtonContainer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainMenuButton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91cd9616d7f295147b00831fb0385a94
+    m_Address: example-water-01 1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WaterMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9277ca69efc162047983b7abe9233aec
+    m_Address: BackgroundMiniGamePanelPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniGamePanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 940dc0267fc93b5469efa3253052fd89
+    m_Address: Menu
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Menu
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9452232cc6ad8fa40aca80b7e5efc95d
+    m_Address: SM_Rocks_05
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94bc8546fe222904c9fd6e0438c1b6fc
+    m_Address: SFX_FireSmall_L
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 975592101756d8843b85722ea5c9751f
+    m_Address: SceneAmbientSoundsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9813fad1fa6eee1409adfe66ffff8a11
+    m_Address: SM_Rocks_02
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99aab1a033033f141b8ad3fb9002122d
+    m_Address: GlobalAudioSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SceneAudioSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99c9720ab356a0642a771bea13969a05
+    m_Address: MainMenuScene
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a3a65df9f064de4092b0579aca1e49d
+    m_Address: StartMenuMusicContainer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - StartMenuMusicContainer
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9db98ee0ef74fca4da44fffa0cfd8934
+    m_Address: VersionText
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a028b0ff4a3429c48870f8af3cb9d1af
+    m_Address: GeneratedPanelText
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniGamePanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3a4fba397fe6e8469929f8c86970283
+    m_Address: SaveGamePanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VariationSecondPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3b2374c1cbfafd45bec44c8ecf77e47
+    m_Address: HitBone
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4483df8178f8dd47a9b7eeac28ccf57
+    m_Address: OpenStoneDoor
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a45f6f189aa93614ca2b0460bc816b3b
+    m_Address: WarriorPlayer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Player
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a77cc0da686d4a044925bb90ae0cf41f
+    m_Address: HitPlateArmour
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a78bae7c419ee824da495d5128d26260
+    m_Address: M_Arch_A
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WallPropsMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7a2df60210c80c4d91a9890694c8cb2
+    m_Address: FloorItemContainer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FloorInventory
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a93796fc814f8514a8c2ee40c081fb58
+    m_Address: ActorInteractionAudioSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ActorInteractionAudioSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aae09e801e1baa845aeac131ff6fbfcb
+    m_Address: BackPackSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abec5e8ea9c453a44b3d8d7517f6f301
+    m_Address: Item
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac2f6795523a3984e9af0b8c4a6e6ffe
+    m_Address: NewGameButton
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainMenuButton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aca2129b8a974ff4591b8b494638005a
+    m_Address: LoaderSavePanel_BlackVersion
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SavePanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acc15c7ea1738bb4580409f5aa5a7a3b
+    m_Address: GameScene
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scene
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae62fef1d8653af4f980c32b2566d72d
+    m_Address: StrangeFruitSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af089ba3f236b004fb2bb64119f294d8
+    m_Address: M_YFMeM_24
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LiftMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af09f21f3ae14d6408e0c81361eb90ad
+    m_Address: SceneCharactersSettingsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharactersSettingsSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af2677b32d29fbc4a8e82d65762fae6f
+    m_Address: StoneStep2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af294f937fe37244ea7fc9f155c3a389
+    m_Address: Roof
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ArenaRoof
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b160af06326d0f341ac7a4f108573f81
+    m_Address: Floor
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ArenaFloor
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3054c4531bb7f24cbadc0161a32077b
+    m_Address: SceneInteractionsSoundsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AmbientSound
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7e19d8ae015f5a45b298690ac30dc7d
+    m_Address: DummyEastGate
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - RoomGate
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b9345a3ca075e5f40a66e72cf7a85ae9
+    m_Address: SM_Rocks_06
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbad3fe44a0b0274aa3f9a13236504e4
+    m_Address: M_Pillar_A
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WallPropsMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc73fc4171bbb8548a772b1f7e7c526d
+    m_Address: M_Wall_LitShader
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WallMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc89abd855482b24796e43379d5bb15f
+    m_Address: HubCeilShadowCreator
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HubWall
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd6138979bac6a647be5c2a12b660269
+    m_Address: WaterLevel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Water
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bda8817d721209e4489eee2462f70ced
+    m_Address: WhiteBrushPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ButtonUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1dc95d277d20ff4fb573b52a90b1ada
+    m_Address: PlayerWarriorSettingsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterSettingsSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c725b0a4833766846a2c43f622a020a5
+    m_Address: NewGame
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ScrollMenuButtons
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8a0a0199e828754d9927d1ea9f45b58
+    m_Address: M_VFX_Metallic_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GameVFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9e8dec64a0770c4baf501642939127c
+    m_Address: M_Wall_LitShader2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WallMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb36511ea18cd434e8290c7f391c373e
+    m_Address: Props
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LiftProps
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc764261edfd1de4e94cf1bf958d866a
+    m_Address: MainMenu
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MainMenu
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc7774ced5448764bb525ec23f7499a7
+    m_Address: PlayerSpawnPosMark
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SpawnPosMark
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cde166351ca6e454bb6deca404fb0f28
+    m_Address: CommonEnemySkeletonSettingsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterSettingsSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce82689fadd68a24eb61cfdf7c67d974
+    m_Address: SecondPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FullSecondPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce935d3cc2a52c84a884e0a52b8fa247
+    m_Address: Borders
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LiftBorder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0202202033ee094ea303eece9ba00fc
+    m_Address: magical_place
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - StartMenuMusic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d156fb323725858428a8fb92809e418e
+    m_Address: healPotionPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d26eb7b6f9a10d64e924e79adbfca05c
+    m_Address: LiftRoof
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LiftRoof
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3f33ee1509613f4c8fcdca6703a966f
+    m_Address: HealthPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HealthBar
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d50e8ed539709034da913e636111e721
+    m_Address: NewGame
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ScrollMenuButtons
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5923889627bdb942a4344ffe522b641
+    m_Address: Enemy_Skeleton
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Enemy
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5b04c2beb0a46f40b73c9116de939ae
+    m_Address: Paintbrush8450789Png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ButtonUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d697496d7fb9516439bcb4f4b3a5181a
+    m_Address: RedPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WinLoseUIPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d77449973fb0d0948bf7d95ceb2954aa
+    m_Address: WhiteTrashCanPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ButtonUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d87c31a99106dad4c97754237125eabf
+    m_Address: HosePulley_Mat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ChainMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dcdae1a107b4f7045a49fc797fe8e0a6
+    m_Address: Lift
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Lift
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ddaf3a24179c82340897345422773a2c
+    m_Address: Arena
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Arena
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3265ab4bf004d28a9537516768c1c75
+    m_Address: Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalFonts
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e36024f06c7b6b149810c766b7298a77
+    m_Address: SwordSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e51f010317abc1c4db22d0d5c66de393
+    m_Address: KnowledgeGameTitlePng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Title
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e538cfd14fae6bb498f867e37375b765
+    m_Address: NewArena
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FullArea
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e552ec8b716aac448b2964ca730f03b5
+    m_Address: swordPng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemImage
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e73a58f6e2794ae7b1b7e50b7fb811b0
+    m_Address: LiberationSans SDF - Drop Shadow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalFonts
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9c0ce3cac482f9488518bb601568413
+    m_Address: HubFloor
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HubFloor
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb42a9b9710022b43ac748969c8c5182
+    m_Address: ShieldSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eba3d546b97a5b14fb1b38a7cf395f75
+    m_Address: SaveMenuSavePanelsSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SceneSavePanelsSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ebc53e56913da764d89a5a3ee76884ff
+    m_Address: OptionsPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VariationSecondPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ecb8764b790baad41ba021ed716143a7
+    m_Address: HubPartA
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HubPart
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eedc838e0dbb23346b00410c657277ee
+    m_Address: M_Handrail
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WallPropsMaterial
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f0ff77644bdb51442a3119f27f449475
+    m_Address: choir_beam
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - StartMenuMusic
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f17346c421161624db6812885f0289cb
+    m_Address: MainMenuAmbientAudioSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SceneAudioSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4e6bbe7eac023740a1264c50252f946
+    m_Address: metalSwitch
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalAudio
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7c51f3d46405e44c820576606bf84f1
+    m_Address: WinPanel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WinLoseUIPanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9adc4c4c2a09014fbb945cbde04a5ad
+    m_Address: SaverSavePanel_BlackVersion
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SavePanel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc2a715fffb2ed747ac98d8a944bf740
+    m_Address: AncientBook
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Props
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff2732be3079a0149ac691fe23742a79
+    m_Address: HubRoom
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Hub
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 181534c89e22a37419f0fc92dd06d962, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: feb0f535c5f9d134ea90fc4949cc2fca, type: 2}
+    - {fileID: 11400000, guid: f910bef51e64f164ab7f2e5188021356, type: 2}

@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +14,7 @@ public class AdditionalUIController : IDisposable
     private LoseUI _loseUI;
 
     private bool _playerDeathAvailable = true;
+    private bool _isPlayerDeath = false;
 
     [Inject]
     private void Construct(
@@ -20,7 +22,7 @@ public class AdditionalUIController : IDisposable
         ArenaController arenaController,
         WinUI winUI,
         LoseUI loseUI
-        )
+    )
     {
         _signalBus = signalBus;
         _arenaController = arenaController;
@@ -60,32 +62,36 @@ public class AdditionalUIController : IDisposable
 
     private void OnEndSpawn()
     {
-        _winUI.ChangeFadeWhiteWindow();
+        _winUI.ChangeFadeWhiteWindow().Forget();
     }
 
     private void OnEndBattle()
     {
-        _playerDeathAvailable = false;
+        if (_isPlayerDeath)
+            return;
 
+        _playerDeathAvailable = false;
         CursorVisibility.OnAlwaysCursorVisibility();
-        _winUI.Win();
+        _winUI.Win().Forget();
     }
 
     private void OnDeath()
     {
-        if (_playerDeathAvailable)
-        {
-            CursorVisibility.OnAlwaysCursorVisibility();
-            _loseUI.OnDeath();
-        }
+        if (!_playerDeathAvailable)
+            return;
+
+        _isPlayerDeath = true;
+        CursorVisibility.OnAlwaysCursorVisibility();
+        _loseUI.OnDeath().Forget();
     }
 
     private void OnDrown()
     {
-        if (_playerDeathAvailable)
-        {
-            CursorVisibility.OnAlwaysCursorVisibility();
-            _loseUI.OnDrown();
-        }
+        if (!_playerDeathAvailable)
+            return;
+
+        _isPlayerDeath = true;
+        CursorVisibility.OnAlwaysCursorVisibility();
+        _loseUI.OnDrown().Forget();
     }
 }

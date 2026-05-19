@@ -1,0 +1,195 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
+  m_Name: AddressableAssetSettings
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetSettings
+  m_DefaultGroup: 6903d32e7a49c0b4390c055c24c44723
+  m_currentHash:
+    serializedVersion: 2
+    Hash: 3eb416591f642f6f16a96f76c18cba35
+  m_OptimizeCatalogSize: 0
+  m_BuildRemoteCatalog: 0
+  m_CatalogRequestsTimeout: 0
+  m_DisableCatalogUpdateOnStart: 0
+  m_InternalIdNamingMode: 0
+  m_InternalBundleIdMode: 1
+  m_AssetLoadMode: 0
+  m_BundledAssetProviderType:
+    m_AssemblyName: Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_ClassName: UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider
+  m_AssetBundleProviderType:
+    m_AssemblyName: Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_ClassName: UnityEngine.ResourceManagement.ResourceProviders.AssetBundleProvider
+  m_IgnoreUnsupportedFilesInBuild: 0
+  m_UniqueBundleIds: 0
+  m_EnableJsonCatalog: 0
+  m_NonRecursiveBuilding: 1
+  m_AllowNestedBundleFolders: 0
+  m_CCDEnabled: 0
+  m_maxConcurrentWebRequests: 3
+  m_UseUWRForLocalBundles: 0
+  m_BundleTimeout: 0
+  m_BundleRetryCount: 0
+  m_BundleRedirectLimit: -1
+  m_SharedBundleSettings: 0
+  m_SharedBundleSettingsCustomGroupIndex: 0
+  m_ContiguousBundles: 1
+  m_StripUnityVersionFromBundleBuild: 0
+  m_DisableVisibleSubAssetRepresentations: 0
+  m_BuiltInBundleNaming: 0
+  mBuiltInBundleCustomNaming: 
+  m_MonoScriptBundleNaming: 0
+  m_CheckForContentUpdateRestrictionsOption: 0
+  m_MonoScriptBundleCustomNaming: 
+  m_RemoteCatalogBuildPath:
+    m_Id: 
+  m_RemoteCatalogLoadPath:
+    m_Id: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
+  m_CustomContentStateBuildPath: 
+  m_ContentStateBuildPath: 
+  m_BuildAddressablesWithPlayerBuild: 0
+  m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
+  m_GroupAssets:
+  - {fileID: 11400000, guid: af23ff91967561744940819261865d29, type: 2}
+  - {fileID: 11400000, guid: 9377d082ea2edd9458eb7a5c68efe741, type: 2}
+  - {fileID: 11400000, guid: 210cc322b84288843acd63a89f88f11c, type: 2}
+  m_BuildSettings:
+    m_LogResourceManagerExceptions: 1
+    m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
+  m_ProfileSettings:
+    m_Profiles:
+    - m_InheritedParent: 
+      m_Id: f6b4781cbc9f5db41b8015e9568d34f2
+      m_ProfileName: Default
+      m_Values:
+      - m_Id: 17e02bc4f54189944b041fd04dfe36e8
+        m_Value: 'ServerData/[BuildTarget]'
+      - m_Id: 2477e0b318ae8654d8bb3cc51134e6d2
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
+      - m_Id: 40a330eb7a898a84db7d5955fcbad9a2
+        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
+      - m_Id: d677b589495bfd543b6681dd2e1606e0
+        m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
+      - m_Id: e5cb3b77d9934fa42b7c3f3003c02ced
+        m_Value: <undefined>
+    m_ProfileEntryNames:
+    - m_Id: 17e02bc4f54189944b041fd04dfe36e8
+      m_Name: Remote.BuildPath
+      m_InlineUsage: 0
+    - m_Id: 2477e0b318ae8654d8bb3cc51134e6d2
+      m_Name: Local.LoadPath
+      m_InlineUsage: 0
+    - m_Id: 40a330eb7a898a84db7d5955fcbad9a2
+      m_Name: Local.BuildPath
+      m_InlineUsage: 0
+    - m_Id: d677b589495bfd543b6681dd2e1606e0
+      m_Name: BuildTarget
+      m_InlineUsage: 0
+    - m_Id: e5cb3b77d9934fa42b7c3f3003c02ced
+      m_Name: Remote.LoadPath
+      m_InlineUsage: 0
+    m_ProfileVersion: 1
+  m_LabelTable:
+    m_LabelNames:
+    - GlobalFonts
+    - GlobalAudio
+    - _CoreContextSO
+    - SceneAudioSO
+    - Scene
+    - GlobalUI
+    - AdditionalUI
+    - ButtonUI
+    - SavePanel
+    - WinLoseUIPanel
+    - PlayerCanvas
+    - EnemyCanvas
+    - HealthBar
+    - InventoryImage
+    - ItemImage
+    - MiniGameImage
+    - Title
+    - Player
+    - Enemy
+    - CharacterSettingsSO
+    - Item
+    - ItemSO
+    - GameVFX
+    - AmbientSound
+    - CharacterSound
+    - Props
+    - ValveSystem
+    - FullArea
+    - Hub
+    - HubWall
+    - HubRoof
+    - HubFloor
+    - HubPart
+    - AllGates
+    - RoomGate
+    - Arena
+    - ArenaFloor
+    - ArenaRoof
+    - ArenaProps
+    - ArenaAdditionalObjects
+    - Water
+    - Lift
+    - LiftProps
+    - LiftFloor
+    - LiftRoof
+    - LiftBorder
+    - LiftMaterial
+    - WallMaterial
+    - WallPropsMaterial
+    - TorchMaterial
+    - CoalMaterial
+    - ChainMaterial
+    - BookMaterial
+    - WaterMaterial
+    - GenItemMiniGame
+    - MiniGamePanel
+    - MenuUtils
+    - Menu
+    - ScrollMenuButtons
+    - MenuButtons
+    - VariationSecondPanel
+    - CursorInventory
+    - FloorInventory
+    - FullSecondPanel
+    - VariationAdditionalPanel
+    - FullAdditionalPanel
+    - MainMenuButton
+    - AllMainMenuButtons
+    - MainMenuSavesPanel
+    - MainMenuOptionPanel
+    - MainPanel
+    - MainMenu
+    - StartMenuMusicContainer
+    - StartMenuMusic
+    - SpawnPosMark
+    - GameSceneContextSO
+    - SceneSavePanelsSO
+    - CharactersSettingsSO
+    - ActorInteractionAudioSO
+  m_SchemaTemplates: []
+  m_GroupTemplateObjects:
+  - {fileID: 11400000, guid: 315a6d686da14c342919df4ada3fdc38, type: 2}
+  m_InitializationObjects: []
+  m_CertificateHandlerType:
+    m_AssemblyName: 
+    m_ClassName: 
+  m_ActivePlayerDataBuilderIndex: 2
+  m_DataBuilders:
+  - {fileID: 11400000, guid: 4f861a5a6131f874ea01754699056d50, type: 2}
+  - {fileID: 11400000, guid: 435cea5a5aa2d7b4e914474fcf7a508a, type: 2}
+  - {fileID: 11400000, guid: 15c4ccb64d187704d8143eb95b1d72d8, type: 2}
+  m_ActiveProfileId: f6b4781cbc9f5db41b8015e9568d34f2

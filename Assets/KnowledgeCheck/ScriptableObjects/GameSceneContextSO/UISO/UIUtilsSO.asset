@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 465fc69389c85c94ab5c9ff8d6b30265, type: 3}
+  m_Name: UIUtilsSO
+  m_EditorClassIdentifier: Assembly-CSharp::SceneUtilsSO
+  _winPanelSO:
+    m_AssetGUID: f7c51f3d46405e44c820576606bf84f1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _whitePanelSO:
+    m_AssetGUID: 12d814993ed941b4b8b60b9c508e69dc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _losePanelSO:
+    m_AssetGUID: 83b50e6d629fc37488d60f4b0bbf6bb9
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _redPanelSO:
+    m_AssetGUID: d697496d7fb9516439bcb4f4b3a5181a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _bluePanelSO:
+    m_AssetGUID: 4e7c5eac66f5b4143be8c97fb0c859fa
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _whiteWindowAnimCurve: 13
+  _maxColorCanvasFade: 0.5
+  _colorCanvasFadeDuration: 0.5
+  _loseTextFadeDuration: 0.5

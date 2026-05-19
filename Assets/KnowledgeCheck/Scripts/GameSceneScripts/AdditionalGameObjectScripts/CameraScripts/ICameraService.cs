@@ -1,4 +1,4 @@
 public interface ICameraService
 {
-    public void SetCameraTrigger(CameraTypes type);
+    public void SetCameraTrigger(in CameraTypes type);
 }

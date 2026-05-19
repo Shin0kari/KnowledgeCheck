@@ -9,7 +9,11 @@ public class SaveCreator : ISaveCreator
     private IGetGameData _gameData;
 
     [Inject]
-    private void Construct(IStartDataFiller startDataFiller, ISaveData dataSaver, IGetGameData gameData)
+    private void Construct(
+        IStartDataFiller startDataFiller,
+        ISaveData dataSaver,
+        IGetGameData gameData
+    )
     {
         _startDataFiller = startDataFiller;
         _dataSaver = dataSaver;
@@ -35,9 +39,9 @@ public class SaveCreator : ISaveCreator
             var currentSaveData = _gameData.GetCurrentGameData().saveData;
 
             SaveData saveData = SaveDataRecordCloner.CloneSaveDataRecord(currentSaveData);
+            if (saveData == null) return TryCreateSave();
 
-            saveData.Uuid = Guid.NewGuid().ToString();
-            saveData.SaveName = _startDataFiller.GenerateSaveName();
+            SetNewDataToSaveData(ref saveData);
 
             CreateSave(saveData.Uuid, saveData);
 
@@ -47,6 +51,13 @@ public class SaveCreator : ISaveCreator
         {
             return TryCreateSave();
         }
+    }
+
+    private void SetNewDataToSaveData(ref SaveData saveData)
+    {
+        saveData.Uuid = _startDataFiller.GenerateUuid();
+        saveData.SaveName = _startDataFiller.GenerateSaveName(saveData.SaveName);
+        saveData.IsNewGame = false;
     }
 
     public bool CreateSave(string uuid, SaveData saveData)

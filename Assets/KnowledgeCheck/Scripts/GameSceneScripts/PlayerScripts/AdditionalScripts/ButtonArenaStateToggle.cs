@@ -13,6 +13,12 @@ public class ButtonArenaStateToggle : MonoBehaviour
     public event Action BattleStarted;
     public event Action BattleStoped;
 
+    private void OnDestroy()
+    {
+        BattleStarted = null;
+        BattleStoped = null;
+    }
+
     private void OnEnable()
     {
         _playerInput = new PlayerInputSystem();

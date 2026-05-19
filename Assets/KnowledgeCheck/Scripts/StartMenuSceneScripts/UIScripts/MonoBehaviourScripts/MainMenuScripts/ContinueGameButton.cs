@@ -1,24 +1,18 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-public class ContinueGameButton : UIButton, IChangeButtonVisible
+using Zenject;
+public class ContinueGameButton : UIButton, IChangeButtonVisible, IBindingSingletonComponent
 {
-    // [SerializeField] private Button _button;
+    private ContinueGameButton()
+    {
+        BindAllTypes();
+    }
 
-    // public event Action IsUsed;
-
-    // private void Start()
-    // {
-    //     _button.onClick.AddListener(() =>
-    //     {
-    //         ContinueGame();
-    //     });
-    // }
-
-    // public void ContinueGame()
-    // {
-    //     IsUsed?.Invoke();
-    // }
+    public void BindAllTypes()
+    {
+        TypeCache.GetRelatedTypes(GetType());
+    }
 
     public void HideButton()
     {

@@ -1,26 +1,36 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using R3;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Zenject;
 
-public class PlayableCharacterDataUpdater : IInitializable, IDisposable
+public class PlayableCharacterDataUpdater : IDisposable
 {
+    private IAssetProviderGetter _assetProvider;
     private IGetGameData _gameData;
     private InventoryManager _inventoryManager;
 
     private Inventory _inventory = new();
     public event Action OnDataUpdate;
 
+    private DisposableBag _dB;
+    private UniTaskCompletionSource _inventoryManagerLoadedSource = new();
+    private CancellationTokenSource _ct = new();
+
     [Inject]
     private void Construct(
         IGetGameData gameData,
-        InventoryManager inventoryManager
+        IAssetProviderGetter assetProvider
     )
     {
+        _assetProvider = assetProvider;
         _gameData = gameData;
-        _inventoryManager = inventoryManager;
 
+        SubscribeOnUpdateObjects();
         _gameData.CurrentSaveUpdated += SetInventoryFromCurrentSave;
     }
 
@@ -28,12 +38,35 @@ public class PlayableCharacterDataUpdater : IInitializable, IDisposable
     {
         if (_gameData != null)
             _gameData.CurrentSaveUpdated -= SetInventoryFromCurrentSave;
+
+        _inventoryManagerLoadedSource.TrySetCanceled();
+        _inventoryManagerLoadedSource = null;
+
+        _ct?.Cancel();
+        _ct?.Dispose();
+
+        _dB.Dispose();
+
+        OnDataUpdate = null;
     }
 
-    public void Initialize()
+    private void SubscribeOnUpdateObjects()
     {
-        // SetInventoryFromCurrentSave();
-        // UpdateCharacterData();
+        if (_assetProvider == null)
+            ErrorMessageGenerator.GenerateSimpleError(this, "Asset provider not set");
+
+        _assetProvider
+            .GetIBindingSingletonComponent<InventoryManager>()
+            .OfType<IBindingSingletonComponent, InventoryManager>()
+            .Subscribe(inventoryManager =>
+            {
+                if (inventoryManager == null)
+                    return;
+
+                _inventoryManager = inventoryManager;
+                _inventoryManagerLoadedSource.TrySetResult();
+            })
+            .AddTo(ref _dB);
     }
 
     private void SetInventoryFromCurrentSave()
@@ -41,11 +74,12 @@ public class PlayableCharacterDataUpdater : IInitializable, IDisposable
         var (uuid, saveData) = _gameData.GetCurrentGameData();
         if (uuid == null)
             return;
-        _inventory = _gameData.GetCurrentGameData().saveData.Player.Inventory;
+        _inventory = saveData.Player.Inventory;
     }
 
-    public void UpdateCharacterData()
+    public async UniTask UpdateCharacterData()
     {
+        await _inventoryManagerLoadedSource.Task.AttachExternalCancellation(_ct.Token);
         // EI - Equippable Items
         var uiMainEI = _inventoryManager.GetMainItems();
         var uiAdditionalEI = _inventoryManager.GetAdditionalItems();

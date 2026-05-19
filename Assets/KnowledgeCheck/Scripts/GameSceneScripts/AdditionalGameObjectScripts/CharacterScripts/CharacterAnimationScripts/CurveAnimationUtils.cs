@@ -29,7 +29,7 @@ public class CurveAnimationUtils : MonoBehaviour
         accCurveAverage = sum / samples;
     }
 
-    public AnimationCurve GetAnimationCurve(CurveType curveType)
+    public AnimationCurve GetAnimationCurve(in CurveType curveType)
     {
         return curveType switch
         {
@@ -43,7 +43,7 @@ public class CurveAnimationUtils : MonoBehaviour
         };
     }
 
-    public float GetAccuracyCurveAverage(CurveType curveType)
+    public float GetAccuracyCurveAverage(in CurveType curveType)
     {
         return curveType switch
         {
@@ -57,7 +57,7 @@ public class CurveAnimationUtils : MonoBehaviour
         };
     }
 
-    public float GetAnimationCurveAbsValue(CurveType curveType, float absStartValue, ChangeValueType changeValueType, float timeEnd, float currentTime)
+    public float GetAnimationCurveAbsValue(in CurveType curveType, in float absStartValue, in ChangeValueType changeValueType, float timeEnd, float currentTime)
     {
         float newCurveValue;
         float curveValue;
@@ -76,7 +76,7 @@ public class CurveAnimationUtils : MonoBehaviour
         return Mathf.Clamp(newCurveValue, 0f, 1f);
     }
 
-    public float GetAnimationCurveValue(CurveType curveType, float startValue, StraightDir dir, ChangeValueType changeValueType, float timeEnd, float currentTime)
+    public float GetAnimationCurveValue(in CurveType curveType, in float startValue, in StraightDir dir, in ChangeValueType changeValueType, float timeEnd, float currentTime)
     {
         float newCurveValue;
         float curveValue;
@@ -100,7 +100,7 @@ public class CurveAnimationUtils : MonoBehaviour
         return Mathf.Clamp(newCurveValue, -1f, 1f);
     }
 
-    public float GetAnimationCurveValue(CurveType curveType, float startValue, StrafeDir dir, ChangeValueType changeValueType, float timeEnd, float currentTime)
+    public float GetAnimationCurveValue(in CurveType curveType, in float startValue, in StrafeDir dir, in ChangeValueType changeValueType, float timeEnd, float currentTime)
     {
         float newCurveValue;
         float curveValue;
@@ -124,7 +124,7 @@ public class CurveAnimationUtils : MonoBehaviour
         return Mathf.Clamp(newCurveValue, -1f, 1f);
     }
 
-    public float GetAnimationCurveValue(CurveType curveType, float currentTime, float timeEnd)
+    public float GetAnimationCurveValue(in CurveType curveType, float currentTime, float timeEnd)
     {
         CheckCurrentTimeAndTimeEnd(ref currentTime, ref timeEnd);
 

@@ -11,7 +11,11 @@ public static class CharacterTurnUtils
     private static Vector3 _calculatedNewRotationOffset;
     private static float _currentRotationOffset;
 
-    public static Vector3 CalculateFreeLookNewRotationOffset(
+    private static float _anglePassed;
+    private static float _remainingAngle;
+    private static float _rotationYOffset;
+
+    public static void CalculateFreeLookNewRotationOffset(
         in CurveAnimationUtils _curveAnimationUtils,
         in CurveType _accelRotationCurveType,
         in CurveType _decelRotationCurveType,
@@ -28,7 +32,8 @@ public static class CharacterTurnUtils
         ref float _absStartDecelYRotation,
         in float _accelRotationTime,
         in float _decelRotationTime,
-        ref float _rotationTimer
+        ref float _rotationTimer,
+        ref Vector3 _newRotationOffset
     )
     {
         if (_rotationYDir != _oldRotationYDir)
@@ -56,7 +61,8 @@ public static class CharacterTurnUtils
                 ref _absEndAccelYRotation,
                 ref _absStartDecelYRotation
             );
-            _endAccelYRotationOffset = AngleNormalizer.NormalizeAngle(_startRotation.y + _absEndAccelYRotation * _rotationYDir);
+            _endAccelYRotationOffset = _startRotation.y + _absEndAccelYRotation * _rotationYDir;
+            AngleNormalizer.NormalizeAngle(ref _endAccelYRotationOffset);
             // _startDecelYRotationOffset = AngleNormalizer.NormalizeAngle(_targetRotation.y - _absStartDecelYRotation * _rotationYDir);
 
             TimerScript.SetNewTimer(ref _rotationTimer);
@@ -78,7 +84,8 @@ public static class CharacterTurnUtils
                     ref _absEndAccelYRotation,
                     ref _absStartDecelYRotation
                 );
-                _endAccelYRotationOffset = AngleNormalizer.NormalizeAngle(_startRotation.y + _absEndAccelYRotation * _rotationYDir);
+                _endAccelYRotationOffset = _startRotation.y + _absEndAccelYRotation * _rotationYDir;
+                AngleNormalizer.NormalizeAngle(ref _endAccelYRotationOffset);
                 // _startDecelYRotationOffset = AngleNormalizer.NormalizeAngle(_targetRotation.y - _absStartDecelYRotation * _rotationYDir);
 
                 TimerScript.SetNewTimer(ref _rotationTimer);
@@ -103,23 +110,24 @@ public static class CharacterTurnUtils
         _absYStartToCurrentRotation = Mathf.Abs(Mathf.DeltaAngle(_startRotation.y, _currentRotation.y));
 
         // Вычисление сдвига поворота персонажа
-        _calculatedNewRotationOffset =
-            AngleNormalizer.GetNormalizedOffset(
-                CalculateNewRotationOffsetWithAnimationCurve(
-                    _curveAnimationUtils,
-                    _rotationYDir,
-                    ref _isRotateSpeedAccelerated,
-                    ref _startRotation,
-                    _currentRotation,
-                    _targetRotation,
-                    ref _absEndAccelYRotation,
-                    ref _absStartDecelYRotation,
-                    _accelRotationTime,
-                    _decelRotationTime,
-                    ref _rotationTimer
-                ));
+        CalculateNewRotationOffsetWithAnimationCurve(
+            _curveAnimationUtils,
+            _rotationYDir,
+            ref _isRotateSpeedAccelerated,
+            ref _startRotation,
+            _currentRotation,
+            _targetRotation,
+            ref _absEndAccelYRotation,
+            ref _absStartDecelYRotation,
+            _accelRotationTime,
+            _decelRotationTime,
+            ref _rotationTimer,
+            ref _calculatedNewRotationOffset
+        );
 
-        return _calculatedNewRotationOffset;
+        AngleNormalizer.GetNormalizedOffset(ref _calculatedNewRotationOffset);
+
+        _newRotationOffset = _calculatedNewRotationOffset;
     }
 
     private static void SetAccelAndDecelYRotationDirections(
@@ -161,7 +169,7 @@ public static class CharacterTurnUtils
             _absStartDecelYRotation = decelRotationOffset;
     }
 
-    private static Vector3 CalculateNewRotationOffsetWithAnimationCurve(
+    private static void CalculateNewRotationOffsetWithAnimationCurve(
         in CurveAnimationUtils _curveAnimationUtils,
         in float _rotationYDir,
         ref bool _isRotateSpeedAccelerated,
@@ -172,65 +180,66 @@ public static class CharacterTurnUtils
         ref float _absStartDecelYRotation,
         in float _accelRotationTime,
         in float _decelRotationTime,
-        ref float _rotationTimer
+        ref float _rotationTimer,
+        ref Vector3 _calculatedNewRotationOffset
     )
     {
-        float anglePassed = _absYStartToCurrentRotation;
-        float remainingAngle = _absYRotationOffset;
-        float rotationYOffset;
-        Vector3 newRotationOffset;
+        _anglePassed = _absYStartToCurrentRotation;
+        _remainingAngle = _absYRotationOffset;
         // Vector3 newRotationOffset = _currentRotation;
 
         // Если в данный момент состояние ускорения поворота
-        if (anglePassed <= _absEndAccelYRotation && !_isRotateSpeedAccelerated && remainingAngle > _absStartDecelYRotation)
+        if (_anglePassed <= _absEndAccelYRotation && !_isRotateSpeedAccelerated && _remainingAngle > _absStartDecelYRotation)
         {
             // Причина, почему не _currentRotation, а _startRotation, в том, что в отличии от замедления поворота при новом повороте у игрока не 
-            rotationYOffset =
+            _rotationYOffset =
                     Mathf.Clamp(Mathf.DeltaAngle(_startRotation.y, _endAccelYRotationOffset), -_absEndAccelYRotation, _absEndAccelYRotation) *
                     _curveAnimationUtils.GetAnimationCurveValue(CurveType.In, _rotationTimer, _accelRotationTime) *
                     Time.fixedDeltaTime;
 
-            rotationYOffset *= 15.15f;
+            _rotationYOffset *= 15.15f;
         }
         // Если в данный момент состояние полной скорости
-        else if (remainingAngle > _absStartDecelYRotation)
+        else if (_remainingAngle > _absStartDecelYRotation)
         {
-            rotationYOffset = _rotationYDir * BASE_DEG_PER_SEC * MAX_ROTATION_VALUE * Time.fixedDeltaTime;
+            _rotationYOffset = _rotationYDir * BASE_DEG_PER_SEC * MAX_ROTATION_VALUE * Time.fixedDeltaTime;
         }
         // Если в данный момент состояние замедления поворота
         else
         {
             // Причина почему не _startDecelYRotationOffset а _currentRotation в том, что если игрок всё время будет поворачивать персонажа, 
             // то персонаж сможет в теории совершить поворот больше разрешённого
-            rotationYOffset =
+            _rotationYOffset =
                 Mathf.Clamp(Mathf.DeltaAngle(_currentRotation.y, _targetRotation.y), -_absStartDecelYRotation, _absStartDecelYRotation) *
                 (MAX_ROTATION_VALUE - _curveAnimationUtils.GetAnimationCurveValue(CurveType.InvertedOut, _rotationTimer, _decelRotationTime)) *
                 Time.fixedDeltaTime;
 
-            if (Mathf.Abs(rotationYOffset) < GeneralCharacterUtils.MEASUREMENT_ERROR)
-                rotationYOffset = remainingAngle * _rotationYDir;
+            if (Mathf.Abs(_rotationYOffset) < GeneralCharacterUtils.MEASUREMENT_ERROR)
+                _rotationYOffset = _remainingAngle * _rotationYDir;
             else
-                rotationYOffset *= 21.27f;
+                _rotationYOffset *= 21.27f;
         }
 
-        newRotationOffset = new(0f, rotationYOffset, 0f);
-
-        return newRotationOffset;
+        _calculatedNewRotationOffset.x = 0f;
+        _calculatedNewRotationOffset.y = _rotationYOffset;
+        _calculatedNewRotationOffset.z = 0f;
     }
 
-    public static Vector3 CalculateNewRotationOffsetFromLookDir(
-        Vector2 _lookDirection,
-        float _cameraRotateSpeed
+    public static void CalculateNewRotationOffsetFromLookDir(
+        in Vector2 _lookDirection,
+        in float _cameraRotateSpeed,
+        ref Vector3 _calculatedNewRotationOffset
     )
     {
         _currentRotationOffset = CalculateNewRotationYOffsetFromYOffset(_lookDirection.x, _cameraRotateSpeed);
-        _calculatedNewRotationOffset = new(0f, _currentRotationOffset, 0f);
-        return _calculatedNewRotationOffset;
+        _calculatedNewRotationOffset.x = 0f;
+        _calculatedNewRotationOffset.y = _currentRotationOffset;
+        _calculatedNewRotationOffset.z = 0f;
     }
 
     public static float CalculateNewRotationYOffsetFromYOffset(
         float yOffset,
-        float _cameraRotateSpeed
+        in float _cameraRotateSpeed
     )
     {
         yOffset *= 2f * _cameraRotateSpeed * Time.fixedDeltaTime;

@@ -35,6 +35,8 @@ public class CongratulationPanel : MonoBehaviour
         if (_animationSequence.IsPlaying())
             _animationSequence.Complete();
         _animationSequence.Kill();
+
+        OnShowCompleteText = null;
     }
 
     private void SetAnimationSequence()

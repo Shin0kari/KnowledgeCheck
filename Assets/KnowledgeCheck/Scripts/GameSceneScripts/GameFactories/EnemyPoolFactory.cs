@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Zenject;
 using System.Linq;
 using System.Threading;
+using R3;
 
 public class EnemyPoolFactory : AbstractFactoryStarter, IInitializable, IDisposable
 {
@@ -13,6 +14,7 @@ public class EnemyPoolFactory : AbstractFactoryStarter, IInitializable, IDisposa
     private Enemy.Pool _enemiesPool;
     private List<Enemy> _enemies = new();
 
+    private IAssetProviderGetter _assetProvider;
     private SignalBus _signalBus;
     private Player _player;
 
@@ -20,40 +22,67 @@ public class EnemyPoolFactory : AbstractFactoryStarter, IInitializable, IDisposa
     private readonly ArenaController _arenaController;
     private ArenaUtils _arenaUtils;
 
-    private readonly CancellationTokenSource _token = new();
-
     public event Action<Enemy> OnSpawnCharacter;
+
+    private DisposableBag _dB;
+    private UniTaskCompletionSource _arenaUtilsLoadedSource = new();
+    private readonly CancellationTokenSource _ct = new();
 
     public EnemyPoolFactory(
         Enemy.Pool enemiesPool,
+        IAssetProviderGetter assetProvider,
         SignalBus signalBus,
-        ArenaController arenaController,
-        ArenaUtils arenaUtils
+        ArenaController arenaController
     )
     {
         _enemiesPool = enemiesPool;
+        _assetProvider = assetProvider;
         _signalBus = signalBus;
         _arenaController = arenaController;
-        _arenaUtils = arenaUtils;
 
+        SubscribeOnUpdateObjects();
         _signalBus.Subscribe<PlayerSpawnedSignal>(SetPlayer);
     }
 
     public void Dispose()
     {
-        _enemies = null;
-        OnSpawnCharacter = null;
-
-        _signalBus?.Unsubscribe<PlayerSpawnedSignal>(SetPlayer);
-
         if (_arenaController != null)
         {
             _arenaController.StartSpawnEnemy -= EnableSpawnSystem;
             _arenaController.StopSpawnEnemy -= DisableSpawnSystem;
         }
 
-        _token?.Cancel();
-        _token?.Dispose();
+        _signalBus?.TryUnsubscribe<PlayerSpawnedSignal>(SetPlayer);
+
+        _arenaUtilsLoadedSource.TrySetCanceled();
+        _arenaUtilsLoadedSource = null;
+
+        _ct?.Cancel();
+        _ct?.Dispose();
+
+        _dB.Dispose();
+
+        _enemies.Clear();
+        OnSpawnCharacter = null;
+    }
+
+    private void SubscribeOnUpdateObjects()
+    {
+        if (_assetProvider == null)
+            ErrorMessageGenerator.GenerateSimpleError(this, "Asset provider not set");
+
+        _assetProvider
+            .GetIBindingSingletonComponent<ArenaUtils>()
+            .OfType<IBindingSingletonComponent, ArenaUtils>()
+            .Subscribe(arenaUtils =>
+            {
+                if (arenaUtils == null)
+                    return;
+
+                _arenaUtils = arenaUtils;
+                _arenaUtilsLoadedSource.TrySetResult();
+            })
+            .AddTo(ref _dB);
     }
 
     private void SetPlayer(PlayerSpawnedSignal args)
@@ -79,22 +108,26 @@ public class EnemyPoolFactory : AbstractFactoryStarter, IInitializable, IDisposa
 
     private async UniTaskVoid EnemyAsyncSpawner()
     {
+        await _arenaUtilsLoadedSource.Task.AttachExternalCancellation(_ct.Token);
+
         while (_isFactoryActive)
         {
             while (_enemies.Count < _arenaUtils.EnemiesCount)
             {
-                if (!_isFactoryActive || _token.IsCancellationRequested)
+                if (!_isFactoryActive || _ct.IsCancellationRequested)
                     return;
 
                 var enemy = _enemiesPool.Spawn(_player);
+                enemy.gameObject.SetActive(true);
                 _enemies.Add(enemy);
 
                 SetDeathSignalSubscribe(enemy);
 
                 OnSpawnCharacter?.Invoke(enemy);
+                await UniTask.Yield(cancellationToken: _ct.Token);
             }
 
-            await UniTask.Delay(ENEMY_SPAWN_TIME_DELAY, cancellationToken: _token.Token);
+            await UniTask.Delay(ENEMY_SPAWN_TIME_DELAY, cancellationToken: _ct.Token);
         }
     }
 

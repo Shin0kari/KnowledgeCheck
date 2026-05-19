@@ -5,13 +5,13 @@ public class CarFactory : AbstractFactoryStarter, IInitializable
 {
     private Car _playerCar;
     readonly Car.Factory _carFactory;
-    private readonly GameData _gameData;
+    private readonly IGetGameData _gameData;
 
     private GameObject _playerCarPrefab;
 
     public CarFactory(
         Car.Factory carFactory,
-        GameData gameData,
+        IGetGameData gameData,
         GameObject playerCarPrefab
     )
     {

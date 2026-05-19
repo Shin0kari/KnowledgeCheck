@@ -25,6 +25,27 @@ public class MovementAndRotationObserver : MonoBehaviour
     private float _absMaxYRotation;
     private float _rotationVelocity = 0.0f;
 
+    private float _calculatedNewRotationOffset;
+
+    private bool _isStraightMoveStarted = false;
+    private bool _isStrafeMoveStarted = false;
+    private bool _isRotationStarted = false;
+    private Vector3 _globalMovementOffset;
+    private Vector3 _localMovementOffset;
+    private Vector2 _movementOffset;
+    private float _yRotationOffset;
+
+    private float _rotationValue = 0f;
+    private float _targetRotationSpeed;
+    private Vector2 _targetMovementValues = Vector2.zero;
+    private Vector2 _currentMovementValues = Vector2.zero;
+
+    private StraightDir _straightDir = StraightDir.idle;
+    private StrafeDir _strafeDir = StrafeDir.idle;
+
+    private Vector2 _moveDirection;
+    private Vector2 _oldMoveDirection;
+
     [Inject]
     private void Construct()
     {
@@ -55,25 +76,6 @@ public class MovementAndRotationObserver : MonoBehaviour
         Look();
     }
 
-    private bool _isStraightMoveStarted = false;
-    private bool _isStrafeMoveStarted = false;
-    private bool _isRotationStarted = false;
-    private Vector3 _globalMovementOffset;
-    private Vector3 _localMovementOffset;
-    private Vector2 _movementOffset;
-    private float _yRotationOffset;
-
-    private float _rotationValue = 0f;
-    private float _targetRotationSpeed;
-    private Vector2 _targetMovementValues = Vector2.zero;
-    private Vector2 _currentMovementValues = Vector2.zero;
-
-    private StraightDir _straightDir = StraightDir.idle;
-    private StrafeDir _strafeDir = StrafeDir.idle;
-
-    private Vector2 _moveDirection;
-    private Vector2 _oldMoveDirection;
-
     private void Move()
     {
         _characterPosition = transform.position;
@@ -85,7 +87,7 @@ public class MovementAndRotationObserver : MonoBehaviour
         if (!_isStraightMoveStarted && !_isStrafeMoveStarted)
             return;
 
-        _movementOffset = CalculateMovementOffset(_characterPosition, _oldCharacterPosition);
+        CalculateMovementOffset(_characterPosition, _oldCharacterPosition, ref _movementOffset);
         _oldCharacterPosition = _characterPosition;
 
         CalculateAndUpdateCurrentMovementValues(
@@ -112,7 +114,9 @@ public class MovementAndRotationObserver : MonoBehaviour
         in Vector2 _movementOffset
     )
     {
-        _moveDirection = new(SignDirection(_movementOffset.x), SignDirection(_movementOffset.y));
+        _moveDirection.x = SignDirection(_movementOffset.x);
+        _moveDirection.y = SignDirection(_movementOffset.y);
+
         // Strafe move
         if (_moveDirection.x != _oldMoveDirection.x)
         {
@@ -139,14 +143,17 @@ public class MovementAndRotationObserver : MonoBehaviour
         );
     }
 
-    private Vector2 CalculateMovementOffset(
+    private void CalculateMovementOffset(
         Vector3 _characterPosition,
-        Vector3 _oldCharacterPosition
+        Vector3 _oldCharacterPosition,
+        ref Vector2 _movementOffset
     )
     {
         _globalMovementOffset = _characterPosition - _oldCharacterPosition;
         _localMovementOffset = transform.InverseTransformDirection(_globalMovementOffset);
-        return new(_localMovementOffset.x, _localMovementOffset.z);
+
+        _movementOffset.x = _localMovementOffset.x;
+        _movementOffset.y = _localMovementOffset.z;
     }
 
     private static void UpdateCurrentMovementValues(
@@ -216,15 +223,13 @@ public class MovementAndRotationObserver : MonoBehaviour
         _currentMovementValues.y = Mathf.Clamp(_currentMovementValues.y, -MAX_MOVEMENT_VALUE, MAX_MOVEMENT_VALUE);
     }
 
-    private static float SignDirection(float offset)
+    private static float SignDirection(in float offset)
     {
         if (Mathf.Abs(offset) < GeneralCharacterUtils.MEASUREMENT_ERROR)
             return 0f;
         else
             return Mathf.Sign(offset);
     }
-
-    private float _calculatedNewRotationOffset;
 
     private void Look()
     {

@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca0d9b5e02a50a4f99e496f119cbafa, type: 3}
+  m_Name: CommonEnemySkeletonSettingsSO
+  m_EditorClassIdentifier: Assembly-CSharp::SkeletonSettingsSO
+  _characterPrefab:
+    m_AssetGUID: d5923889627bdb942a4344ffe522b641
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _characterName: SkeleBogus
+  _characterType: 2
+  _characterBaseData:
+    <Direction>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+    <Inventory>k__BackingField:
+      <EquippableMainItems>k__BackingField:
+        <HeadItem>k__BackingField:
+          <ItemName>k__BackingField: 
+          <ItemStats>k__BackingField: []
+          <ItemAffects>k__BackingField: []
+          <Durability>k__BackingField: 0
+        <ChestItem>k__BackingField:
+          <ItemName>k__BackingField: 
+          <ItemStats>k__BackingField: []
+          <ItemAffects>k__BackingField: []
+          <Durability>k__BackingField: 0
+        <LeftHandItem>k__BackingField:
+          <ItemName>k__BackingField: 
+          <ItemStats>k__BackingField: []
+          <ItemAffects>k__BackingField: []
+          <Durability>k__BackingField: 0
+        <RightHandItem>k__BackingField:
+          <ItemName>k__BackingField: 
+          <ItemStats>k__BackingField: []
+          <ItemAffects>k__BackingField: []
+          <Durability>k__BackingField: 0
+      <EquippableAdditionalItems>k__BackingField:
+        <Container>k__BackingField:
+          <ItemName>k__BackingField: 
+          <ItemStats>k__BackingField: []
+          <ItemAffects>k__BackingField: []
+          <Durability>k__BackingField: 0
+    <Stats>k__BackingField:
+      <Health>k__BackingField: 30
+      <Defense>k__BackingField: 0
+      <Damage>k__BackingField: 0
+    <Affects>k__BackingField:
+      <Speed>k__BackingField: 0
+      <Regeneration>k__BackingField: 0

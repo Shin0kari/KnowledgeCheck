@@ -17,6 +17,20 @@ public class PlayableCharacterHitScripts : HitScipts, IAttackSignalSender
         _playerInput.Player.Attack.performed += OnAttack;
     }
 
+    private void OnDestroy()
+    {
+        if (_playerInput != null)
+            _playerInput.Player.Attack.performed -= OnAttack;
+
+        ClearActions();
+    }
+
+    public void ClearActions()
+    {
+        OnStartAttack = null;
+        OnEndAttack = null;
+    }
+
     private void OnAttack(InputAction.CallbackContext context)
     {
         Attack();

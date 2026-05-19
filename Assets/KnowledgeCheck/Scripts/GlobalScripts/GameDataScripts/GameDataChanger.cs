@@ -24,6 +24,14 @@ public class GameDataChanger
         _deleter = deleter;
     }
 
+    private void OnDestroy()
+    {
+        SaveCreated = null;
+        SaveDeleted = null;
+        CurrentSaveUpdated = null;
+        ChoicedSaveUpdated = null;
+    }
+
     public void CreateSave()
     {
         var createdSave = _creator.TryCreateSave();
@@ -41,6 +49,7 @@ public class GameDataChanger
 
     public void CreateSaveWithCurrentData()
     {
+
         var createdSave = _creator.TryCreateSaveWithCurrentData();
         _updater.TryChangeCurrentSave(createdSave.saveData.Uuid);
 

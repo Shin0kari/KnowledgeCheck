@@ -1,4 +1,7 @@
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using R3;
 using UnityEngine;
 using Zenject;
 
@@ -17,7 +20,7 @@ public class FreeLookViewScript : AbstractViewScript
 
     private Vector2 _moveDirection;
 
-    private CameraTrigger _cameraController;
+    private CameraTrigger _cameraTrigger;
     private CameraUtils _cameraUtils;
 
     private PlayerInputSystem _playerInput;
@@ -38,6 +41,9 @@ public class FreeLookViewScript : AbstractViewScript
     private CurveType _accelTranslationCurveType = CurveType.InOut;
     private CurveType _decelTranslationCurveType = CurveType.InvertedIn;
 
+    private float _scaledMovementSpeed;
+    private Vector3 _offset;
+
     private StraightDir _straightDir = StraightDir.idle;
 
     private StrafeDir _strafeDir = StrafeDir.idle;
@@ -52,6 +58,9 @@ public class FreeLookViewScript : AbstractViewScript
     private float _absMaxYRotation;
     private float _absYRotationOffset = 0f;
     private float _absYStartToCurrentRotation = 0f;
+
+    private float _anglePassed;
+    private float _remainingAngle;
 
     private float _absEndAccelYRotation = 0f;
     private float _absStartDecelYRotation = 0f;
@@ -73,12 +82,12 @@ public class FreeLookViewScript : AbstractViewScript
 
     [Inject]
     private void Construct(
-        CameraTrigger cameraController,
+        CameraTrigger cameraTrigger,
         CameraUtils cameraUtils,
         CurveAnimationUtils curveAnimationUtils,
         ViewScriptUtils viewUtils)
     {
-        _cameraController = cameraController;
+        _cameraTrigger = cameraTrigger;
         _cameraUtils = cameraUtils;
         _curveAnimationUtils = curveAnimationUtils;
         _viewUtils = viewUtils;
@@ -91,13 +100,15 @@ public class FreeLookViewScript : AbstractViewScript
 
     void FixedUpdate()
     {
-        if (Enabled)
+        if (!Enabled)
         {
-            _moveDirection = _playerInput.Player.Move.ReadValue<Vector2>();
+            _moveDirection = Vector2.zero;
         }
         else
         {
-            _moveDirection = new();
+            _moveDirection = _playerInput.Player.Move.ReadValue<Vector2>();
+            _moveDirection.x = Mathf.Clamp(_moveDirection.x, -1f, 1f);
+            _moveDirection.y = Mathf.Clamp(_moveDirection.y, -1f, 1f);
         }
 
         Move();
@@ -112,8 +123,12 @@ public class FreeLookViewScript : AbstractViewScript
         UpdateRotationValues();
 
         _isStarted = true;
+        SetDefaultCameraType();
+    }
 
-        _cameraController.SetCameraTrigger(CameraTypes.FreeLookView);
+    private void SetDefaultCameraType()
+    {
+        _cameraTrigger.SetCameraTrigger(CameraTypes.FreeLookView);
     }
 
     private void OnDisable()
@@ -136,7 +151,11 @@ public class FreeLookViewScript : AbstractViewScript
     private void UpdateRotationValues()
     {
         var rotationValues = _viewUtils.GetRotationValues();
-        _targetRotation = AngleNormalizer.GetNormalizedOffset(transform.rotation.eulerAngles) + new Vector3(0f, rotationValues.y, 0f);
+        _targetRotation = transform.rotation.eulerAngles;
+        AngleNormalizer.GetNormalizedOffset(ref _targetRotation);
+        _targetRotation.x += 0f;
+        _targetRotation.y += rotationValues.y;
+        _targetRotation.z += 0f;
     }
 
     private void SetMovementValues()
@@ -200,15 +219,22 @@ public class FreeLookViewScript : AbstractViewScript
 
         _characterAnimation.SetMoveAnimValue(_currentMovementValues);
 
-        float scaledMovementSpeed = _movementSpeed * Time.fixedDeltaTime;
-        Vector3 offset = new Vector3(_currentMovementValues.x, 0f, _currentMovementValues.y) * scaledMovementSpeed;
+        _scaledMovementSpeed = _movementSpeed * Time.fixedDeltaTime;
+        _offset.x = _currentMovementValues.x;
+        _offset.y = 0f;
+        _offset.z = _currentMovementValues.y;
+        _offset *= _scaledMovementSpeed;
 
-        transform.Translate(offset);
+        transform.Translate(_offset);
     }
 
     public override void Look()
     {
-        _currentRotation = AngleNormalizer.GetNormalizedOffset(transform.rotation.eulerAngles);
+        if (!Enabled)
+            return;
+
+        _currentRotation = transform.rotation.eulerAngles;
+        AngleNormalizer.GetNormalizedOffset(ref _currentRotation);
         // Всегда считаем новый TargetRotation
         if (_moveDirection.sqrMagnitude > DEAD_ZONE_MOVEMENT)
             SetTargetRotation();
@@ -228,12 +254,13 @@ public class FreeLookViewScript : AbstractViewScript
         }
         else
         {
-            _rotationOffset = AngleNormalizer.GetNormalizedOffset(_targetRotation - _currentRotation);
+            _rotationOffset = _targetRotation - _currentRotation;
+            AngleNormalizer.GetNormalizedOffset(ref _rotationOffset);
 
             _rotationYDir = MathF.Sign(_rotationOffset.y);
         }
 
-        _calculatedNewRotationOffset = CharacterTurnUtils.CalculateFreeLookNewRotationOffset(
+        CharacterTurnUtils.CalculateFreeLookNewRotationOffset(
             _curveAnimationUtils,
             _accelRotationCurveType,
             _decelRotationCurveType,
@@ -250,7 +277,8 @@ public class FreeLookViewScript : AbstractViewScript
             ref _absStartDecelYRotation,
             _accelRotationTime,
             _decelRotationTime,
-            ref _rotationTimer
+            ref _rotationTimer,
+            ref _calculatedNewRotationOffset
         );
 
         // Считаем скорость анимации и устанавливаем её
@@ -267,16 +295,16 @@ public class FreeLookViewScript : AbstractViewScript
 
     private void UpdateZoneData()
     {
-        float anglePassed = _absYStartToCurrentRotation;
-        float remainingAngle = _absYRotationOffset;
+        _anglePassed = _absYStartToCurrentRotation;
+        _remainingAngle = _absYRotationOffset;
 
         // Если в данный момент состояние ускорения поворота
-        if (anglePassed <= _absEndAccelYRotation && !_isRotateSpeedAccelerated)
+        if (_anglePassed <= _absEndAccelYRotation && !_isRotateSpeedAccelerated)
         {
             TimerScript.UpdateTimer(ref _rotationTimer);
         }
         // Если в данный момент состояние полной скорости
-        else if (remainingAngle > _absStartDecelYRotation)
+        else if (_remainingAngle > _absStartDecelYRotation)
         {
             if (!_isRotateSpeedAccelerated) _isRotateSpeedAccelerated = true;
             if (_isRotateSpeedDecelerate)
@@ -298,7 +326,7 @@ public class FreeLookViewScript : AbstractViewScript
         }
     }
 
-    private bool CheckRotationMatch(Vector3 newRotationOffset, Vector3 oldRotationOffset)
+    private bool CheckRotationMatch(in Vector3 newRotationOffset, in Vector3 oldRotationOffset)
     {
         return
         ((newRotationOffset.x,
@@ -318,7 +346,8 @@ public class FreeLookViewScript : AbstractViewScript
 
     private void SetTargetRotation()
     {
-        _targetRotation = AngleNormalizer.GetNormalizedOffset(_cameraUtils.gameObject.transform.rotation.eulerAngles);
+        _targetRotation = _cameraUtils.gameObject.transform.rotation.eulerAngles;
+        AngleNormalizer.GetNormalizedOffset(ref _targetRotation);
         _targetRotation.x = 0f;
         _targetRotation.z = 0f;
     }

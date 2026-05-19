@@ -5,11 +5,14 @@ using Zenject;
 
 public static class CursorVisibility
 {
-    private static Vector2 _oldCursorPos;
+    private static Vector2 _oldCursorPos = new();
     private static bool _isAlwaysVisible = false;
+
+    private static Mouse _currentMouse;
 
     static CursorVisibility()
     {
+        _currentMouse = Mouse.current;
         SetDefaultCursorState();
     }
 
@@ -39,7 +42,7 @@ public static class CursorVisibility
         if (_isAlwaysVisible)
             return;
 
-        _oldCursorPos = Mouse.current.position.ReadValue();
+        _oldCursorPos = _currentMouse.position.ReadValue();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -48,6 +51,6 @@ public static class CursorVisibility
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        Mouse.current.WarpCursorPosition(_oldCursorPos);
+        _currentMouse.WarpCursorPosition(_oldCursorPos);
     }
 }

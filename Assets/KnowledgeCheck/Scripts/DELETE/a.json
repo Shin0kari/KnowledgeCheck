@@ -1,0 +1,113 @@
+{
+    "592ff9d7-4d78-4c4d-9d00-68ae977d10bd": {
+        "SaveName": "123_2",
+        "Uuid": "592ff9d7-4d78-4c4d-9d00-68ae977d10bd",
+        "CountScore": 0,
+        "GameTime": 0,
+        "IsNewGame": false,
+        "IsCurrentSave": true,
+        "Player": {
+            "Pos": null,
+            "Direction": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "Inventory": {
+                "EquippableMainItems": {
+                    "HeadItem": null,
+                    "ChestItem": null,
+                    "LeftHandItem": null,
+                    "RightHandItem": null
+                },
+                "EquippableAdditionalItems": {
+                    "Container": null
+                }
+            },
+            "Stats": {
+                "Health": 100.0,
+                "Defense": 0.0,
+                "Damage": 10.0
+            },
+            "Affects": {
+                "Speed": 1.0,
+                "Regeneration": 0.0
+            }
+        }
+    },
+    "93054142-d324-4bca-911a-9cfbf6ed29df": {
+        "SaveName": "123",
+        "Uuid": "93054142-d324-4bca-911a-9cfbf6ed29df",
+        "CountScore": 0,
+        "GameTime": 0,
+        "IsNewGame": true,
+        "IsCurrentSave": false,
+        "Player": {
+            "Pos": null,
+            "Direction": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "Inventory": {
+                "EquippableMainItems": {
+                    "HeadItem": null,
+                    "ChestItem": null,
+                    "LeftHandItem": null,
+                    "RightHandItem": null
+                },
+                "EquippableAdditionalItems": {
+                    "Container": null
+                }
+            },
+            "Stats": {
+                "Health": 100.0,
+                "Defense": 0.0,
+                "Damage": 10.0
+            },
+            "Affects": {
+                "Speed": 1.0,
+                "Regeneration": 0.0
+            }
+        }
+    },
+    "9b69ea80-80cc-4939-8a9f-dd6aa353481f": {
+        "SaveName": "123_1",
+        "Uuid": "9b69ea80-80cc-4939-8a9f-dd6aa353481f",
+        "CountScore": 0,
+        "GameTime": 0,
+        "IsNewGame": false,
+        "IsCurrentSave": false,
+        "Player": {
+            "Pos": null,
+            "Direction": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "Inventory": {
+                "EquippableMainItems": {
+                    "HeadItem": null,
+                    "ChestItem": null,
+                    "LeftHandItem": null,
+                    "RightHandItem": null
+                },
+                "EquippableAdditionalItems": {
+                    "Container": null
+                }
+            },
+            "Stats": {
+                "Health": 100.0,
+                "Defense": 0.0,
+                "Damage": 10.0
+            },
+            "Affects": {
+                "Speed": 1.0,
+                "Regeneration": 0.0
+            }
+        }
+    }
+}

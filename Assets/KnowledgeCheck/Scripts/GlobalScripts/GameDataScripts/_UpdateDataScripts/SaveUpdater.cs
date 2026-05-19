@@ -28,7 +28,8 @@ public class SaveUpdater : ISaveUpdater
 
     // Обновление текущего сохранения без сохранения несохранённый данных
     // Пояснение: Если мы текущее_сохр_1 не сохранили, то при загрузке сохр_2
-    // в файл с текущим_сохр_1 не будут сохранены новые изменённые данные из текущее_сохр_1
+    // в файл с текущее_сохр_1 не будут сохранены новые изменённые не сохранённые данные из текущее_сохр_1
+    // А просто будет загружен сохр_2
     public void TryChangeCurrentSave(string uuid)
     {
         var saves = _gameData.GetAllGameDatas();
@@ -78,10 +79,20 @@ public class SaveUpdater : ISaveUpdater
             UpdateCurrentSaveGameData(saveData.Uuid, saveData);
     }
 
+    /// <summary>
+    /// Обновляет CurrentSave и по необходимости сохраняет изменения в файл
+    /// </summary>
+    /// <param name="uuid"></param>
+    /// <param name="saveData"></param>
     private void UpdateCurrentSaveGameDataAndFileData(string uuid, SaveData saveData)
     {
-        _gameData.SetCurrentSave((uuid, saveData));
-        _dataSaver.SaveData((uuid, saveData));
+        if (saveData.IsCurrentSave)
+            _gameData.SetCurrentSave((uuid, saveData));
+        else
+        {
+            _gameData.SetCurrentSave((uuid, saveData));
+            _dataSaver.SaveData((uuid, saveData));
+        }
     }
 
     private void UpdateCurrentSaveGameData(string uuid, SaveData saveData)
@@ -97,13 +108,20 @@ public class SaveUpdater : ISaveUpdater
             return;
         }
 
-        SaveData saveData = _gameData.GetCurrentGameData().saveData;
-        if (saveData == null)
+        (string uuid, SaveData _saveData) = _saveCreator.TryCreateSaveWithCurrentData();
+        _saveDeleter.DeleteSave(oldSaveUuid);
+
+        TryChangeCurrentSave(uuid);
+    }
+
+    public void UpdateSave(string uuid)
+    {
+        var saves = _gameData.GetAllGameDatas();
+        if (!saves.TryGetValue(uuid, out SaveData saveData))
+        {
             return;
-
-        _saveCreator.CreateSave(oldSaveUuid, saveData);
-
-        UpdateCurrentSaveGameData(oldSaveUuid, saveData);
+        }
+        _saveCreator.CreateSave(uuid, saveData);
     }
 
     private void UpdateSaveName(string newSaveName, ref SaveData saveData)

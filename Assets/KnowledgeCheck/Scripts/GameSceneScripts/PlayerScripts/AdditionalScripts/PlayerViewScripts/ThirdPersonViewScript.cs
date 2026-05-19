@@ -39,6 +39,9 @@ public class ThirdPersonViewScript : AbstractViewScript
     private CurveType _accelTranslationCurveType = CurveType.InOut;
     private CurveType _decelTranslationCurveType = CurveType.InvertedIn;
 
+    private float _scaledMovementSpeed;
+    private Vector3 _offset;
+
     private StraightDir _straightDir = StraightDir.idle;
     private StrafeDir _strafeDir = StrafeDir.idle;
 
@@ -176,11 +179,15 @@ public class ThirdPersonViewScript : AbstractViewScript
 
         _characterAnimation.SetMoveAnimValue(_currentMovementValues);
 
-        float scaledMovementSpeed = _movementSpeed * Time.fixedDeltaTime;
-        Vector3 offset = new Vector3(_currentMovementValues.x, 0f, _currentMovementValues.y) * scaledMovementSpeed;
+        _scaledMovementSpeed = _movementSpeed * Time.fixedDeltaTime;
+        _offset.x = _currentMovementValues.x;
+        _offset.y = 0f;
+        _offset.z = _currentMovementValues.y;
+        _offset *= _scaledMovementSpeed;
 
-        transform.Translate(offset);
+        transform.Translate(_offset);
     }
+
     public override void Look()
     {
         if (_lookDirection.sqrMagnitude < DEAD_ZONE_MOVEMENT)
@@ -205,9 +212,10 @@ public class ThirdPersonViewScript : AbstractViewScript
             return;
         }
 
-        _calculatedNewRotationOffset = CharacterTurnUtils.CalculateNewRotationOffsetFromLookDir(
+        CharacterTurnUtils.CalculateNewRotationOffsetFromLookDir(
             _lookDirection,
-            _cameraRotateSpeed
+            _cameraRotateSpeed,
+            ref _calculatedNewRotationOffset
         );
 
         _targetRotationSpeed = Mathf.Clamp(_calculatedNewRotationOffset.y, -_absMaxYRotation, _absMaxYRotation) / _absMaxYRotation;

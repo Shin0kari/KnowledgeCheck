@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CharacterEventObserver : MonoBehaviour, IDisposable
+public class CharacterEventObserver : MonoBehaviour
 {
     [SerializeField] protected CharacterTimer _characterTimer;
     [SerializeField] protected FallChecker _groundChecker;
@@ -32,7 +32,7 @@ public class CharacterEventObserver : MonoBehaviour, IDisposable
         _groundChecker.LandStarted += SetLandState;
     }
 
-    public void Dispose()
+    private void OnDestroy()
     {
         if (_heartBox != null) _heartBox.OnGetDamage -= SetImpactState;
         if (_characterTimer != null)

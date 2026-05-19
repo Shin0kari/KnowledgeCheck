@@ -1,13 +1,13 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class ValidatorGameData : IValidatorGameData
+public class ValidatorGameData : IValidatorGameData, IDisposable
 {
     private readonly List<IValidationRule<SaveData>> _saveDataRules;
     private readonly List<IValidationRule<CharacterData>> _characterRules;
 
-    [Inject]
     public ValidatorGameData()
     {
         _saveDataRules = new List<IValidationRule<SaveData>>
@@ -23,6 +23,12 @@ public class ValidatorGameData : IValidatorGameData
             // new CharacterDirectionRule(),
             // new CharacterLootRule()
         };
+    }
+
+    public void Dispose()
+    {
+        _saveDataRules.Clear();
+        _characterRules.Clear();
     }
 
     public bool ValidateGameData(SaveData data)

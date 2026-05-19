@@ -1,33 +1,63 @@
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using R3;
 using Unity.Cinemachine;
 using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(CinemachineInputAxisController))]
-public class CameraRotationController : MonoBehaviour, IDisposable
+public class CameraRotationController : MonoBehaviour
 {
+    private IAssetProviderGetter _assetProvider;
+
     private CinemachineInputAxisController _axisController;
     private IChangeStateMenuSender _menuStateSender;
 
+    private DisposableBag _dB;
 
     [Inject]
-    private void Construct(IChangeStateMenuSender menuStateSender)
+    private void Construct(IAssetProviderGetter assetProvider)
     {
-        _menuStateSender = menuStateSender;
+        _assetProvider = assetProvider;
 
         _axisController = GetComponent<CinemachineInputAxisController>();
 
-        _menuStateSender.ChangeState += ChangeCameraControlState;
+        SubscribeOnUpdateObjects();
+    }
+
+    private void OnDestroy()
+    {
+        if (_menuStateSender != null)
+            _menuStateSender.ChangeState -= ChangeCameraControlState;
+
+        _dB.Dispose();
+    }
+
+    private void SubscribeOnUpdateObjects()
+    {
+        if (_assetProvider == null)
+            ErrorMessageGenerator.GenerateSimpleError(this, "Asset provider not set");
+
+        _assetProvider
+            .GetIBindingSingletonComponent<IChangeStateMenuSender>()
+            .OfType<IBindingSingletonComponent, IChangeStateMenuSender>()
+            .Subscribe(menuStateSender =>
+            {
+                if (menuStateSender == null)
+                    return;
+
+                if (_menuStateSender != null)
+                    _menuStateSender.ChangeState -= ChangeCameraControlState;
+
+                _menuStateSender = menuStateSender;
+                _menuStateSender.ChangeState += ChangeCameraControlState;
+            })
+            .AddTo(ref _dB);
     }
 
     private void ChangeCameraControlState(bool isMenuOn)
     {
         _axisController.enabled = !isMenuOn;
-    }
-
-    public void Dispose()
-    {
-        if (_menuStateSender != null)
-            _menuStateSender.ChangeState -= ChangeCameraControlState;
     }
 }

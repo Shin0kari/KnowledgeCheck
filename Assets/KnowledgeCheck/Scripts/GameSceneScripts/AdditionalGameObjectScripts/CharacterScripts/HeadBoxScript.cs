@@ -5,6 +5,11 @@ public class HeadBoxScript : MonoBehaviour
 {
     public event Action<bool> ChangeUnderWaterState;
 
+    private void OnDestroy()
+    {
+        ChangeUnderWaterState = null;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Water"))

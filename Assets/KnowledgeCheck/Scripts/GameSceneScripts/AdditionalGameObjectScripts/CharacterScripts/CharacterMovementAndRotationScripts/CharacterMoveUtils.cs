@@ -155,7 +155,7 @@ public static class CharacterMoveUtils
         }
     }
 
-    public static float SignDirection(float offset)
+    public static float SignDirection(in float offset)
     {
         if (Mathf.Abs(offset) < GeneralCharacterUtils.MEASUREMENT_ERROR)
             return 0f;

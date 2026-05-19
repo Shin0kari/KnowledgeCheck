@@ -3,10 +3,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class ButtonItemGenerator : MonoBehaviour, IChangeButtonInteractable
+public class ButtonItemGenerator : MonoBehaviour, IChangeButtonInteractable, IBindingSingletonComponent
 {
     [SerializeField] private Button _button;
     public event Action IsUsed;
+
+    private void Awake()
+    {
+        BindAllTypes();
+    }
+
+    private void OnDestroy()
+    {
+        IsUsed = null;
+    }
 
     private void Start()
     {
@@ -24,5 +34,10 @@ public class ButtonItemGenerator : MonoBehaviour, IChangeButtonInteractable
     public void EnableButton()
     {
         _button.interactable = true;
+    }
+
+    public void BindAllTypes()
+    {
+        TypeCache.GetRelatedTypes(GetType());
     }
 }

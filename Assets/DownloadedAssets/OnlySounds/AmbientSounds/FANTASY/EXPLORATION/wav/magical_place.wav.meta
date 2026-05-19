@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: d0202202033ee094ea303eece9ba00fc
+AssetOrigin:
+  serializedVersion: 1
+  productId: 79430
+  packageName: Fantasy Adventurer Pack (60+ Tracks)
+  packageVersion: 1.1
+  assetPath: Assets/FANTASY/EXPLORATION/wav/magical_place.wav
+  uploadId: 158736
 AudioImporter:
   externalObjects: {}
   serializedVersion: 8
@@ -11,7 +18,7 @@ AudioImporter:
     compressionFormat: 0
     quality: 1
     conversionMode: 0
-    preloadAudioData: 0
+    preloadAudioData: 1
   platformSettingOverrides: {}
   forceToMono: 0
   normalize: 1
@@ -21,10 +28,3 @@ AudioImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 79430
-  packageName: Fantasy Adventurer Pack (60+ Tracks)
-  packageVersion: 1.1
-  assetPath: Assets/FANTASY/EXPLORATION/wav/magical_place.wav
-  uploadId: 158736

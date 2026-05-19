@@ -3,7 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using Zenject;
 
-public class CameraUtils : MonoBehaviour, IDisposable
+public class CameraUtils : MonoBehaviour
 {
     [SerializeField] private CinemachineCamera _freeLookCamera;
     [SerializeField] private CinemachineCamera _thirdPersonCamera;
@@ -20,7 +20,7 @@ public class CameraUtils : MonoBehaviour, IDisposable
         _signalBus.Subscribe<PlayerSpawnedSignal>(SetPlayer);
     }
 
-    public void Dispose()
+    private void OnDestroy()
     {
         _signalBus?.Unsubscribe<PlayerSpawnedSignal>(SetPlayer);
 

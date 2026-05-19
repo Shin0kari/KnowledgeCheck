@@ -6,7 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(IAttackSignalSender))]
 [RequireComponent(typeof(IGetStopDistance))]
 [RequireComponent(typeof(IGetSqrDestinationDistance))]
-public class EnemyAgentRotationHelper : MonoBehaviour, IDisposable
+public class EnemyAgentRotationHelper : MonoBehaviour
 {
     private NavMeshAgent _agent;
     private IAttackSignalSender _attackSignalSender;
@@ -17,6 +17,9 @@ public class EnemyAgentRotationHelper : MonoBehaviour, IDisposable
     private float _sqrDestinationDistance;
     private float _rotationSpeed;
     private bool _isAttack;
+
+    private Vector3 _direction;
+    private Quaternion _targetRotation;
 
     private void Awake()
     {
@@ -33,7 +36,7 @@ public class EnemyAgentRotationHelper : MonoBehaviour, IDisposable
         _attackSignalSender.OnEndAttack += OnEndAttack;
     }
 
-    public void Dispose()
+    private void OnDestroy()
     {
         if (_attackSignalSender != null)
         {
@@ -66,16 +69,16 @@ public class EnemyAgentRotationHelper : MonoBehaviour, IDisposable
         if (_sqrDestinationDistance > _attackDistance * _attackDistance)
             return;
 
-        Vector3 direction = _agent.destination - transform.position;
-        direction.y = 0;
+        _direction = _agent.destination - transform.position;
+        _direction.y = 0;
 
-        if (direction == Vector3.zero)
+        if (_direction == Vector3.zero)
             return;
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        _targetRotation = Quaternion.LookRotation(_direction);
         transform.rotation = Quaternion.RotateTowards(
             transform.rotation,
-            targetRotation,
+            _targetRotation,
             _rotationSpeed * Time.fixedDeltaTime
         );
     }

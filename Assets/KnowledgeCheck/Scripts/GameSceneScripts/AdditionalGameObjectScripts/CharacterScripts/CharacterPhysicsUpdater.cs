@@ -30,7 +30,10 @@ public class CharacterPhysicsUpdater : MonoBehaviour
 
     public void Dispose()
     {
-        _headBox.ChangeUnderWaterState -= ChangeUnderWaterState;
+        if (_headBox != null)
+            _headBox.ChangeUnderWaterState -= ChangeUnderWaterState;
+
+        OnUnderWaterStateChange = null;
     }
 
     // private void Update()

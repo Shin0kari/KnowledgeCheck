@@ -15,6 +15,11 @@ public class MiniGameGenItem : MonoBehaviour
     //     transform.rotation.eulerAngles.Set(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, RotationUtils.MIN_ROTATION);
     // }
 
+    private void OnDestroy()
+    {
+        OnCompleteMiniGame = null;
+    }
+
     private void Update()
     {
         if (transform.rotation.eulerAngles.z < -(RotationUtils.MAX_ROTATION - RotationUtils.START_ROTATION_VALUE - 1f))

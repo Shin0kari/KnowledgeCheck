@@ -8,68 +8,76 @@ public class CharacterAnimation : MonoBehaviour
     private const float MAX_LAYER_WEIGHT = 1f;
 
     [SerializeField] private Animator _animator;
+
+    private AnimationUtils _animationUtils;
     private int _attackAnimatorLayerIndex;
 
-    private void Awake()
+    [Inject]
+    private void Construct(AnimationUtils animationUtils)
+    {
+        _animationUtils = animationUtils;
+
+    }
+
+    private void Start()
     {
         _attackAnimatorLayerIndex = _animator.GetLayerIndex("Attack");
     }
 
-    public void SetMoveAnimValue(Vector2 newMovementValues)
+    public void SetMoveAnimValue(in Vector2 newMovementValues)
     {
-        AnimationUtils.SetAnimFloatValue(_animator, AnimParameter.StraightMove, newMovementValues.y);
-        AnimationUtils.SetAnimFloatValue(_animator, AnimParameter.Strafe, newMovementValues.x);
+        _animationUtils.SetAnimFloatValue(_animator, AnimParameter.StraightMove, newMovementValues.y);
+        _animationUtils.SetAnimFloatValue(_animator, AnimParameter.Strafe, newMovementValues.x);
     }
 
-    public void SetRotationAnimValue(float rotationSpeed)
+    public void SetRotationAnimValue(in float rotationSpeed)
     {
-        AnimationUtils.SetAnimFloatValue(_animator, AnimParameter.Rotation, rotationSpeed);
+        _animationUtils.SetAnimFloatValue(_animator, AnimParameter.Rotation, rotationSpeed);
     }
 
     public void SetCharacterHitAnim()
     {
-
         _animator.SetLayerWeight(_attackAnimatorLayerIndex, MAX_LAYER_WEIGHT);
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.Hit);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.Hit);
     }
     public void SetCharacterHitNoMoveAnim()
     {
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.HitNoMove);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.HitNoMove);
     }
     public void SetCharacterImpactAnim()
     {
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.Impact);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.Impact);
     }
     public void SetCharacterIdleAnim()
     {
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.Idle);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.Idle);
     }
     public void SetCharacterFallAnim()
     {
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.Fall);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.Fall);
     }
     public void SetCharacterLandAnim()
     {
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.Land);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.Land);
     }
     public void SetCharacterDeathAnim()
     {
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.Death);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.Death);
     }
     public void SetCharacterDrownAnim()
     {
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.Drown);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.Drown);
     }
     public void SetCharacterFinalDrownAnim()
     {
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.FinalDrown);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.FinalDrown);
     }
     public void SetCharacterSpawnAnim()
     {
-        AnimationUtils.SetAnimTrigger(_animator, AnimParameter.Spawn);
+        _animationUtils.SetAnimTrigger(_animator, AnimParameter.Spawn);
     }
 
-    public void ChangeAnimatorAttackLayerWeightValue(float value)
+    public void ChangeAnimatorAttackLayerWeightValue(in float value)
     {
         _animator.SetLayerWeight(_attackAnimatorLayerIndex, value);
     }

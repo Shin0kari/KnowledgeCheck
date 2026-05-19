@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c01d35a0e0b584abf051110275465a, type: 3}
+  m_Name: LoadMenuSavePanelsSO
+  m_EditorClassIdentifier: Assembly-CSharp::LoadMenuSavePanelsSO
+  <LoadPanel>k__BackingField:
+    m_AssetGUID: 900d7b5cb4f2dde46a60c936f7eb8fd7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  <NewGamePanel>k__BackingField:
+    m_AssetGUID: c725b0a4833766846a2c43f622a020a5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
