@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject;
+using ObservableCollections;
 
 public class AssetProvider : IAssetProviderSpawner, IAssetProviderGetter, IDisposable
 {
@@ -16,7 +17,8 @@ public class AssetProvider : IAssetProviderSpawner, IAssetProviderGetter, IDispo
     private IAddressablesProvider _aP;
 
     private Dictionary<Type, ReactiveProperty<IBindingSingletonComponent>> _awaitedSingletonProperties = new();
-    private Dictionary<Type, ReactiveProperty<List<IBindingTransientComponent>>> _awaitedTransientProperties = new();
+    private Dictionary<Type, ObservableList<IBindingTransientComponent>> _awaitedTransientProperties = new();
+    // private Dictionary<Type, ReactiveProperty<List<IBindingTransientComponent>>> _awaitedTransientProperties = new();
     private Dictionary<AssetReference, ReactiveProperty<UnityEngine.Object>> _loadedResource = new();
 
     private List<GameObject> _spawnedGOInstance;
@@ -118,13 +120,8 @@ public class AssetProvider : IAssetProviderSpawner, IAssetProviderGetter, IDispo
         {
             // Если множественное значение было найдено, то оно будет дополнено
             var reactiveComponent = TryCheckIBindingTransientType(type);
-            if (reactiveComponent != null)
-            {
-                List<IBindingTransientComponent> newList = new();
-                newList.AddRange(reactiveComponent.Value);
-                newList.Add(component);
-                reactiveComponent.Value = newList;
-            }
+            reactiveComponent?.Add(component);
+
             await UniTask.Yield(ct);
         }
     }
@@ -148,11 +145,17 @@ public class AssetProvider : IAssetProviderSpawner, IAssetProviderGetter, IDispo
         return GetIBindingSingleton(type);
     }
 
-    public ReactiveProperty<List<IBindingTransientComponent>> GetIBindingTransientComponent<T>() where T : IBindingTransientComponent
+    public ObservableList<IBindingTransientComponent> GetIBindingTransientComponent<T>() where T : IBindingTransientComponent
     {
         var type = typeof(T);
         return GetIBindingTransient(type);
     }
+
+    // public ReactiveProperty<List<IBindingTransientComponent>> GetIBindingTransientComponent<T>() where T : IBindingTransientComponent
+    // {
+    //     var type = typeof(T);
+    //     return GetIBindingTransient(type);
+    // }
 
     private ReactiveProperty<IBindingSingletonComponent> TryCheckIBindingSingletonType(Type checkedType)
     {
@@ -160,11 +163,17 @@ public class AssetProvider : IAssetProviderSpawner, IAssetProviderGetter, IDispo
         return GetIBindingSingleton(checkedType);
     }
 
-    private ReactiveProperty<List<IBindingTransientComponent>> TryCheckIBindingTransientType(Type checkedType)
+    private ObservableList<IBindingTransientComponent> TryCheckIBindingTransientType(Type checkedType)
     {
         if (!typeof(IBindingTransientComponent).IsAssignableFrom(checkedType)) return null;
         return GetIBindingTransient(checkedType);
     }
+
+    // private ReactiveProperty<List<IBindingTransientComponent>> TryCheckIBindingTransientType(Type checkedType)
+    // {
+    //     if (!typeof(IBindingTransientComponent).IsAssignableFrom(checkedType)) return null;
+    //     return GetIBindingTransient(checkedType);
+    // }
 
     private ReactiveProperty<IBindingSingletonComponent> GetIBindingSingleton(Type type)
     {
@@ -184,18 +193,31 @@ public class AssetProvider : IAssetProviderSpawner, IAssetProviderGetter, IDispo
         return newReactiveProperty;
     }
 
-    private ReactiveProperty<List<IBindingTransientComponent>> GetIBindingTransient(Type checkedType)
+    private ObservableList<IBindingTransientComponent> GetIBindingTransient(Type checkedType)
     {
         if (_awaitedTransientProperties.TryGetValue(checkedType, out var reactiveProperty))
         {
             return reactiveProperty;
         }
 
-        ReactiveProperty<List<IBindingTransientComponent>> newReactiveProperty = new() { Value = new() };
+        ObservableList<IBindingTransientComponent> newReactiveProperty = new();
         _awaitedTransientProperties.Add(checkedType, newReactiveProperty);
 
         return newReactiveProperty;
     }
+
+    // private ReactiveProperty<List<IBindingTransientComponent>> GetIBindingTransient(Type checkedType)
+    // {
+    //     if (_awaitedTransientProperties.TryGetValue(checkedType, out var reactiveProperty))
+    //     {
+    //         return reactiveProperty;
+    //     }
+
+    //     ReactiveProperty<List<IBindingTransientComponent>> newReactiveProperty = new() { Value = new() };
+    //     _awaitedTransientProperties.Add(checkedType, newReactiveProperty);
+
+    //     return newReactiveProperty;
+    // }
 
     private bool TryCheckContainer(Type awaitedParameterType, out IBindingSingletonComponent founderComponent)
     {
@@ -268,9 +290,9 @@ public class AssetProvider : IAssetProviderSpawner, IAssetProviderGetter, IDispo
 
     private void ClearTransientProperties()
     {
-        foreach (var reactiveProperty in _awaitedTransientProperties.Values)
+        foreach (var reactivePropertyList in _awaitedTransientProperties.Values)
         {
-            reactiveProperty.Dispose();
+            reactivePropertyList.Clear();
         }
         _awaitedTransientProperties?.Clear();
     }

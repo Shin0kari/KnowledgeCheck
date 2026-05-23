@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using ObservableCollections;
 using R3;
 using Zenject;
 
@@ -42,34 +43,63 @@ public class SecondPanelUILinkerManager : IDisposable
         if (_assetProvider == null)
             ErrorMessageGenerator.GenerateSimpleError(this, "Asset provider not set");
 
+        // _assetProvider
+        //     .GetIBindingTransientComponent<AbstractSecondUIPanelLinker>()
+        //     .Subscribe((secondPanelLinkers) =>
+        //     {
+        //         if (secondPanelLinkers == null || secondPanelLinkers.Count < 1)
+        //             return;
+        //         UpdateUI(secondPanelLinkers);
+        //     })
+        //     .AddTo(ref _dB);
+
         _assetProvider
             .GetIBindingTransientComponent<AbstractSecondUIPanelLinker>()
-            .Subscribe((secondPanelLinkers) =>
+            .ObserveAdd()
+            .Subscribe(observeSecondPanelLinker =>
             {
-                if (secondPanelLinkers == null || secondPanelLinkers.Count < 1)
+                if (observeSecondPanelLinker == null || observeSecondPanelLinker.Value == null)
                     return;
-                UpdateUI(secondPanelLinkers);
+                UpdateUI(observeSecondPanelLinker.Value);
             })
             .AddTo(ref _dB);
     }
 
-    private void UpdateUI(List<IBindingTransientComponent> secondPanelLinkers)
+    private void UpdateUI(IBindingTransientComponent secondPanelLinker)
     {
-        foreach (AbstractSecondUIPanelLinker secondPanelLinker in secondPanelLinkers.Cast<AbstractSecondUIPanelLinker>())
+        if (secondPanelLinker is not AbstractSecondUIPanelLinker panelLinker)
+            return;
+
+        if (!_secondPanelLinkers.Contains(panelLinker))
         {
-            if (!_secondPanelLinkers.Contains(secondPanelLinker))
+            UpdateUIDataToCurrent(panelLinker);
+            if (!_isStartMenuPanelFound)
             {
-                UpdateUIDataToCurrent(secondPanelLinker);
-                if (!_isStartMenuPanelFound)
+                if (panelLinker is IStartMenuPanel startMenuPanel)
                 {
-                    if (secondPanelLinker is IStartMenuPanel startMenuPanel)
-                    {
-                        startMenuPanel.ActivatePanel();
-                    }
+                    startMenuPanel.ActivatePanel();
                 }
             }
         }
     }
+
+    // private void UpdateUI(List<IBindingTransientComponent> secondPanelLinkers)
+    // {
+    //     foreach (AbstractSecondUIPanelLinker secondPanelLinker in secondPanelLinkers.Cast<AbstractSecondUIPanelLinker>())
+    //     {
+    //         if (!_secondPanelLinkers.Contains(secondPanelLinker))
+    //         {
+    //             UpdateUIDataToCurrent(secondPanelLinker);
+    //             if (!_isStartMenuPanelFound)
+    //             {
+    //                 if (secondPanelLinker is IStartMenuPanel startMenuPanel)
+    //                 {
+    //                     startMenuPanel.ActivatePanel();
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     private void UpdateUIDataToCurrent(AbstractSecondUIPanelLinker secondPanelLinker)
     {

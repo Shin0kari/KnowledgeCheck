@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using ObservableCollections;
 using R3;
 using Zenject;
 
@@ -64,29 +65,54 @@ public class FloorItemManager : IDisposable
             })
             .AddTo(ref _dB);
 
+        // _assetProvider
+        //     .GetIBindingTransientComponent<FloorItemLinker>()
+        //     .Subscribe(floorItemLinkers =>
+        //     {
+        //         if (floorItemLinkers == null || floorItemLinkers.Count < 1)
+        //             return;
+
+        //         SetFloorItems(floorItemLinkers);
+        //     })
+        //     .AddTo(ref _dB);
+
         _assetProvider
             .GetIBindingTransientComponent<FloorItemLinker>()
-            .Subscribe(floorItemLinkers =>
+            .ObserveAdd()
+            .Subscribe(observeFloorItem =>
             {
-                if (floorItemLinkers == null || floorItemLinkers.Count < 1)
+                if (observeFloorItem == null || observeFloorItem.Value == null)
                     return;
 
-                SetFloorItems(floorItemLinkers);
+                SetFloorItems(observeFloorItem.Value);
             })
             .AddTo(ref _dB);
     }
 
-    private void SetFloorItems(List<IBindingTransientComponent> floorItemLinkers)
+    private void SetFloorItems(IBindingTransientComponent newFloorItem)
     {
-        foreach (FloorItemLinker floorItemLinker in floorItemLinkers.Cast<FloorItemLinker>())
+        if (newFloorItem is not FloorItemLinker floorItemLinker)
+            return;
+
+        if (!_floorItems.Contains(floorItemLinker.LinkerObject))
         {
-            if (!_floorItems.Contains(floorItemLinker.LinkerObject))
-            {
-                _floorItems.Add(floorItemLinker.LinkerObject);
-            }
+            _floorItems.Add(floorItemLinker.LinkerObject);
         }
+
         _floorItemSpawner.UpdateFloorItems(_floorItems);
     }
+
+    // private void SetFloorItems(List<IBindingTransientComponent> floorItemLinkers)
+    // {
+    //     foreach (FloorItemLinker floorItemLinker in floorItemLinkers.Cast<FloorItemLinker>())
+    //     {
+    //         if (!_floorItems.Contains(floorItemLinker.LinkerObject))
+    //         {
+    //             _floorItems.Add(floorItemLinker.LinkerObject);
+    //         }
+    //     }
+    //     _floorItemSpawner.UpdateFloorItems(_floorItems);
+    // }
 
     private void ClearItemData()
     {

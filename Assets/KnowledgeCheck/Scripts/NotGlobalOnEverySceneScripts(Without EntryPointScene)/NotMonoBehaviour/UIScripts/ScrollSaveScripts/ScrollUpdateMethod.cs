@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using ObservableCollections;
 using R3;
 using TMPro;
 using UnityEngine;
@@ -65,27 +66,49 @@ public class ScrollUpdateMethod : IUpdateScroll, IDisposable
         if (_assetProvider == null)
             ErrorMessageGenerator.GenerateSimpleError(this, "Asset provider not set");
 
+        // _assetProvider
+        //     .GetIBindingTransientComponent<IScrollUtils>()
+        //     .Subscribe((listScrollUtils) =>
+        //     {
+        //         if (listScrollUtils == null || listScrollUtils.Count < 1)
+        //             return;
+        //         FillScroll(listScrollUtils).Forget();
+        //     })
+        //     .AddTo(ref _dB);
+
         _assetProvider
             .GetIBindingTransientComponent<IScrollUtils>()
-            .Subscribe((listScrollUtils) =>
+            .ObserveAdd()
+            .Subscribe(observeListScrollUtils =>
             {
-                if (listScrollUtils == null || listScrollUtils.Count < 1)
+                if (observeListScrollUtils == null || observeListScrollUtils.Value == null)
                     return;
-                FillScroll(listScrollUtils).Forget();
+                FillScroll(observeListScrollUtils.Value).Forget();
             })
             .AddTo(ref _dB);
     }
 
-    private async UniTaskVoid FillScroll(List<IBindingTransientComponent> listScrollUtils)
+    private async UniTaskVoid FillScroll(IBindingTransientComponent scrollUtilsInterface)
     {
-        foreach (IScrollUtils scrollUtils in listScrollUtils.Cast<IScrollUtils>())
+        if (scrollUtilsInterface is not IScrollUtils scrollUtils)
+            return;
+
+        if (!_scrollsUtils.Contains(scrollUtils))
         {
-            if (!_scrollsUtils.Contains(scrollUtils))
-            {
-                await UpdateScrollDataToCurrent(scrollUtils);
-            }
+            await UpdateScrollDataToCurrent(scrollUtils);
         }
     }
+
+    // private async UniTaskVoid FillScroll(List<IBindingTransientComponent> listScrollUtils)
+    // {
+    //     foreach (IScrollUtils scrollUtils in listScrollUtils.Cast<IScrollUtils>())
+    //     {
+    //         if (!_scrollsUtils.Contains(scrollUtils))
+    //         {
+    //             await UpdateScrollDataToCurrent(scrollUtils);
+    //         }
+    //     }
+    // }
 
     private async UniTask UpdateScrollDataToCurrent(IScrollUtils scrollUtils)
     {
